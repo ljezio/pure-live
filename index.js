@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         pure-douyu
-// @namespace    ezio
+// @namespace    ljezio
 // @version      1.0
 // @description  only watch live
 // @author       ljezio
