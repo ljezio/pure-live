@@ -3,6 +3,7 @@
 // @namespace    https://github.com/ljezio
 // @version      1.1
 // @description  斗鱼纯净版
+// @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
 // @match        https://www.douyu.com/*
