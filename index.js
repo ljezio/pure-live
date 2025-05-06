@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         pure-douyu
+// @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      1.2
-// @description  斗鱼纯净版
+// @version      1.3
+// @description  斗鱼（douyu）纯净版
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
@@ -18,9 +18,22 @@
     const root = document.querySelector('#root') ||
         document.querySelector('section[class="layout-Container"]');
     if (!root || !player) return;
+    dbClick(player);
     removeNude(root, player);
     clearPayer(player);
-    dbClick(player);
+
+    /**
+     * 双击全屏
+     */
+    function dbClick(player) {
+        player.ondblclick = () => {
+            if (!document.fullscreenElement) {
+                document.querySelector('div[title="全屏"]')?.click();
+            } else {
+                document.exitFullscreen().then();
+            }
+        }
+    }
 
     /**
      * 隐藏无用元素
@@ -38,7 +51,7 @@
     /**
      * 播放器隐藏无用元素
      */
-    function clearPayer() {
+    function clearPayer(player) {
         document.querySelector('#js-player-title')?.remove();
         document.querySelector('#js-player-toolbar')?.remove();
         document.querySelector('.layout-Player .layout-Player-aside')?.remove();
@@ -63,19 +76,6 @@
             player.style.width = innerWidth * (windowHeight / height) + 'px'
         }
         player.style.margin = '0 auto';
-    }
-
-    /**
-     * 双击全屏
-     */
-    function dbClick(root) {
-        root.ondblclick = () => {
-            if (!document.fullscreenElement) {
-                document.querySelector('div[title="全屏"]')?.click();
-            } else {
-                document.exitFullscreen().then();
-            }
-        }
     }
 
     /**
