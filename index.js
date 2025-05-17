@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      1.3
-// @description  斗鱼（douyu）纯净版
+// @version      1.4
+// @description  斗鱼（douyu.com）纯净版，只保留直播和弹幕
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
@@ -52,17 +52,21 @@
      * 播放器隐藏无用元素
      */
     function clearPayer(player) {
-        document.querySelector('#js-player-title')?.remove();
+        setDisplayNone(document.querySelector('#js-player-title'));
+        setDisplayNone(document.querySelector('.layout-Player .layout-Player-aside'));
         document.querySelector('#js-player-toolbar')?.remove();
-        document.querySelector('.layout-Player .layout-Player-aside')?.remove();
         const interval = setInterval(() => {
             const element = document.querySelector('div[class^="controlbar-"]');
             if (!element) return;
             element.style.width = '100%';
+            setDisplayNone(document.querySelector('div[class^="bacpCommonKeFu"]'));
+            setDisplayNone(document.querySelector('div[title="主播精彩时刻"]'));
+            setDisplayNone(document.querySelector('div[title="问题反馈"]'));
+            setDisplayNone(document.querySelector('div[title="多路观看"]'));
             setDisplayNone(document.querySelector('div[title="网页全屏"]'));
             setDisplayNone(document.querySelector('div[title="退出网页全屏"]'));
             clearInterval(interval)
-        }, 1000)
+        }, 500)
         resizePlayer(player);
     }
 
