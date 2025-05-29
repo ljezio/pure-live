@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      2.0
+// @version      2.1
 // @description  斗鱼（douyu.com）极致纯净版，只保留直播和弹幕
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
@@ -53,10 +53,19 @@ function removeNude(root, player) {
             setDisplayNone(node);
         }
     }
-    setTimeout(() => {
-        setDisplayNone(document.querySelector('div[class^="bacpCommonKeFu"]'));
-        setDisplayNone(document.querySelector('#webmActKefuWeidget'));
-    }, 2000);
+    new MutationObserver(mutations => {
+        for (let mutation of mutations) {
+            if (mutation.type !== 'childList') {
+                continue;
+            }
+            for (let node of mutation.addedNodes) {
+                // 移除客服按钮
+                if (node.className === 'bacpCommonKeFu  ' || node.id === 'webmActKefuWeidget') {
+                    setDisplayNone(node);
+                }
+            }
+        }
+    }).observe(document.querySelector('body'), {childList: true})
 }
 
 /**
