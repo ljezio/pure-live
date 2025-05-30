@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      2.1
-// @description  斗鱼（douyu.com）极致纯净版，只保留直播和弹幕
+// @version      2.1.1
+// @description  斗鱼纯净版（douyu.com），斗鱼极简版，只保留直播和弹幕
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
@@ -93,7 +93,7 @@ function clearPayer(player) {
         setDisplayNone(document.querySelector('div[title="网页全屏"]'));
         setDisplayNone(document.querySelector('div[title="退出网页全屏"]'));
         clearInterval(interval)
-    }, 500);
+    }, 1000);
 }
 
 /**
