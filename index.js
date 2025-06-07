@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      2.1.1
-// @description  斗鱼纯净版（douyu.com），斗鱼极简版，只保留直播和弹幕
+// @version      2.2
+// @description  斗鱼纯净版（douyu.com），只保留直播和弹幕，斗鱼精简版、斗鱼极简版、斗鱼清爽版
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
@@ -19,6 +19,7 @@
         document.querySelector('section[class="layout-Container"]');
     if (!root || !player) return;
     dbClick(player);
+    autoClick();
     removeNude(root, player);
     clearPayer(player);
 })();
@@ -40,6 +41,19 @@ function dbClick(player) {
             document.exitFullscreen().then();
         }
     };
+}
+
+/**
+ * 自动点击按钮
+ */
+function autoClick() {
+    // 点击关闭所有礼物特效按钮
+    setTimeout(() => {
+        document.querySelectorAll('.ShieldTool-list .ShieldTool-listItem.is-noChecked')
+            ?.forEach(element => {
+                element.click();
+            });
+    }, 1000 * 10);
 }
 
 /**
@@ -114,15 +128,15 @@ const toast = {
         this._toast = document.createElement('div');
         this._toast.innerHTML = msg;
         this._toast.style.cssText = `font-size: 20px;
-                                   color: rgb(255, 255, 255);
-                                   background-color: rgba(0, 0, 0, 0.6);
-                                   padding: 10px 15px;
-                                   margin: 0 0 0 -60px;
-                                   border-radius: 4px;
-                                   position: fixed;
-                                   top: 20%;
-                                   left: 50%;
-                                   text-align: center;`;
+                                    color: rgb(255, 255, 255);
+                                    background-color: rgba(0, 0, 0, 0.6);
+                                    padding: 10px 15px;
+                                    margin: 0 0 0 -60px;
+                                    border-radius: 4px;
+                                    position: fixed;
+                                    top: 20%;
+                                    left: 50%;
+                                    text-align: center;`;
         document.body.appendChild(this._toast);
         setTimeout(() => {
             document.body.removeChild(this._toast)
