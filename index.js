@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      2.2
-// @description  斗鱼纯净版（douyu.com），只保留直播和弹幕，斗鱼精简版、斗鱼极简版、斗鱼清爽版
+// @version      2.2.1
+// @description  斗鱼纯净版（douyu.com），只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
@@ -50,9 +50,7 @@ function autoClick() {
     // 点击关闭所有礼物特效按钮
     setTimeout(() => {
         document.querySelectorAll('.ShieldTool-list .ShieldTool-listItem.is-noChecked')
-            ?.forEach(element => {
-                element.click();
-            });
+            ?.forEach(element => element.click());
     }, 1000 * 10);
 }
 
