@@ -1,12 +1,22 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      3.0.0
-// @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换脚本开关、切换开关灯；
+// @version      3.0.1
+// @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换是否启用脚本、切换开关灯模式；
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
-// @match        https://www.douyu.com/*
+// @match        *://*.douyu.com/0*
+// @match        *://*.douyu.com/1*
+// @match        *://*.douyu.com/2*
+// @match        *://*.douyu.com/3*
+// @match        *://*.douyu.com/4*
+// @match        *://*.douyu.com/5*
+// @match        *://*.douyu.com/6*
+// @match        *://*.douyu.com/7*
+// @match        *://*.douyu.com/8*
+// @match        *://*.douyu.com/9*
+// @match        *://*.douyu.com/topic/*
 // @icon         https://www.douyu.com/favicon.ico
 // @grant        none
 // ==/UserScript==
@@ -89,11 +99,13 @@ function functionButtons() {
             localStorage.setItem('pure_douyu_theme', 'dark');
         }
     };
+
     function darkModel() {
         body.style.setProperty('background-color', '#000', 'important');
         buttonArr.forEach((button, index) =>
             button.children[0].setAttribute('filter', `url(#pure-douyu-invert-filter-${index})`));
     }
+
     function lightModel() {
         body.style.setProperty('background-color', '#fff', 'important');
         buttonArr.forEach(button =>
