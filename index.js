@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      2.2.2
-// @description  斗鱼纯净版（douyu.com），只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】
+// @version      2.2.4
+// @description  斗鱼纯净版（douyu.com），只保留直播和弹幕，并提供关灯模式【斗鱼精简版、斗鱼极简版、斗鱼清爽版】
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
@@ -13,6 +13,11 @@
 
 (function () {
     'use strict';
+
+    // 通过注入CSS的方式强制设置背景为纯黑色，避免被网站原有样式覆盖
+    const style = document.createElement('style');
+    style.innerHTML = 'html, body { background-color: #000 !important; }';
+    document.head.appendChild(style);
 
     const player = document.querySelector('.layout-Player');
     const root = document.querySelector('#root') ||
