@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      4.0.0-alpha
-// @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换是否启用脚本、切换开关灯模式；
+// @version      4.0.0-beta
+// @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换是否启用脚本；
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
 // @license      MIT
@@ -22,12 +22,54 @@
 // @grant        none
 // ==/UserScript==
 
+const switchKey = 'pure_douyu_switch';
+
 (function () {
     'use strict';
 
-    functionButtons();
-    if (localStorage.getItem('pure_douyu_switch')) return;
+    const buttonGroup = functionButtons();
 
+    if (localStorage.getItem(switchKey)) return;
+
+    removeNude();
+    dbClick(buttonGroup);
+})();
+
+/**
+ * 功能按钮
+ */
+function functionButtons() {
+    const body = document.querySelector('body');
+    const buttonGroup = document.createElement('div');
+    buttonGroup.style.cssText = 'z-index: 999; position: fixed; top: 0; right: 0;';
+    body.appendChild(buttonGroup);
+    const switchButton = document.createElement('button');
+    switchButton.title = '切换脚本启用状态';
+    switchButton.innerHTML = `
+            <svg viewBox="0 0 1025 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                <path d="M512.64 0C229.674667 0 0.298667 229.248 0.298667 512s229.376 512 512.384 512c282.965333 0 512.341333-229.248 512.341333-512S795.605333 0 512.64 0z m-37.290667 225.578667a38.528 38.528 0 0 1 77.141334 0v134.741333a38.528 38.528 0 0 1-77.141334 0V225.578667z m38.570667 578.773333a280.405333 280.405333 0 0 1-280.490667-280.277333 280.192 280.192 0 0 1 203.477334-269.312V323.413333a215.04 215.04 0 0 0 76.970666 415.829334 215.210667 215.210667 0 0 0 215.296-215.125334 215.04 215.04 0 0 0-138.282666-200.704V254.72c117.418667 33.493333 203.477333 141.269333 203.477333 269.312a280.362667 280.362667 0 0 1-280.448 280.32z" fill="#2C9EFF"/>
+            </svg>`
+    buttonGroup.appendChild(switchButton);
+    // 按钮半透明样式与鼠标悬停透明度变化
+    switchButton.style.cssText = 'display: block; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease;';
+    switchButton.onmouseover = () => switchButton.style.opacity = '1';
+    switchButton.onmouseout = () => switchButton.style.opacity = '0.5';
+    // 开关脚本按钮功能
+    switchButton.onclick = () => {
+        if (localStorage.getItem(switchKey)) {
+            localStorage.removeItem(switchKey);
+        } else {
+            localStorage.setItem(switchKey, 'off');
+        }
+        location.reload();
+    };
+    return buttonGroup;
+}
+
+/**
+ * 隐藏无用元素
+ */
+function removeNude() {
     const interval = setInterval(() => {
         if (!document.querySelectorAll('.wm-general')) return;
 
@@ -45,13 +87,20 @@
         document.querySelector('[class^="case__"]').style.padding = '0';
         document.querySelector('#js-player-main').style.margin = '0';
 
+        // 自动网页全屏
         const controlBar = document.querySelector('[class^="right__"]');
         if (!controlBar) return;
         const controlButtons = controlBar.childNodes;
         controlButtons[controlButtons.length - 2].click();
+
         clearInterval(interval);
     }, 500);
+}
 
+/**
+ * 双击全屏
+ */
+function dbClick(buttonGroup) {
     document.querySelector('#js-player-main').ondblclick = event => {
         event.stopPropagation();
         const controlBar = document.querySelector('[class^="right__"]') ||
@@ -60,40 +109,12 @@
         const controlButtons = controlBar.childNodes;
         if (!document.fullscreenElement) {
             controlButtons[controlButtons.length - 1].click();
+            setDisplayNone(buttonGroup);
         } else {
             document.exitFullscreen().then(() => setTimeout(() =>
                 controlButtons[controlButtons.length - 2].click(), 0));
+            buttonGroup.style.display = 'block';
         }
-    };
-})();
-
-/**
- * 功能按钮
- */
-function functionButtons() {
-    const body = document.querySelector('body');
-    const buttonGroup = document.createElement('div');
-    buttonGroup.style.cssText = 'z-index: 999; position: fixed; top: 0; right: 0;';
-    body.appendChild(buttonGroup);
-    const switchButton = document.createElement('button');
-    switchButton.title = '切换脚本启用状态';
-    switchButton.innerHTML = `
-            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                <path d="M643.7888 112.3328A465.3056 465.3056 0 0 1 980.992 533.7088l0.6144 25.1904A465.5104 465.5104 0 0 1 515.7888 1024 465.5104 465.5104 0 0 1 50.4832 583.0656L49.8688 559.104a464.896 464.896 0 0 1 338.1248-446.6688v113.9712a356.7616 356.7616 0 0 0-228.864 310.0672 356.864 356.864 0 0 0 333.4144 378.88l23.2448 0.8192a357.376 357.376 0 0 0 357.0688-335.872l0.6144-20.8896a356.6592 356.6592 0 0 0-229.7856-333.2096zM515.7888 0c30.9248 0 57.4464 22.016 63.0784 52.4288l1.024 11.5712v223.4368a64 64 0 0 1-128.2048 0V64c0-35.328 28.672-63.8976 64-64z"/>
-            </svg>`
-    buttonGroup.appendChild(switchButton);
-    // 按钮半透明样式与鼠标悬停效果
-    switchButton.style.cssText = 'display: block; cursor: pointer; opacity: 0.3; transition: opacity 0.3s ease;';
-    switchButton.onmouseover = () => switchButton.style.opacity = '1';
-    switchButton.onmouseout = () => switchButton.style.opacity = '0.3';
-    // 开关脚本按钮功能
-    switchButton.onclick = () => {
-        if (localStorage.getItem('pure_douyu_switch')) {
-            localStorage.removeItem('pure_douyu_switch');
-        } else {
-            localStorage.setItem('pure_douyu_switch', 'off');
-        }
-        location.reload();
     };
 }
 
