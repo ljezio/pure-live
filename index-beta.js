@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      4.0.0-beta
+// @version      4.0.0-rc
 // @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换是否启用脚本；
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
@@ -28,11 +28,11 @@ const switchKey = 'pure_douyu_switch';
     'use strict';
 
     const buttonGroup = functionButtons();
-
     if (localStorage.getItem(switchKey)) return;
-
     removeNude();
+    autoFullWindow();
     dbClick(buttonGroup);
+    newNodeObserver();
 })();
 
 /**
@@ -46,9 +46,10 @@ function functionButtons() {
     const switchButton = document.createElement('button');
     switchButton.title = '切换脚本启用状态';
     switchButton.innerHTML = `
-            <svg viewBox="0 0 1025 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-                <path d="M512.64 0C229.674667 0 0.298667 229.248 0.298667 512s229.376 512 512.384 512c282.965333 0 512.341333-229.248 512.341333-512S795.605333 0 512.64 0z m-37.290667 225.578667a38.528 38.528 0 0 1 77.141334 0v134.741333a38.528 38.528 0 0 1-77.141334 0V225.578667z m38.570667 578.773333a280.405333 280.405333 0 0 1-280.490667-280.277333 280.192 280.192 0 0 1 203.477334-269.312V323.413333a215.04 215.04 0 0 0 76.970666 415.829334 215.210667 215.210667 0 0 0 215.296-215.125334 215.04 215.04 0 0 0-138.282666-200.704V254.72c117.418667 33.493333 203.477333 141.269333 203.477333 269.312a280.362667 280.362667 0 0 1-280.448 280.32z" fill="#2C9EFF"/>
-            </svg>`
+        <svg viewBox="0 0 1025 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+            <path d="M512.64 0C229.674667 0 0.298667 229.248 0.298667 512s229.376 512 512.384 512c282.965333 0 512.341333-229.248 512.341333-512S795.605333 0 512.64 0z m-37.290667 225.578667a38.528 38.528 0 0 1 77.141334 0v134.741333a38.528 38.528 0 0 1-77.141334 0V225.578667z m38.570667 578.773333a280.405333 280.405333 0 0 1-280.490667-280.277333 280.192 280.192 0 0 1 203.477334-269.312V323.413333a215.04 215.04 0 0 0 76.970666 415.829334 215.210667 215.210667 0 0 0 215.296-215.125334 215.04 215.04 0 0 0-138.282666-200.704V254.72c117.418667 33.493333 203.477333 141.269333 203.477333 269.312a280.362667 280.362667 0 0 1-280.448 280.32z" fill="#2C9EFF"/>
+        </svg>
+    `;
     buttonGroup.appendChild(switchButton);
     // 按钮半透明样式与鼠标悬停透明度变化
     switchButton.style.cssText = 'display: block; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease;';
@@ -71,51 +72,106 @@ function functionButtons() {
  */
 function removeNude() {
     const interval = setInterval(() => {
-        if (!document.querySelectorAll('.wm-general')) return;
-
+        if (!document.querySelectorAll('#bc3')) return;
         setDisplayNone(document.querySelector('header'));
-        setDisplayNone(document.querySelector('aside'));
-        document.querySelectorAll('.wm-general')?.forEach(node => setDisplayNone(node));
-        document.querySelectorAll('.bc-wrapper ')?.forEach(node => setDisplayNone(node));
-        setDisplayNone(document.querySelector('[class^="snapbar__"]'));
+        document.querySelector('aside')?.remove();
+        document.querySelectorAll('.wm-general')?.forEach(node => node.remove());
+        document.querySelectorAll('.bc-wrapper ')?.forEach(node => node.remove());
+        document.querySelector('[class^="snapbar__"]')?.remove();
         setDisplayNone(document.querySelector('[class^="sidebar__"]'));
-        setDisplayNone(document.querySelector('[class^="title__"]'));
+        document.querySelector('[class^="title__"]')?.remove();
         document.querySelector('[class^="interactive__"]')?.remove();
         setDisplayNone(document.querySelector('#js-bottom-left'));
-
-        document.querySelector('[class^="stream__"]').style.bottom = '0';
+        setDisplayNone(document.querySelector('#bc3'));
+        setDisplayNone(document.querySelector('#bc3-bgblur'));
+        // 修改样式
+        const stream = document.querySelector('[class^="stream__"]');
+        stream.style.bottom = '0';
+        stream.style.top = '0';
         document.querySelector('[class^="case__"]').style.padding = '0';
         document.querySelector('#js-player-main').style.margin = '0';
-
-        // 自动网页全屏
-        const controlBar = document.querySelector('[class^="right__"]');
-        if (!controlBar) return;
-        const controlButtons = controlBar.childNodes;
-        controlButtons[controlButtons.length - 2].click();
-
+        // 强制修改伪元素样式
+        const style = document.createElement('style');
+        style.textContent = `
+          #js-player-main::before {
+            content: none !important;
+          }
+          .${document.querySelector('[class^="player__"]').className.split(' ')[0]}::before {
+            padding-top: 0 !important;
+            padding-bottom: ${innerHeight - 16}px !important;
+          }
+        `;
+        document.head.appendChild(style);
         clearInterval(interval);
     }, 500);
+}
+
+/**
+ * 自动网页全屏
+ */
+function autoFullWindow() {
+    const interval = setInterval(() => {
+        // 自动网页全屏
+        if (fullWindow()) {
+            clearInterval(interval);
+        }
+    }, 300);
 }
 
 /**
  * 双击全屏
  */
 function dbClick(buttonGroup) {
-    document.querySelector('#js-player-main').ondblclick = event => {
+    document.querySelector('body').ondblclick = event => {
         event.stopPropagation();
-        const controlBar = document.querySelector('[class^="right__"]') ||
-            document.querySelector('[class^="right-"]');
+        const controlBar = document.querySelector('[class^="right-"]') ||
+            document.querySelector('[class^="right__"]');
         if (!controlBar) return;
         const controlButtons = controlBar.childNodes;
         if (!document.fullscreenElement) {
             controlButtons[controlButtons.length - 1].click();
-            setDisplayNone(buttonGroup);
         } else {
-            document.exitFullscreen().then(() => setTimeout(() =>
-                controlButtons[controlButtons.length - 2].click(), 0));
-            buttonGroup.style.display = 'block';
+            document.exitFullscreen().then();
         }
     };
+    document.onfullscreenchange = () => {
+        if (!document.fullscreenElement) {
+            setTimeout(() => fullWindow(), 0);
+            buttonGroup.style.display = 'block';
+        } else {
+            setDisplayNone(buttonGroup);
+        }
+    };
+}
+
+/**
+ * 移除后增无用元素
+ */
+function newNodeObserver() {
+    new MutationObserver(mutations => {
+        for (let mutation of mutations) {
+            if (mutation.type !== 'childList') {
+                continue;
+            }
+            for (let node of mutation.addedNodes) {
+                if (node.className === 'RechangeJulyPopups') {
+                    node.remove();
+                }
+            }
+        }
+    }).observe(document.querySelector('body'), {childList: true})
+}
+
+/**
+ * 网页全屏
+ */
+function fullWindow() {
+    const controlBar = document.querySelector('[class^="right-"]') ||
+        document.querySelector('[class^="right__"]');
+    if (!controlBar) return false;
+    const controlButtons = controlBar.childNodes;
+    controlButtons[controlButtons.length - 2].click();
+    return true;
 }
 
 /**
