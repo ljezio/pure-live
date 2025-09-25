@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      4.0.0-rc2
+// @version      4.0.0-rc3
 // @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换是否启用脚本；
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
@@ -27,21 +27,22 @@ const switchKey = 'pure_douyu_switch';
 (function () {
     'use strict';
 
-    const buttonGroup = functionButtons();
-    if (localStorage.getItem(switchKey)) return;
-    removeNude().finally(() => autoFullWindow());
-    dbClick(buttonGroup);
-    newNodeObserver();
+    window.onload = () => {
+        const buttonGroup = functionButtons();
+        if (localStorage.getItem(switchKey)) return;
+        removeNude().finally(() => autoFullWindow());
+        dbClick(buttonGroup);
+        newNodeObserver();
+    };
 })();
 
 /**
  * 功能按钮
  */
 function functionButtons() {
-    const body = document.querySelector('body');
     const buttonGroup = document.createElement('div');
     buttonGroup.style.cssText = 'z-index: 999; position: fixed; top: 0; right: 0;';
-    body.appendChild(buttonGroup);
+    document.body.appendChild(buttonGroup);
     const switchButton = document.createElement('button');
     switchButton.title = '切换脚本启用状态';
     switchButton.innerHTML = `
@@ -72,42 +73,49 @@ function functionButtons() {
 function removeNude() {
     return new Promise((resolve) => {
         const interval = setInterval(() => {
-            if (!document.querySelectorAll('.wm-general')) return;
-            setDisplayNone(document.querySelector('header'));
-            document.querySelector('aside')?.remove();
-            document.querySelectorAll('.wm-general')?.forEach(node => node.remove());
-            document.querySelectorAll('.bc-wrapper ')?.forEach(node => node.remove());
-            document.querySelector('[class^="snapbar__"]')?.remove();
-            setDisplayNone(document.querySelector('[class^="sidebar__"]'));
-            document.querySelector('[class^="title__"]')?.remove();
-            document.querySelector('[class^="interactive__"]')?.remove();
-            setDisplayNone(document.querySelector('#js-bottom-left'));
-            document.querySelector('#bc3')?.remove();
-            document.querySelector('#bc3-bgblur')?.remove();
-            document.querySelector('#js-player-dialog')?.remove();
-            document.querySelector('#js-player-above-controller')?.remove();
-            // 修改样式
-            const stream = document.querySelector('[class^="stream__"]');
-            stream.style.bottom = '0';
-            stream.style.top = '0';
-            document.querySelector('[class^="case__"]').style.padding = '0';
-            document.querySelector('#js-player-main').style.margin = '0';
-            // 强制修改伪元素样式
-            const style = document.createElement('style');
-            style.textContent = `
-              #js-player-main::before {
-                content: none !important;
-              }
-              .${document.querySelector('[class^="player__"]').className.split(' ')[0]}::before {
-                padding-top: 0 !important;
-                padding-bottom: ${innerHeight - 16}px !important;
-              }
-            `;
-            document.head.appendChild(style);
-            clearInterval(interval);
-            resolve();
+            if (!document.querySelector('[class^="sidebar__"]')) return;
+            try {
+                doRemoveNude();
+            } finally {
+                clearInterval(interval);
+                resolve();
+            }
         }, 500);
     });
+}
+
+function doRemoveNude() {
+    setDisplayNone(document.querySelector('header'));
+    document.querySelector('aside')?.remove();
+    document.querySelectorAll('.wm-general')?.forEach(node => node.remove());
+    document.querySelectorAll('.bc-wrapper ')?.forEach(node => node.remove());
+    document.querySelector('[class^="snapbar__"]')?.remove();
+    setDisplayNone(document.querySelector('[class^="sidebar__"]'));
+    document.querySelector('[class^="title__"]')?.remove();
+    document.querySelector('[class^="interactive__"]')?.remove();
+    setDisplayNone(document.querySelector('#js-bottom-left'));
+    document.querySelector('#bc3')?.remove();
+    document.querySelector('#bc3-bgblur')?.remove();
+    document.querySelector('#js-player-dialog')?.remove();
+    document.querySelector('#js-player-above-controller')?.remove();
+    // 修改样式
+    const stream = document.querySelector('[class^="stream__"]');
+    stream.style.bottom = '0';
+    stream.style.top = '0';
+    document.querySelector('[class^="case__"]').style.padding = '0';
+    document.querySelector('#js-player-main').style.margin = '0';
+    // 强制修改伪元素样式
+    const style = document.createElement('style');
+    style.textContent = `
+        #js-player-main::before {
+        content: none !important;
+        }
+        .${document.querySelector('[class^="player__"]').className.split(' ')[0]}::before {
+        padding-top: 0 !important;
+        padding-bottom: ${innerHeight - 16}px !important;
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 /**
@@ -130,7 +138,7 @@ function autoFullWindow() {
  * 双击全屏
  */
 function dbClick(buttonGroup) {
-    document.querySelector('body').ondblclick = event => {
+    document.body.ondblclick = event => {
         event.stopPropagation();
         const controlBar = document.querySelector('[class^="right-"]') ||
             document.querySelector('[class^="right__"]');
@@ -187,5 +195,5 @@ function fullWindow() {
  */
 function setDisplayNone(node) {
     if (!node) return;
-    node.style.display = "none";
+    node.style.display = 'none';
 }
