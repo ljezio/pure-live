@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      4.1.0
+// @version      4.1.1
 // @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换关闭脚本；支持自动切换最高画质；
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
@@ -65,32 +65,33 @@ function functionButtons() {
         location.reload();
     };
     buttonGroup.appendChild(switchButton);
-    // 开关自动切换最高画质按钮
-    const autoHighestImageButton = document.createElement('button');
-    autoHighestImageButton.title = localStorage.getItem(autoHighestImageKey) ? '开启自动切换最高画质' : '关闭自动切换最高画质';
-    autoHighestImageButton.innerHTML = `
-        <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
-            <path
-                d="M0 0m256 0l512 0q256 0 256 256l0 512q0 256-256 256l-512 0q-256 0-256-256l0-512q0-256 256-256Z"
-                fill="#2C9EFF"/>
-            <path
-                d="M752.4864 802.048a70.144 70.144 0 0 1-3.4816 0.1024H274.9952A70.144 70.144 0 0 1 204.8 731.9552V326.1952A70.2464 70.2464 0 0 1 274.944 256h474.112a68.9664 68.9664 0 0 1 33.0752 8.2432 70.9632 70.9632 0 0 1 27.136 25.856 73.3696 73.3696 0 0 1 7.8336 18.9952 75.1616 75.1616 0 0 1 2.0992 17.1008v405.76a70.3488 70.3488 0 0 1-43.3152 64.8704 74.24 74.24 0 0 1-16.5376 4.5568 69.2736 69.2736 0 0 1-6.8608 0.6656zM342.9888 392.5504a34.4576 34.4576 0 0 0-28.0576 12.4416 34.2016 34.2016 0 0 0-7.7312 21.6576v204.8a34.048 34.048 0 0 0 4.864 17.5616l0.8704 1.4336a34.9184 34.9184 0 0 0 15.36 12.5952 34.4576 34.4576 0 0 0 29.1328-1.4336 38.0928 38.0928 0 0 0 8.0384-5.9904 32.768 32.768 0 0 0 7.9872-12.6464 33.28 33.28 0 0 0 2.048-11.52V563.2h68.2496v68.2496a34.4576 34.4576 0 0 0 12.4416 26.4192 35.2256 35.2256 0 0 0 16.6912 7.3728 36.3008 36.3008 0 0 0 11.6224-0.3072 30.1056 30.1056 0 0 0 7.936-2.6112 39.2704 39.2704 0 0 0 7.0656-4.4544 33.9968 33.9968 0 0 0 12.4928-26.4192v-204.8a33.792 33.792 0 0 0-13.824-27.392 34.0992 34.0992 0 0 0-54.4256 27.392v68.3008H375.4496V426.6496a34.4576 34.4576 0 0 0-12.4416-26.368 34.2528 34.2528 0 0 0-19.968-7.68z m271.4112 0h-41.5232a26.6752 26.6752 0 0 0-26.7264 26.7264V640.2048a22.528 22.528 0 0 0 0.768 5.12 32.768 32.768 0 0 0 2.3552 6.144 28.16 28.16 0 0 0 6.656 8.0896 26.624 26.624 0 0 0 16.896 6.0416H614.4a139.008 139.008 0 0 0 45.9776-7.9872 135.68 135.68 0 0 0 63.6928-47.2064 144.5376 144.5376 0 0 0 13.7728-22.9888 135.9872 135.9872 0 0 0 7.168-97.9968 132.8128 132.8128 0 0 0-17.1008-36.1984 139.008 139.008 0 0 0-32.2048-33.792 133.632 133.632 0 0 0-35.328-18.944A138.24 138.24 0 0 0 614.4 392.6016z m3.3792 204.6976a66.6112 66.6112 0 0 1-3.3792 0.1024V460.8a67.84 67.84 0 0 1 50.6368 22.4256 69.12 69.12 0 0 1 17.3568 39.168 60.7744 60.7744 0 0 1 0 13.3632 66.304 66.304 0 0 1-7.7312 25.4976 67.8912 67.8912 0 0 1-46.9504 34.816 65.4336 65.4336 0 0 1-9.9328 1.1776z"
-                fill="#FFFFFF"/>
-        </svg>
-    `;
-    autoHighestImageButton.onclick = () => {
-        if (localStorage.getItem(autoHighestImageKey)) {
-            autoHighestImageButton.title = '关闭自动切换最高画质';
-            localStorage.removeItem(autoHighestImageKey);
-        } else {
-            autoHighestImageButton.title = '开启自动切换最高画质';
-            localStorage.setItem(autoHighestImageKey, 'off');
-        }
-    };
-    buttonGroup.appendChild(autoHighestImageButton);
-    const buttonArr = [switchButton, autoHighestImageButton];
+    if (!localStorage.getItem(switchKey)) {
+        // 开关自动切换最高画质按钮
+        const autoHighestImageButton = document.createElement('button');
+        autoHighestImageButton.title = localStorage.getItem(autoHighestImageKey) ? '开启自动切换最高画质' : '关闭自动切换最高画质';
+        autoHighestImageButton.innerHTML = `
+            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                <path
+                    d="M0 0m256 0l512 0q256 0 256 256l0 512q0 256-256 256l-512 0q-256 0-256-256l0-512q0-256 256-256Z"
+                    fill="#2C9EFF"/>
+                <path
+                    d="M752.4864 802.048a70.144 70.144 0 0 1-3.4816 0.1024H274.9952A70.144 70.144 0 0 1 204.8 731.9552V326.1952A70.2464 70.2464 0 0 1 274.944 256h474.112a68.9664 68.9664 0 0 1 33.0752 8.2432 70.9632 70.9632 0 0 1 27.136 25.856 73.3696 73.3696 0 0 1 7.8336 18.9952 75.1616 75.1616 0 0 1 2.0992 17.1008v405.76a70.3488 70.3488 0 0 1-43.3152 64.8704 74.24 74.24 0 0 1-16.5376 4.5568 69.2736 69.2736 0 0 1-6.8608 0.6656zM342.9888 392.5504a34.4576 34.4576 0 0 0-28.0576 12.4416 34.2016 34.2016 0 0 0-7.7312 21.6576v204.8a34.048 34.048 0 0 0 4.864 17.5616l0.8704 1.4336a34.9184 34.9184 0 0 0 15.36 12.5952 34.4576 34.4576 0 0 0 29.1328-1.4336 38.0928 38.0928 0 0 0 8.0384-5.9904 32.768 32.768 0 0 0 7.9872-12.6464 33.28 33.28 0 0 0 2.048-11.52V563.2h68.2496v68.2496a34.4576 34.4576 0 0 0 12.4416 26.4192 35.2256 35.2256 0 0 0 16.6912 7.3728 36.3008 36.3008 0 0 0 11.6224-0.3072 30.1056 30.1056 0 0 0 7.936-2.6112 39.2704 39.2704 0 0 0 7.0656-4.4544 33.9968 33.9968 0 0 0 12.4928-26.4192v-204.8a33.792 33.792 0 0 0-13.824-27.392 34.0992 34.0992 0 0 0-54.4256 27.392v68.3008H375.4496V426.6496a34.4576 34.4576 0 0 0-12.4416-26.368 34.2528 34.2528 0 0 0-19.968-7.68z m271.4112 0h-41.5232a26.6752 26.6752 0 0 0-26.7264 26.7264V640.2048a22.528 22.528 0 0 0 0.768 5.12 32.768 32.768 0 0 0 2.3552 6.144 28.16 28.16 0 0 0 6.656 8.0896 26.624 26.624 0 0 0 16.896 6.0416H614.4a139.008 139.008 0 0 0 45.9776-7.9872 135.68 135.68 0 0 0 63.6928-47.2064 144.5376 144.5376 0 0 0 13.7728-22.9888 135.9872 135.9872 0 0 0 7.168-97.9968 132.8128 132.8128 0 0 0-17.1008-36.1984 139.008 139.008 0 0 0-32.2048-33.792 133.632 133.632 0 0 0-35.328-18.944A138.24 138.24 0 0 0 614.4 392.6016z m3.3792 204.6976a66.6112 66.6112 0 0 1-3.3792 0.1024V460.8a67.84 67.84 0 0 1 50.6368 22.4256 69.12 69.12 0 0 1 17.3568 39.168 60.7744 60.7744 0 0 1 0 13.3632 66.304 66.304 0 0 1-7.7312 25.4976 67.8912 67.8912 0 0 1-46.9504 34.816 65.4336 65.4336 0 0 1-9.9328 1.1776z"
+                    fill="#FFFFFF"/>
+            </svg>
+        `;
+        autoHighestImageButton.onclick = () => {
+            if (localStorage.getItem(autoHighestImageKey)) {
+                autoHighestImageButton.title = '关闭自动切换最高画质';
+                localStorage.removeItem(autoHighestImageKey);
+            } else {
+                autoHighestImageButton.title = '开启自动切换最高画质';
+                localStorage.setItem(autoHighestImageKey, 'off');
+            }
+        };
+        buttonGroup.appendChild(autoHighestImageButton);
+    }
     // 按钮半透明样式与鼠标悬停透明度变化
-    buttonArr.forEach(button => {
+    [...buttonGroup.children].forEach(button => {
         button.style.cssText = 'display: block; cursor: pointer; opacity: 0.5; transition: opacity 0.3s ease;';
         button.onmouseover = () => button.style.opacity = '1';
         button.onmouseout = () => button.style.opacity = '0.5';
@@ -127,8 +128,8 @@ function doRemoveNude() {
     setDisplayNone(document.querySelector('#js-bottom-left'));
     document.querySelector('#bc3')?.remove();
     document.querySelector('#bc3-bgblur')?.remove();
-    document.querySelector('#js-player-dialog')?.remove();
-    document.querySelector('#js-player-above-controller')?.remove();
+    setDisplayNone(document.querySelector('#js-player-dialog'));
+    setDisplayNone(document.querySelector('#js-player-above-controller'));
     // 修改样式
     const stream = document.querySelector('[class^="stream__"]');
     stream.style.bottom = '0';
