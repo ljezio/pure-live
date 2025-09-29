@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         纯净版斗鱼（douyu）
 // @namespace    https://github.com/ljezio
-// @version      4.1.1
+// @version      4.2.0
 // @description  斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换关闭脚本；支持自动切换最高画质；
 // @homepage     https://github.com/ljezio/pure-douyu
 // @author       ljezio
@@ -32,6 +32,7 @@ const autoHighestImageKey = 'pure_douyu_auto_highest';
         const buttonGroup = functionButtons();
         if (localStorage.getItem(switchKey)) return;
         restyle();
+        avoidSmallWindow();
         autoFullWindow()
             .then(() => autoHighestImage());
         dbClick(buttonGroup);
@@ -145,19 +146,30 @@ function restyle() {
 }
 
 /**
+ * 避免小窗口化 todo
+ */
+function avoidSmallWindow() {
+    const observer = new MutationObserver(() => {
+        document.querySelector('#js-player-video-widgets .roomSmallPlayerFloatLayout-closeBtn')?.click();
+        observer.disconnect();
+    });
+    observer.observe(document.querySelector('#js-player-video-case'), {
+        attributes: true,
+        attributeFilter: ['class', 'style']
+    });
+}
+
+/**
  * 自动网页全屏
  */
 function autoFullWindow() {
     return new Promise((resolve) => {
         const fullWindowInterval = setInterval(() => {
             // 自动网页全屏
-            if (!fullWindow()) return;
+            if (!controlBar.fullWindow()) return;
             setTimeout(() => {
                 // 网页全屏可以输入弹幕
-                const sideToggle = document.querySelector('#js-player-main [class^="toggle__"] button');
-                if (sideToggle) {
-                    sideToggle.click();
-                }
+                document.querySelector('#js-player-main [class^="toggle__"] button')?.click();
             }, 10);
             clearInterval(fullWindowInterval);
             resolve();
@@ -176,8 +188,7 @@ function autoHighestImage() {
             clearInterval(highestImageInterval);
             return;
         }
-        const highestImageButton = document.querySelectorAll('[class^="tipItem-"]')[1]
-            ?.children[1]?.children[0];
+        const highestImageButton = document.querySelector('#js-player-controlbar [class^="tipItem-"]:nth-child(2) li:first-child');
         if (!highestImageButton) return;
         setTimeout(() => {
             if (!highestImageButton.className.startsWith('selected-')) {
@@ -194,34 +205,38 @@ function autoHighestImage() {
 function dbClick(buttonGroup) {
     document.body.ondblclick = event => {
         event.stopPropagation();
-        const controlBar = document.querySelector('[class^="right-"]') ||
-            document.querySelector('[class^="right__"]');
-        if (!controlBar) return;
-        const controlButtons = controlBar.childNodes;
         if (!document.fullscreenElement) {
-            controlButtons[controlButtons.length - 1].click();
+            controlBar.fullScreen();
         } else {
             document.exitFullscreen().then();
         }
     };
     document.onfullscreenchange = () => {
         if (!document.fullscreenElement) {
-            setTimeout(() => fullWindow(), 0);
+            setTimeout(() => controlBar.fullWindow(), 0);
             buttonGroup.style.display = 'block';
         } else {
-            setDisplayNone(buttonGroup);
+            buttonGroup.style.display = 'none';
         }
     };
 }
 
 /**
- * 网页全屏
+ * 获取控制栏按钮
  */
-function fullWindow() {
-    const controlBar = document.querySelector('[class^="right-"]') ||
-        document.querySelector('[class^="right__"]');
-    if (!controlBar) return false;
-    const controlButtons = controlBar.childNodes;
-    controlButtons[controlButtons.length - 2].click();
-    return true;
+const controlBar = {
+    fullWindow() {
+        return this._clickControlButton(2)
+    },
+    fullScreen() {
+        return this._clickControlButton(1)
+    },
+    _clickControlButton(nthLast) {
+        const parent = '#js-player-controlbar';
+        const nth = `:nth-last-child(${nthLast})`;
+        const button = document.querySelector(`${parent} [class^="right-"] > ${nth}, ${parent} [class^="right__"] > ${nth}`);
+        if (!button) return false;
+        button.click();
+        return true;
+    }
 }
