@@ -1,0 +1,43 @@
+/* 隐藏无用元素 */
+header,
+aside,
+.wm-general,
+.bc-wrapper,
+.RechangeJulyPopups,
+#js-bottom-left,
+#bc3,
+#bc3-bgblur,
+#js-player-dialog,
+#js-player-above-controller,
+#js-layout-fixed-buff,
+[class^="snapbar__"],
+[class^="sidebar__"],
+[class^="title__"],
+[class^="interactive__"],
+[class^="toggle__"] {
+    display: none !important;
+}
+
+/* 修改样式 */
+#root, #js-player-main {
+    margin: 0 !important;
+}
+
+[class^="stream__"] {
+    bottom: 0 !important;
+    top: 0 !important;
+}
+
+[class^="case__"] {
+    padding: 0 !important;
+}
+
+/* 强制修改伪元素样式 */
+#js-player-main::before {
+    content: none !important;
+}
+
+[class^="player__"]::before {
+    padding-top: 0 !important;
+    padding-bottom: calc(100vh - 16px) !important;
+}

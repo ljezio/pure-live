@@ -1,0 +1,16 @@
+{
+  "name": "pure-douyu",
+  "version": "4.3.0",
+  "description": "pure douyu",
+  "main": "src/main.js",
+  "scripts": {
+    "build": "vite build"
+  },
+  "author": "ljezio",
+  "license": "MIT",
+  "packageManager": "pnpm@10.17.1",
+  "devDependencies": {
+    "vite": "^7.1.7",
+    "vite-plugin-monkey": "^7.1.4"
+  }
+}
