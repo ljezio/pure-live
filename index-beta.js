@@ -19,7 +19,7 @@
 // @match        *://*.douyu.com/topic/*
 // @match        *://*.douyu.com/beta/*
 // @icon         https://www.douyu.com/favicon.ico
-// @grant        none
+// @grant        GM_addStyle
 // ==/UserScript==
 
 const switchKey = 'pure_douyu_switch';
@@ -31,11 +31,10 @@ const autoHighestImageKey = 'pure_douyu_auto_highest';
     window.onload = () => {
         const buttonGroup = functionButtons();
         if (localStorage.getItem(switchKey)) return;
-        removeNude()
-            .then(() => autoFullWindow())
+        restyle();
+        autoFullWindow()
             .then(() => autoHighestImage());
         dbClick(buttonGroup);
-        newNodeObserver();
     };
 })();
 
@@ -100,54 +99,49 @@ function functionButtons() {
 }
 
 /**
- * 隐藏无用元素
+ * 调整样式
  */
-function removeNude() {
-    return new Promise((resolve) => {
-        const interval = setInterval(() => {
-            if (!document.querySelector('[class^="sidebar__"]')) return;
-            try {
-                doRemoveNude();
-            } finally {
-                clearInterval(interval);
-                resolve();
-            }
-        }, 500);
-    });
-}
-
-function doRemoveNude() {
-    setDisplayNone(document.querySelector('header'));
-    document.querySelector('aside')?.remove();
-    document.querySelectorAll('.wm-general')?.forEach(node => node.remove());
-    document.querySelectorAll('.bc-wrapper ')?.forEach(node => node.remove());
-    document.querySelector('[class^="snapbar__"]')?.remove();
-    setDisplayNone(document.querySelector('[class^="sidebar__"]'));
-    document.querySelector('[class^="title__"]')?.remove();
-    document.querySelector('[class^="interactive__"]')?.remove();
-    setDisplayNone(document.querySelector('#js-bottom-left'));
-    document.querySelector('#bc3')?.remove();
-    document.querySelector('#bc3-bgblur')?.remove();
-    setDisplayNone(document.querySelector('#js-player-dialog'));
-    setDisplayNone(document.querySelector('#js-player-above-controller'));
-    // 修改样式
-    const stream = document.querySelector('[class^="stream__"]');
-    stream.style.bottom = '0';
-    stream.style.top = '0';
-    document.querySelector('[class^="case__"]').style.padding = '0';
-    document.querySelector('#js-player-main').style.margin = '0';
-    // 强制修改伪元素样式
-    const style = document.createElement('style');
-    style.textContent = `
+function restyle() {
+    GM_addStyle(`
+        /* 隐藏无用元素 */
+        header,
+        aside,
+        .wm-general,
+        .bc-wrapper ,
+        .RechangeJulyPopups,
+        #js-bottom-left,
+        #bc3,
+        #bc3-bgblur,
+        #js-player-dialog,
+        #js-player-above-controller,
+        #js-layout-fixed-buff,
+        [class^="snapbar__"],
+        [class^="sidebar__"],
+        [class^="title__"],
+        [class^="interactive__"],
+        [class^="toggle__"] {
+            display: none !important;
+        }
+        /* 修改样式 */
+        #root, #js-player-main {
+            margin: 0 !important;
+        }
+        [class^="stream__"] {
+            bottom: 0 !important;
+            top: 0 !important;
+        }
+        [class^="case__"] {
+            padding: 0 !important;
+        }
+        /* 强制修改伪元素样式 */
         #js-player-main::before {
-        content: none !important;
+            content: none !important;
         }
-        .${document.querySelector('[class^="player__"]').className.split(' ')[0]}::before {
-        padding-top: 0 !important;
-        padding-bottom: ${innerHeight - 16}px !important;
+        [class^="player__"]::before {
+            padding-top: 0 !important;
+            padding-bottom: ${innerHeight - 16}px !important;
         }
-    `;
-    document.head.appendChild(style);
+    `);
 }
 
 /**
@@ -159,12 +153,10 @@ function autoFullWindow() {
             // 自动网页全屏
             if (!fullWindow()) return;
             setTimeout(() => {
-                setDisplayNone(document.querySelector('#js-layout-fixed-buff'));
                 // 网页全屏可以输入弹幕
-                const sideToggle = document.querySelector('[class^="toggle__"]');
+                const sideToggle = document.querySelector('#js-player-main [class^="toggle__"] button');
                 if (sideToggle) {
-                    sideToggle.children[0]?.click();
-                    setDisplayNone(sideToggle);
+                    sideToggle.click();
                 }
             }, 10);
             clearInterval(fullWindowInterval);
@@ -223,24 +215,6 @@ function dbClick(buttonGroup) {
 }
 
 /**
- * 移除后增无用元素
- */
-function newNodeObserver() {
-    new MutationObserver(mutations => {
-        for (let mutation of mutations) {
-            if (mutation.type !== 'childList') {
-                continue;
-            }
-            for (let node of mutation.addedNodes) {
-                if (node.className === 'RechangeJulyPopups') {
-                    node.remove();
-                }
-            }
-        }
-    }).observe(document.querySelector('body'), {childList: true})
-}
-
-/**
  * 网页全屏
  */
 function fullWindow() {
@@ -250,12 +224,4 @@ function fullWindow() {
     const controlButtons = controlBar.childNodes;
     controlButtons[controlButtons.length - 2].click();
     return true;
-}
-
-/**
- * 隐藏元素
- */
-function setDisplayNone(node) {
-    if (!node) return;
-    node.style.display = 'none';
 }
