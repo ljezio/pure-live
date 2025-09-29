@@ -108,7 +108,7 @@ function restyle() {
         header,
         aside,
         .wm-general,
-        .bc-wrapper ,
+        .bc-wrapper,
         .RechangeJulyPopups,
         #js-bottom-left,
         #bc3,
@@ -146,7 +146,7 @@ function restyle() {
 }
 
 /**
- * 避免小窗口化 todo
+ * 避免小窗口化
  */
 function avoidSmallWindow() {
     const observer = new MutationObserver(() => {
@@ -165,7 +165,6 @@ function avoidSmallWindow() {
 function autoFullWindow() {
     return new Promise((resolve) => {
         const fullWindowInterval = setInterval(() => {
-            // 自动网页全屏
             if (!controlBar.fullWindow()) return;
             setTimeout(() => {
                 // 网页全屏可以输入弹幕
