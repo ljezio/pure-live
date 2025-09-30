@@ -1,4 +1,4 @@
-import {autoHighestImageKey, switchKey} from '../common';
+import {scriptSwitch, autoHighestImageSwitch} from '../common';
 import switchSvg from '../assets/switch.svg?raw';
 import autoHighestImageSvg from '../assets/autoHightImage.svg?raw';
 
@@ -8,29 +8,29 @@ export default function functionButtons() {
     document.body.appendChild(buttonGroup);
     // 开关脚本按钮
     const switchButton = document.createElement('button');
-    switchButton.title = localStorage.getItem(switchKey) ? '启用脚本' : '关闭脚本';
+    switchButton.title = scriptSwitch.isOn() ? '关闭脚本' : '启用脚本';
     switchButton.innerHTML = switchSvg;
     switchButton.onclick = () => {
-        if (localStorage.getItem(switchKey)) {
-            localStorage.removeItem(switchKey);
+        if (scriptSwitch.isOn()) {
+            scriptSwitch.turnOff();
         } else {
-            localStorage.setItem(switchKey, 'off');
+            scriptSwitch.turnOn();
         }
         location.reload();
     };
     buttonGroup.appendChild(switchButton);
-    if (!localStorage.getItem(switchKey)) {
+    if (scriptSwitch.isOn()) {
         // 开关自动切换最高画质按钮
         const autoHighestImageButton = document.createElement('button');
-        autoHighestImageButton.title = localStorage.getItem(autoHighestImageKey) ? '开启自动切换最高画质' : '关闭自动切换最高画质';
+        autoHighestImageButton.title = autoHighestImageSwitch.isOn() ? '关闭自动切换最高画质' : '开启自动切换最高画质';
         autoHighestImageButton.innerHTML = autoHighestImageSvg;
         autoHighestImageButton.onclick = () => {
-            if (localStorage.getItem(autoHighestImageKey)) {
-                autoHighestImageButton.title = '关闭自动切换最高画质';
-                localStorage.removeItem(autoHighestImageKey);
-            } else {
+            if (autoHighestImageSwitch.isOn()) {
                 autoHighestImageButton.title = '开启自动切换最高画质';
-                localStorage.setItem(autoHighestImageKey, 'off');
+                autoHighestImageSwitch.turnOff();
+            } else {
+                autoHighestImageButton.title = '关闭自动切换最高画质';
+                autoHighestImageSwitch.turnOn();
             }
         };
         buttonGroup.appendChild(autoHighestImageButton);
