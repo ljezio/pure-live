@@ -24,18 +24,18 @@
 </template>
 
 <script setup>
-import {autoHighestImageSwitch, scriptSwitch} from '../common';
-import {onMounted, ref} from 'vue';
+import { onMounted, ref } from "vue";
+import { autoHighestImageSwitch, scriptSwitch } from "../common";
 
-const onColor = '#2C9EFF';
-const offColor = '#D94A3C';
+const onColor = "#2C9EFF";
+const offColor = "#D94A3C";
 
 const showButtonGroup = ref(true);
 const scriptSwitchOn = ref(scriptSwitch.isOn());
 const autoHighestImageSwitchOn = ref(autoHighestImageSwitch.isOn());
 
 onMounted(() => {
-  document.addEventListener('fullscreenchange', () => {
+  document.addEventListener("fullscreenchange", () => {
     showButtonGroup.value = !document.fullscreenElement;
   });
 });
