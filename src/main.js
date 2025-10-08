@@ -1,13 +1,21 @@
 import {scriptSwitch} from './common';
-import functionButtons from './button';
 import {autoFullWindow, autoHighestImage, avoidSmallWindow, dbClick} from './core';
+import {createApp} from 'vue';
+import App from './html/App.vue';
 
-window.onload = async () => {
-    const buttonGroup = functionButtons();
-    if (!scriptSwitch.isOn()) return;
-    import('./restyle.css');
-    avoidSmallWindow();
-    autoFullWindow()
-        .then(() => autoHighestImage());
-    dbClick(buttonGroup);
+window.onload = () => {
+    createApp(App).mount(
+        (() => {
+            const div = document.createElement('div');
+            document.body.append(div);
+            return div;
+        })(),
+    );
+    if (scriptSwitch.isOn()) {
+        import('./restyle.css');
+        avoidSmallWindow();
+        autoFullWindow()
+            .then(() => autoHighestImage());
+        dbClick();
+    }
 };

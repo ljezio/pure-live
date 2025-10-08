@@ -1,9 +1,11 @@
 import {defineConfig} from 'vite';
-import monkey from 'vite-plugin-monkey';
 import packageJson from './package.json';
+import monkey, {cdn} from 'vite-plugin-monkey';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     plugins: [
+        vue(),
         monkey({
             entry: 'src/main.js',
             userscript: {
@@ -29,6 +31,10 @@ export default defineConfig({
                     '*://*.douyu.com/topic/*',
                     '*://*.douyu.com/beta/*',
                 ],
+            }, build: {
+                externalGlobals: {
+                    vue: cdn.npmmirror('Vue', 'dist/vue.global.prod.js'),
+                },
             },
         }),
     ],

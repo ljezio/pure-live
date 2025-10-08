@@ -48,7 +48,7 @@ export function autoHighestImage() {
             if (!highestImageButton.className.startsWith('selected-')) {
                 highestImageButton.click();
             }
-        }, 5000);
+        }, 3000);
         clearInterval(highestImageInterval);
     }, 1000);
 }
@@ -56,7 +56,7 @@ export function autoHighestImage() {
 /**
  * 双击全屏
  */
-export function dbClick(buttonGroup) {
+export function dbClick() {
     document.body.ondblclick = event => {
         event.stopPropagation();
         if (!document.fullscreenElement) {
@@ -68,9 +68,6 @@ export function dbClick(buttonGroup) {
     document.onfullscreenchange = () => {
         if (!document.fullscreenElement) {
             setTimeout(() => controlBar.fullWindow(), 0);
-            buttonGroup.style.display = 'block';
-        } else {
-            buttonGroup.style.display = 'none';
         }
     };
 }
