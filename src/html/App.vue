@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if="showButtonGroup">
-    <button class="button" @click="doSwitch" :title="scriptSwitchOn ? '关闭脚本' : '启用脚本'">
+    <button class="button" @click="switchScript" :title="scriptSwitchOn ? '关闭脚本' : '启用脚本'">
       <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
         <path
             d="M512.64 0C229.674667 0 0.298667 229.248 0.298667 512s229.376 512 512.384 512c282.965333 0 512.341333-229.248 512.341333-512S795.605333 0 512.64 0z m-37.290667 225.578667a38.528 38.528 0 0 1 77.141334 0v134.741333a38.528 38.528 0 0 1-77.141334 0V225.578667z m38.570667 578.773333a280.405333 280.405333 0 0 1-280.490667-280.277333 280.192 280.192 0 0 1 203.477334-269.312V323.413333a215.04 215.04 0 0 0 76.970666 415.829334 215.210667 215.210667 0 0 0 215.296-215.125334 215.04 215.04 0 0 0-138.282666-200.704V254.72c117.418667 33.493333 203.477333 141.269333 203.477333 269.312a280.362667 280.362667 0 0 1-280.448 280.32z"
@@ -24,41 +24,31 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { autoHighestImageSwitch, scriptSwitch } from "../common";
+import { onMounted, ref } from 'vue';
+import { autoHighestImageSwitch, scriptSwitch } from '../common';
 
-const onColor = "#2C9EFF";
-const offColor = "#D94A3C";
+const onColor = '#2C9EFF';
+const offColor = '#D94A3C';
 
 const showButtonGroup = ref(true);
 const scriptSwitchOn = ref(scriptSwitch.isOn());
 const autoHighestImageSwitchOn = ref(autoHighestImageSwitch.isOn());
 
 onMounted(() => {
-  document.addEventListener("fullscreenchange", () => {
+  document.addEventListener('fullscreenchange', () => {
     showButtonGroup.value = !document.fullscreenElement;
   });
 });
 
-function doSwitch() {
-  if (scriptSwitch.isOn()) {
-    scriptSwitchOn.value = false;
-    scriptSwitch.turnOff();
-  } else {
-    scriptSwitchOn.value = true;
-    scriptSwitch.turnOn();
-  }
+function switchScript() {
+  scriptSwitchOn.value = !scriptSwitchOn.value;
+  scriptSwitch.switch();
   location.reload();
 }
 
 function switchAutoHighestImage() {
-  if (autoHighestImageSwitch.isOn()) {
-    autoHighestImageSwitchOn.value = false;
-    autoHighestImageSwitch.turnOff();
-  } else {
-    autoHighestImageSwitchOn.value = true;
-    autoHighestImageSwitch.turnOn();
-  }
+  autoHighestImageSwitchOn.value = !autoHighestImageSwitchOn.value;
+  autoHighestImageSwitch.switch();
 }
 </script>
 

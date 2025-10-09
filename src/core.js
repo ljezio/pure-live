@@ -1,4 +1,4 @@
-import { autoHighestImageSwitch } from "./common";
+import { autoHighestImageSwitch } from './common';
 
 /**
  * 避免小窗口化
@@ -7,14 +7,14 @@ export function avoidSmallWindow() {
   const observer = new MutationObserver(() => {
     document
       .querySelector(
-        "#js-player-video-widgets .roomSmallPlayerFloatLayout-closeBtn",
+        '#js-player-video-widgets .roomSmallPlayerFloatLayout-closeBtn',
       )
       ?.click();
     observer.disconnect();
   });
-  observer.observe(document.querySelector("#js-player-video-case"), {
+  observer.observe(document.querySelector('#js-player-video-case'), {
     attributes: true,
-    attributeFilter: ["class", "style"],
+    attributeFilter: ['class', 'style'],
   });
 }
 
@@ -54,7 +54,7 @@ export function autoHighestImage() {
     );
     if (!highestImageButton) return;
     setTimeout(() => {
-      if (!highestImageButton.className.startsWith("selected-")) {
+      if (!highestImageButton.className.startsWith('selected-')) {
         highestImageButton.click();
       }
     }, 3000);
@@ -92,7 +92,7 @@ const controlBar = {
     return this._clickControlButton(1);
   },
   _clickControlButton(nthLast) {
-    const parent = "#js-player-controlbar";
+    const parent = '#js-player-controlbar';
     const nth = `:nth-last-child(${nthLast})`;
     const button = document.querySelector(
       `${parent} [class^="right-"] > ${nth}, ${parent} [class^="right__"] > ${nth}`,
