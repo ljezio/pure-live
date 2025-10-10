@@ -1,4 +1,4 @@
-import { autoHighestImageSwitch } from './common';
+import { autoHighestImageSwitch } from '@pure-live/function-button';
 
 /**
  * 避免小窗口化

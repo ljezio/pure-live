@@ -1,0 +1,10 @@
+{
+  "name": "@pure-live/function-button",
+  "version": "1.0.0",
+  "description": "function button",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+    "vue": "catalog:"
+  }
+}

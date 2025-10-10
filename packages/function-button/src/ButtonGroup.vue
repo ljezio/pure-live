@@ -25,7 +25,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { autoHighestImageSwitch, scriptSwitch } from '../common';
+import { autoHighestImageSwitch, scriptSwitch } from './common';
 
 const onColor = '#2C9EFF';
 const offColor = '#D94A3C';

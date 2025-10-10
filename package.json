@@ -1,22 +1,16 @@
 {
-  "name": "pure-douyu",
-  "version": "4.3.2",
-  "description": "pure douyu",
-  "main": "src/main.js",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "build:douyu": "pnpm run -C apps/pure-douyu build",
+    "format": "biome check --write"
   },
   "author": "ljezio",
   "license": "MIT",
-  "dependencies": {
-    "vue": "^3.5.22"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ljezio/pure-douyu.git"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.5",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "vite": "^7.1.7",
-    "vite-plugin-monkey": "^7.1.4"
+    "@biomejs/biome": "catalog:"
   }
 }
