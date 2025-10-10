@@ -54,7 +54,7 @@ function switchAutoHighestImage() {
 
 <style scoped>
 .container {
-  z-index: 999;
+  z-index: 99999;
   position: fixed;
   top: 0;
   right: 0;
@@ -64,6 +64,8 @@ function switchAutoHighestImage() {
 .button {
   display: block;
   cursor: pointer;
+  border: none;
+  background-color: transparent;
   opacity: 0.3;
   transition: opacity 0.3s ease;
 }

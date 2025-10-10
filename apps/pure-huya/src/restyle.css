@@ -1,0 +1,51 @@
+/* 隐藏无用元素 */
+#duya-header,
+#matchComponent2,
+#room-footer,
+#match-cms-content,
+#J_roomHeader,
+#player-gift-wrap,
+#player-ext-wrap,
+#player-fullpage-right-btn,
+#player-fullpage-btn,
+#J_spbg,
+.mod-sidebar,
+.match-top,
+.match-nav,
+.room-core-r,
+.common-popup,
+.popup-slide-in,
+.gift-info-wrap {
+  display: none !important;
+}
+
+/* 修改样式 */
+body {
+  background: #000 !important;
+}
+
+#J_mainRoom {
+  background-image: none !important;
+}
+
+#J_mainWrap,
+#J_mainRoom {
+  padding: 0 !important;
+}
+
+.room-core-l {
+  margin: 0 !important;
+}
+
+#root {
+  height: auto !important;
+}
+
+#player-wrap,
+#player-video {
+  height: 100vh !important;
+}
+
+#videoContainer {
+  height: calc(100vh + 60px) !important;
+}
