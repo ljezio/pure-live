@@ -9,13 +9,13 @@ export default defineConfig({
     monkey({
       entry: 'src/main.js',
       userscript: {
-        name: '纯净版斗鱼（douyu）',
+        name: '纯净版斗鱼（pure douyu）',
         namespace: 'https://github.com/ljezio',
         version: packageJson.version,
         description:
           '斗鱼纯净版（douyu.com）。只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】；支持按钮切换关闭脚本；支持自动切换最高画质；',
         icon: 'https://www.douyu.com/favicon.ico',
-        homepage: 'https://github.com/ljezio/pure-douyu',
+        homepage: 'https://github.com/ljezio/pure-live',
         author: 'ljezio',
         license: 'MIT',
         match: ['*://*.douyu.com/*'],
