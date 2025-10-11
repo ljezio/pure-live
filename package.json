@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ljezio/pure-douyu.git"
+    "url": "https://github.com/ljezio/pure-live.git"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:"

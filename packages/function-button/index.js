@@ -1,10 +1,10 @@
 import { createApp } from 'vue';
-import ButtonGroup from './src/ButtonGroup.vue';
+import Element from './Element.vue';
 
 export * from './src/common';
 
-export default function mountFunctionButton() {
-  createApp(ButtonGroup).mount(
+export default function mountElement() {
+  createApp(Element).mount(
     (() => {
       const div = document.createElement('div');
       document.body.append(div);
