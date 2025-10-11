@@ -47,12 +47,4 @@ export function dbClick() {
       document.exitFullscreen().then();
     }
   };
-  document.onfullscreenchange = () => {
-    if (!document.fullscreenElement) {
-      setTimeout(
-        () => document.querySelector('#player-fullpage-btn')?.click(),
-        0,
-      );
-    }
-  };
 }

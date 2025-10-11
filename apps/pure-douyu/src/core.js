@@ -19,25 +19,6 @@ export function avoidSmallWindow() {
 }
 
 /**
- * 自动网页全屏
- */
-export function autoFullWindow() {
-  return new Promise((resolve) => {
-    const fullWindowInterval = setInterval(() => {
-      if (!controlBar.fullWindow()) return;
-      setTimeout(() => {
-        // 网页全屏可以输入弹幕
-        document
-          .querySelector('#js-player-main [class^="toggle__"] button')
-          ?.click();
-      }, 10);
-      clearInterval(fullWindowInterval);
-      resolve();
-    }, 300);
-  });
-}
-
-/**
  * 自动切换最高画质
  */
 export function autoHighestImage() {
@@ -69,36 +50,13 @@ export function dbClick() {
   document.body.ondblclick = (event) => {
     event.stopPropagation();
     if (!document.fullscreenElement) {
-      controlBar.fullScreen();
+      document
+        .querySelector(
+          '#js-player-controlbar [class^="right-"] > :last-child, #js-player-controlbar [class^="right__"] > :last-child',
+        )
+        ?.click();
     } else {
       document.exitFullscreen().then();
     }
   };
-  document.onfullscreenchange = () => {
-    if (!document.fullscreenElement) {
-      setTimeout(() => controlBar.fullWindow(), 0);
-    }
-  };
 }
-
-/**
- * 获取控制栏按钮
- */
-const controlBar = {
-  fullWindow() {
-    return this._clickControlButton(2);
-  },
-  fullScreen() {
-    return this._clickControlButton(1);
-  },
-  _clickControlButton(nthLast) {
-    const parent = '#js-player-controlbar';
-    const nth = `:nth-last-child(${nthLast})`;
-    const button = document.querySelector(
-      `${parent} [class^="right-"] > ${nth}, ${parent} [class^="right__"] > ${nth}`,
-    );
-    if (!button) return false;
-    button.click();
-    return true;
-  },
-};

@@ -1,10 +1,5 @@
 import mountElement, { scriptSwitch } from '@pure-live/function-button';
-import {
-  autoFullWindow,
-  autoHighestImage,
-  avoidSmallWindow,
-  dbClick,
-} from './core';
+import { autoHighestImage, avoidSmallWindow, dbClick } from './core';
 
 (() => {
   // 非直播页面不执行脚本
@@ -13,7 +8,7 @@ import {
   if (scriptSwitch.isOn()) {
     import('./restyle.css');
     avoidSmallWindow();
-    autoFullWindow().then(() => autoHighestImage());
+    autoHighestImage();
     dbClick();
   }
 })();

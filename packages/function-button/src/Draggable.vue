@@ -43,8 +43,8 @@ const beforeWidth = ref(window.innerWidth);
 const beforeHeight = ref(window.innerHeight);
 
 function resize() {
-  x.value = x.value / beforeWidth.value * window.innerWidth;
-  y.value = y.value / beforeHeight.value * window.innerHeight;
+  x.value = (x.value / beforeWidth.value) * window.innerWidth;
+  y.value = (y.value / beforeHeight.value) * window.innerHeight;
   beforeWidth.value = window.innerWidth;
   beforeHeight.value = window.innerHeight;
 }

@@ -29,16 +29,17 @@ aside,
   top: 0 !important;
 }
 
-[class^="case__"] {
+[class^="case__"],
+[class^="playerWrap__"],
+[class^="page__"] {
   padding: 0 !important;
 }
 
-/* 强制修改伪元素样式 */
-#js-player-main::before {
+#js-player-main::before,
+[class^="player__"]::before {
   content: none !important;
 }
 
-[class^="player__"]::before {
-  padding-top: 0 !important;
-  padding-bottom: calc(100vh - 16px) !important;
+[class^="stream__"] {
+  height: 100vh !important;
 }
