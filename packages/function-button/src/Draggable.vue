@@ -12,44 +12,68 @@
 <script setup>
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 
-const draggableElement = useTemplateRef('draggableRef');
+const draggableE = useTemplateRef('draggableRef');
 const isDragging = ref(false);
-const x = ref(window.innerWidth - 40);
-const y = ref(10);
+const x = ref(0);
+const y = ref(0);
 const mouseX = ref(0);
 const mouseY = ref(0);
 
 function startDrag(event) {
-  if (event.target !== draggableElement.value) return;
+  if (event.target !== draggableE.value) return;
   mouseX.value = event.clientX;
   mouseY.value = event.clientY;
   isDragging.value = true;
 }
 
 function onDrag(event) {
-  if (isDragging.value) {
-    x.value += event.clientX - mouseX.value;
-    y.value += event.clientY - mouseY.value;
-    mouseX.value = event.clientX;
-    mouseY.value = event.clientY;
-  }
+  if (!isDragging.value) return;
+  setNewAxis(
+    event.clientX - mouseX.value + x.value,
+    event.clientY - mouseY.value + y.value,
+  );
+  mouseX.value = event.clientX;
+  mouseY.value = event.clientY;
 }
 
 function stopDrag() {
   isDragging.value = false;
 }
 
-const beforeWidth = ref(window.innerWidth);
-const beforeHeight = ref(window.innerHeight);
+const beforeWidth = ref(innerWidth);
+const beforeHeight = ref(innerHeight);
 
 function resize() {
-  x.value = (x.value / beforeWidth.value) * window.innerWidth;
-  y.value = (y.value / beforeHeight.value) * window.innerHeight;
-  beforeWidth.value = window.innerWidth;
-  beforeHeight.value = window.innerHeight;
+  setNewAxis(
+    (x.value / beforeWidth.value) * innerWidth,
+    (y.value / beforeHeight.value) * innerHeight,
+  );
+  beforeWidth.value = innerWidth;
+  beforeHeight.value = innerHeight;
+}
+
+/**
+ * 设置新的坐标，不超过浏览器边界
+ */
+function setNewAxis(newX, newY) {
+  if (newX < 0) {
+    x.value = 0;
+  } else if (newX > innerWidth - draggableE.value.offsetWidth) {
+    x.value = innerWidth - draggableE.value.offsetWidth;
+  } else {
+    x.value = newX;
+  }
+  if (newY < 0) {
+    y.value = 0;
+  } else if (newY > innerHeight - draggableE.value.offsetHeight) {
+    y.value = innerHeight - draggableE.value.offsetHeight;
+  } else {
+    y.value = newY;
+  }
 }
 
 onMounted(() => {
+  x.value = innerWidth - draggableE.value.offsetWidth;
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('mouseup', stopDrag);
   window.addEventListener('resize', resize);
