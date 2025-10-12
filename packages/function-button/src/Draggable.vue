@@ -10,8 +10,9 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
+import { onBeforeMount, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 
+const axisStorageKey = 'pure_live_draggable_axis';
 const draggableE = useTemplateRef('draggableRef');
 const isDragging = ref(false);
 const x = ref(0);
@@ -35,6 +36,11 @@ function onDrag(event) {
 
 function stopDrag() {
   isDragging.value = false;
+  // 保存组件坐标
+  localStorage.setItem(
+    axisStorageKey,
+    JSON.stringify({ oldX: x.value, oldY: y.value, oldWidth: innerWidth, oldHeight: innerHeight }),
+  );
 }
 
 const beforeWidth = ref(innerWidth);
@@ -65,6 +71,14 @@ function setNewAxis(newX, newY) {
     y.value = newY;
   }
 }
+
+onBeforeMount(() => {
+  // 恢复组件坐标
+  const oldAxis = JSON.parse(localStorage.getItem(axisStorageKey));
+  if (!oldAxis) return;
+  x.value = (oldAxis.oldX / oldAxis.oldWidth) * innerWidth;
+  y.value = (oldAxis.oldY / oldAxis.oldHeight) * innerHeight;
+});
 
 onMounted(() => {
   document.addEventListener('mousemove', onDrag);
