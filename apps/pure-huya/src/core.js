@@ -1,6 +1,24 @@
 import { autoHighestImageSwitch } from '@pure-live/function-button';
 
 /**
+ * 去除片头广告
+ */
+export function blockPreAd() {
+  const formatter = new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+  const preAdShow = {
+    showDate: formatter.format(new Date()),
+    failCount: 0,
+    success: 1,
+    lastShowTime: Math.floor(Date.now() / 1000) - 600,
+  };
+  localStorage.setItem('preadShow', JSON.stringify(preAdShow));
+}
+
+/**
  * 自动切换最高画质
  */
 export function autoHighestImage() {

@@ -4,12 +4,14 @@ aside,
 .wm-general,
 .bc-wrapper,
 .RechangeJulyPopups,
+.IconCardAdBoundsBox,
 #js-bottom-left,
 #bc3,
 #bc3-bgblur,
 #js-player-dialog,
 #js-player-above-controller,
 #js-layout-fixed-buff,
+#js-room-top-banner,
 [class^="snapbar__"],
 [class^="sidebar__"],
 [class^="title__"],
@@ -42,4 +44,9 @@ aside,
 
 [class^="stream__"] {
   height: 100vh !important;
+}
+
+/* 网页全屏显示弹幕输入框 */
+[class^="fullScreenSendor-"] {
+  display: flex !important;
 }

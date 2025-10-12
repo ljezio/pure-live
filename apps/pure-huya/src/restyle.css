@@ -9,6 +9,8 @@
 #player-fullpage-right-btn,
 #player-fullpage-btn,
 #J_spbg,
+#gift-show-btn,
+#J_roomGgTop,
 .mod-sidebar,
 .match-top,
 .match-nav,
@@ -48,4 +50,9 @@ body {
 
 #videoContainer {
   height: calc(100vh + 60px) !important;
+}
+
+/* 网页全屏显示弹幕输入框 */
+#player-full-input {
+  display: flex !important;
 }
