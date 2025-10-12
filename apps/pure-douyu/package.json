@@ -1,6 +1,6 @@
 {
   "name": "@pure-live/pure-douyu",
-  "version": "4.4.1",
+  "version": "4.4.2",
   "description": "pure douyu",
   "main": "src/main.js",
   "private": true,
