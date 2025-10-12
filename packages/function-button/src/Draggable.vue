@@ -28,10 +28,7 @@ function startDrag(event) {
 
 function onDrag(event) {
   if (!isDragging.value) return;
-  setNewAxis(
-    event.clientX - mouseX.value + x.value,
-    event.clientY - mouseY.value + y.value,
-  );
+  setNewAxis(event.clientX - mouseX.value + x.value, event.clientY - mouseY.value + y.value);
   mouseX.value = event.clientX;
   mouseY.value = event.clientY;
 }
@@ -44,10 +41,7 @@ const beforeWidth = ref(innerWidth);
 const beforeHeight = ref(innerHeight);
 
 function resize() {
-  setNewAxis(
-    (x.value / beforeWidth.value) * innerWidth,
-    (y.value / beforeHeight.value) * innerHeight,
-  );
+  setNewAxis((x.value / beforeWidth.value) * innerWidth, (y.value / beforeHeight.value) * innerHeight);
   beforeWidth.value = innerWidth;
   beforeHeight.value = innerHeight;
 }
@@ -58,22 +52,21 @@ function resize() {
 function setNewAxis(newX, newY) {
   if (newX < 0) {
     x.value = 0;
-  } else if (newX > innerWidth - draggableE.value.offsetWidth) {
-    x.value = innerWidth - draggableE.value.offsetWidth;
+  } else if (newX > document.documentElement.clientWidth - draggableE.value.offsetWidth) {
+    x.value = document.documentElement.clientWidth - draggableE.value.offsetWidth;
   } else {
     x.value = newX;
   }
   if (newY < 0) {
     y.value = 0;
-  } else if (newY > innerHeight - draggableE.value.offsetHeight) {
-    y.value = innerHeight - draggableE.value.offsetHeight;
+  } else if (newY > document.documentElement.clientHeight - draggableE.value.offsetHeight) {
+    y.value = document.documentElement.clientHeight - draggableE.value.offsetHeight;
   } else {
     y.value = newY;
   }
 }
 
 onMounted(() => {
-  x.value = innerWidth - draggableE.value.offsetWidth;
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('mouseup', stopDrag);
   window.addEventListener('resize', resize);
@@ -89,9 +82,9 @@ onUnmounted(() => {
 <style scoped>
 .draggable {
   z-index: 99999;
-  position: absolute;
+  position: fixed;
   cursor: move;
-  padding: 8px;
+  padding: 10px;
   background-color: transparent;
   user-select: none;
 }

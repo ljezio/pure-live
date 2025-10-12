@@ -18,9 +18,7 @@ export function autoHighestImage() {
 }
 
 function doAutoHighestImage() {
-  const videoType = document.querySelector(
-    '#player-ctrl-wrap .player-videotype-list',
-  );
+  const videoType = document.querySelector('#player-ctrl-wrap .player-videotype-list');
   if (!videoType) return false;
   for (const li of videoType.children) {
     if (li.children.length >= 2) {

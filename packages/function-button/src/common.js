@@ -26,6 +26,4 @@ export const scriptSwitch = new SwitchFunction('pure_live_switch_script');
 /**
  * 是否自动切换最高画质
  */
-export const autoHighestImageSwitch = new SwitchFunction(
-  'pure_live_auto_highest',
-);
+export const autoHighestImageSwitch = new SwitchFunction('pure_live_auto_highest');

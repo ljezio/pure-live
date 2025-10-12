@@ -5,11 +5,7 @@ import { autoHighestImageSwitch } from '@pure-live/function-button';
  */
 export function avoidSmallWindow() {
   const observer = new MutationObserver(() => {
-    document
-      .querySelector(
-        '#js-player-video-widgets .roomSmallPlayerFloatLayout-closeBtn',
-      )
-      ?.click();
+    document.querySelector('#js-player-video-widgets .roomSmallPlayerFloatLayout-closeBtn')?.click();
     observer.disconnect();
   });
   observer.observe(document.querySelector('#js-player-video-case'), {
