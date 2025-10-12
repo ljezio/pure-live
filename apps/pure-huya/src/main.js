@@ -1,5 +1,5 @@
 import mountElement, { scriptSwitch } from '@pure-live/function-button';
-import {autoHighestImage, blockPreAd, dbClick } from './core';
+import { autoHighestImage, dbClick, skipPreAd } from './core';
 
 (() => {
   // 非直播页面不执行脚本
@@ -7,7 +7,7 @@ import {autoHighestImage, blockPreAd, dbClick } from './core';
   mountElement();
   if (scriptSwitch.isOn()) {
     import('./restyle.css');
-    blockPreAd();
+    skipPreAd();
     autoHighestImage();
     dbClick();
   }

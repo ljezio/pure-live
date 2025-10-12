@@ -1,21 +1,18 @@
 import { autoHighestImageSwitch } from '@pure-live/function-button';
 
 /**
- * 去除片头广告
+ * 自动跳过片头广告
  */
-export function blockPreAd() {
-  const formatter = new Intl.DateTimeFormat('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  });
-  const preAdShow = {
-    showDate: formatter.format(new Date()),
-    failCount: 0,
-    success: 1,
-    lastShowTime: Math.floor(Date.now() / 1000) - 600,
-  };
-  localStorage.setItem('preadShow', JSON.stringify(preAdShow));
+export function skipPreAd() {
+  const loading = document.querySelector('#player-loading');
+  if (!loading) return;
+  const interval = setInterval(() => {
+    if (loading.style.display !== 'none') {
+      return;
+    }
+    document.querySelector('.ab-skip-group .ab-skip')?.click();
+    clearInterval(interval);
+  }, 500);
 }
 
 /**
