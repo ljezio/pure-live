@@ -16,36 +16,28 @@ export function skipPreAd() {
 }
 
 /**
- * 自动切换最高画质
+ * 解锁扫码限制并切换最高画质
  */
-export function autoHighestImage() {
-  if (!autoHighestImageSwitch.isOn()) return;
+export function unlockAndSwitchHighestImage() {
   let times = 0;
   const highestImageInterval = setInterval(() => {
     if (times++ >= 10) {
       clearInterval(highestImageInterval);
       return;
     }
-    if (doAutoHighestImage()) {
-      clearInterval(highestImageInterval);
+    const videoTypeList = document.querySelector('#player-ctrl-wrap .player-videotype-list')?.children;
+    if (!videoTypeList) return;
+    // 解除扫码解锁清晰度限制
+    for (const ul of videoTypeList) {
+      /* global $ */
+      $(ul).data('data').status = 0; // 直接使用huya.com引入的jQuery
     }
+    // 切换最高画质
+    if (autoHighestImageSwitch.isOn() && videoTypeList[0].className !== 'on') {
+      videoTypeList[0].click();
+    }
+    clearInterval(highestImageInterval);
   }, 1000);
-}
-
-function doAutoHighestImage() {
-  const videoType = document.querySelector('#player-ctrl-wrap .player-videotype-list');
-  if (!videoType) return false;
-  for (const li of videoType.children) {
-    if (li.children.length >= 2) {
-      continue;
-    }
-    if (li.className === 'on') {
-      break;
-    }
-    li.click();
-    break;
-  }
-  return true;
 }
 
 /**

@@ -20,7 +20,7 @@ aside,
   display: none !important;
 }
 
-/* 修改样式 */
+/* 播放器占满网页 */
 #root,
 #js-player-main {
   margin: 0 !important;

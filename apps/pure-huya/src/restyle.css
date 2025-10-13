@@ -11,32 +11,35 @@
 #J_spbg,
 #gift-show-btn,
 #J_roomGgTop,
+#player-login-guide-tip,
 .mod-sidebar,
 .match-top,
 .match-nav,
 .room-core-r,
 .common-popup,
 .popup-slide-in,
-.gift-info-wrap {
+.gift-info-wrap,
+.match-score-popup {
   display: none !important;
-}
-
-/* 修改样式 */
-body {
-  background: #000 !important;
 }
 
 #J_mainRoom {
   background-image: none !important;
 }
 
+/* 播放器占满网页 */
 #J_mainWrap,
 #J_mainRoom {
   padding: 0 !important;
 }
 
-.room-core-l {
+.room-core-l,
+.match-room {
   margin: 0 !important;
+}
+
+.room-player-wrap {
+  width: 100vw !important;
 }
 
 #root {
@@ -55,4 +58,9 @@ body {
 /* 网页全屏显示弹幕输入框 */
 #player-full-input {
   display: flex !important;
+}
+
+/* 扫码解锁清晰度添加中划线 */
+.bitrate-right-btn.common-enjoy-btn {
+  text-decoration: line-through !important;
 }
