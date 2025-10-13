@@ -1,14 +1,11 @@
 class SwitchFunction {
   #key;
-
   constructor(key) {
     this.#key = key;
   }
-
   isOn() {
     return !localStorage.getItem(this.#key);
   }
-
   switch() {
     if (this.isOn()) {
       localStorage.setItem(this.#key, 'off');
@@ -27,3 +24,17 @@ export const scriptSwitch = new SwitchFunction('pure_live_switch_script');
  * 是否自动切换最高画质
  */
 export const autoHighestImageSwitch = new SwitchFunction('pure_live_auto_highest');
+
+/**
+ * 节流
+ */
+export function throttle(fn, delay = 100) {
+  let lastTime = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - lastTime > delay) {
+      fn.apply(this, args);
+      lastTime = now;
+    }
+  };
+}

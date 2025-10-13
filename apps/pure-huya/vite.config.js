@@ -12,8 +12,7 @@ export default defineConfig({
         name: '纯净版虎牙（pure huya）',
         namespace: 'https://github.com/ljezio',
         version: packageJson.version,
-        description:
-          '虎牙纯净版，只保留直播和弹幕【虎牙精简版、虎牙极简版、虎牙清爽版】',
+        description: '虎牙纯净版，只保留直播和弹幕【虎牙精简版、虎牙极简版、虎牙清爽版】',
         icon: 'https://www.huya.com/favicon.ico',
         homepage: 'https://github.com/ljezio/pure-live',
         author: 'ljezio',

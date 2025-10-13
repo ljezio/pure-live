@@ -12,8 +12,7 @@ export default defineConfig({
         name: '纯净版斗鱼（pure douyu）',
         namespace: 'https://github.com/ljezio',
         version: packageJson.version,
-        description:
-          '斗鱼纯净版，只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】',
+        description: '斗鱼纯净版，只保留直播和弹幕【斗鱼精简版、斗鱼极简版、斗鱼清爽版】',
         icon: 'https://www.douyu.com/favicon.ico',
         homepage: 'https://github.com/ljezio/pure-live',
         author: 'ljezio',

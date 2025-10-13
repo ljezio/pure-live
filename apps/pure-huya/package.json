@@ -1,6 +1,6 @@
 {
   "name": "@pure-live/pure-huya",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "pure huya",
   "main": "src/main.js",
   "private": true,

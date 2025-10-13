@@ -48,6 +48,7 @@ function switchAutoHighestImage() {
   display: block;
   cursor: pointer;
   border: none;
+  padding: 0;
   background-color: transparent;
   opacity: 0.3;
   transition: opacity 0.3s ease;
