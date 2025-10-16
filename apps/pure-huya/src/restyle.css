@@ -19,7 +19,9 @@
 .common-popup,
 .popup-slide-in,
 .gift-info-wrap,
-.match-score-popup {
+.match-score-popup,
+.pre-ab-new-wrap,
+.new-reward-ab-wrap {
   display: none !important;
 }
 

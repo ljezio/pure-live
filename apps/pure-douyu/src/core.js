@@ -20,10 +20,10 @@ export function avoidSmallWindow() {
 export function autoHighestImage() {
   if (!autoHighestImageSwitch.isOn()) return;
   let times = 0;
-  const highestImageInterval = setInterval(() => {
+  const interval = setInterval(() => {
     if (times++ >= 10) {
       // 小主播没有画质切换功能
-      clearInterval(highestImageInterval);
+      clearInterval(interval);
       return;
     }
     const highestImageButton = document.querySelector(
@@ -35,7 +35,7 @@ export function autoHighestImage() {
         highestImageButton.click();
       }
     }, 3000);
-    clearInterval(highestImageInterval);
+    clearInterval(interval);
   }, 1000);
 }
 

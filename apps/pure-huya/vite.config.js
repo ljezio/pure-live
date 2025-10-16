@@ -17,7 +17,7 @@ export default defineConfig({
         homepage: 'https://github.com/ljezio/pure-live',
         author: 'ljezio',
         license: 'MIT',
-        match: ['*://*.huya.com/*'],
+        match: ['*://www.huya.com/*'],
       },
       build: {
         externalGlobals: {

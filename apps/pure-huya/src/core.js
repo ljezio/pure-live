@@ -1,18 +1,30 @@
 import { autoHighestImageSwitch } from '@pure-live/function-button';
 
 /**
- * 自动跳过片头广告
+ * 自动跳过贴片广告
  */
-export function skipPreAd() {
-  const loading = document.querySelector('#player-loading');
-  if (!loading) return;
-  const interval = setInterval(() => {
-    if (loading.style.display !== 'none') {
-      return;
+export function skipAd() {
+  // 自动关闭前贴片广告
+  const observe = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.className !== 'pre-ab-new-wrap') continue;
+        node.querySelector('.ab-skip')?.click();
+      }
     }
-    document.querySelector('.ab-skip-group .ab-skip')?.click();
-    clearInterval(interval);
-  }, 500);
+  });
+  observe.observe(document.querySelector('#videoContainer'), { childList: true });
+  setTimeout(() => observe.disconnect(), 1000 * 10);
+  // 自动关闭中贴片广告
+  new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.className !== 'new-reward-ab-container') continue;
+        node.querySelector('.ab-close')?.click();
+        node.querySelector('.ab-close-2')?.click();
+      }
+    }
+  }).observe(document.querySelector('#player-wrap'), { childList: true });
 }
 
 /**
@@ -20,9 +32,9 @@ export function skipPreAd() {
  */
 export function unlockAndSwitchHighestImage() {
   let times = 0;
-  const highestImageInterval = setInterval(() => {
+  const interval = setInterval(() => {
     if (times++ >= 10) {
-      clearInterval(highestImageInterval);
+      clearInterval(interval);
       return;
     }
     const videoTypeList = document.querySelector('#player-ctrl-wrap .player-videotype-list')?.children;
@@ -36,7 +48,7 @@ export function unlockAndSwitchHighestImage() {
     if (autoHighestImageSwitch.isOn() && videoTypeList[0].className !== 'on') {
       videoTypeList[0].click();
     }
-    clearInterval(highestImageInterval);
+    clearInterval(interval);
   }, 1000);
 }
 
