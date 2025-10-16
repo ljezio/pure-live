@@ -1,10 +1,4 @@
 /* 隐藏无用元素 */
-header,
-aside,
-.wm-general,
-.bc-wrapper,
-.RechangeJulyPopups,
-.IconCardAdBoundsBox,
 #js-bottom-left,
 #bc3,
 #bc3-bgblur,
@@ -12,6 +6,13 @@ aside,
 #js-player-above-controller,
 #js-layout-fixed-buff,
 #js-room-top-banner,
+header,
+aside,
+.wm-general,
+.bc-wrapper,
+.RechangeJulyPopups,
+.IconCardAdBoundsBox,
+.bacpCommonKeFu,
 [class^="snapbar__"],
 [class^="sidebar__"],
 [class^="title__"],
@@ -24,6 +25,7 @@ aside,
 #root,
 #js-player-main {
   margin: 0 !important;
+  height: 100vh !important;
 }
 
 [class^="stream__"] {
