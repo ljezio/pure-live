@@ -4,13 +4,13 @@ class SwitchFunction {
     this.#key = key;
   }
   isOn() {
-    return !localStorage.getItem(this.#key);
+    return GM_getValue(this.#key, true);
   }
   switch() {
     if (this.isOn()) {
-      localStorage.setItem(this.#key, 'off');
+      GM_setValue(this.#key, false);
     } else {
-      localStorage.removeItem(this.#key);
+      GM_setValue(this.#key, true);
     }
   }
 }

@@ -8,8 +8,8 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
-import ButtonGroup from './src/ButtonGroup.vue';
-import Draggable from './src/Draggable.vue';
+import ButtonGroup from './ButtonGroup.vue';
+import Draggable from './Draggable.vue';
 
 const isShow = ref(true);
 

@@ -1,0 +1,30 @@
+/* 隐藏无用元素 */
+#sections-vm,
+#sidebar-vm,
+#head-info-vm,
+#prehold-nav-vm,
+#room-background-vm,
+#gift-control-vm,
+#aside-area-vm,
+#shop-popover-vm,
+#web-player__bottom-bar__container,
+.link-navbar-ctnr,
+.link-footer,
+.link-footer-ctnr,
+.ext-nodes {
+  display: none !important;
+}
+
+/* 播放器占满网页 */
+.app-content,
+.app-body,
+.player-and-aside-area,
+.player-ctnr,
+.player-section,
+.live-player-ctnr,
+#live-player {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100vh !important;
+  width: 100vw !important;
+}

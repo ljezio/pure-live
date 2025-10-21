@@ -1,9 +1,13 @@
 {
+  "name": "pure-live",
+  "version": "5.0.0",
+  "description": "pure live",
+  "main": "src/main.js",
   "private": true,
   "scripts": {
-    "build:douyu": "pnpm run -C apps/pure-douyu build",
-    "build:huya": "pnpm run -C apps/pure-huya build",
-    "format": "biome check --write"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "author": "ljezio",
   "license": "MIT",
@@ -11,7 +15,13 @@
     "type": "git",
     "url": "https://github.com/ljezio/pure-live.git"
   },
+  "dependencies": {
+    "vue": "^3.5.22"
+  },
   "devDependencies": {
-    "@biomejs/biome": "catalog:"
+    "@biomejs/biome": "^2.2.5",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "vite": "^7.1.7",
+    "vite-plugin-monkey": "^7.1.4"
   }
 }

@@ -1,10 +1,8 @@
 import { createApp } from 'vue';
-import Element from './Element.vue';
+import Container from './Container.vue';
 
-export * from './src/common';
-
-export default function mountElement() {
-  createApp(Element).mount(
+export function mountVue() {
+  createApp(Container).mount(
     (() => {
       const div = document.createElement('div');
       document.body.append(div);

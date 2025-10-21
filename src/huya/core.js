@@ -1,4 +1,4 @@
-import { autoHighestImageSwitch } from '@pure-live/function-button';
+import { autoHighestImageSwitch } from '../common/utils';
 
 /**
  * 自动跳过贴片广告

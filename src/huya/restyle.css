@@ -21,7 +21,8 @@
 .gift-info-wrap,
 .match-score-popup,
 .pre-ab-new-wrap,
-.new-reward-ab-wrap {
+.new-reward-ab-wrap,
+.end-ab-wrap {
   display: none !important;
 }
 
