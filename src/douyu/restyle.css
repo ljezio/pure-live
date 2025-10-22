@@ -56,3 +56,8 @@ aside,
 [class^="fullScreenSendor-"] {
   display: flex !important;
 }
+
+/* 隐藏滚动条 */
+body {
+  overflow: hidden !important;
+}

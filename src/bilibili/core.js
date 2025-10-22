@@ -26,29 +26,28 @@ export function redirectRealLive() {
  */
 export function autoHighestImage() {
   if (!swt.autoHighestImage.isOn()) return;
-  setTimeout(() => {
-    const controller = document.querySelector('#web-player-controller-wrap-el');
-    if (!controller) return;
-    // 先尝试获取切换画质按钮，如果有则直接触发mouseenter事件，没有则通过MutationObserver监听按钮出现后触发mouseenter事件
-    controller.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
-    const observer = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
-          if (node.localName !== 'div') continue;
-          if (node.className?.startsWith('quality-wrap')) {
-            node.dispatchEvent(new MouseEvent('mouseenter'));
-          } else if (
-            node.className?.startsWith('list-it') &&
-            node.previousElementSibling?.className?.startsWith('line-wrap')
-          ) {
-            observer.disconnect();
-            node.click();
-          }
+  const player = document.querySelector('#live-player');
+  if (!player) return;
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.localName !== 'div') continue;
+        if (node.className?.startsWith('quality-wrap')) {
+          node.dispatchEvent(new MouseEvent('mouseenter'));
+        } else if (
+          node.className?.startsWith('list-it') &&
+          node.previousElementSibling?.className?.startsWith('line-wrap')
+        ) {
+          observer.disconnect();
+          setInterval(() => node.click(), 1000);
         }
       }
-    });
-    observer.observe(controller, { childList: true, subtree: true });
-  }, 1000);
+    }
+  });
+  observer.observe(player, { childList: true, subtree: true });
+  // 先尝试获取切换画质按钮，如果有则直接触发mouseenter事件，没有则通过MutationObserver监听按钮出现后触发mouseenter事件
+  player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
+  setTimeout(() => observer.disconnect(), 1000 * 20);
 }
 
 /**

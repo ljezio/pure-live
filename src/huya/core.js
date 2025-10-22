@@ -31,25 +31,31 @@ export function skipAd() {
  * 解锁扫码限制并切换最高画质
  */
 export function unlockAndSwitchHighestImage() {
-  let times = 0;
-  const interval = setInterval(() => {
-    if (times++ >= 10) {
-      clearInterval(interval);
-      return;
+  const liveRoom = document.querySelector('#liveRoomObj');
+  if (!liveRoom) return;
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== Node.ELEMENT_NODE || node.id !== 'player-ctrl-wrap') continue;
+        observer.disconnect();
+        setTimeout(() => {
+          const videoTypeList = node.querySelector('.player-videotype-list')?.children;
+          if (!videoTypeList) return;
+          // 解除扫码解锁清晰度限制
+          for (const ul of videoTypeList) {
+            /* global $ */
+            $(ul).data('data').status = 0; // 直接使用huya.com引入的jQuery
+          }
+          // 切换最高画质
+          if (swt.autoHighestImage.isOn() && videoTypeList[0].className !== 'on') {
+            videoTypeList[0].click();
+          }
+        }, 1000 * 3);
+      }
     }
-    const videoTypeList = document.querySelector('#player-ctrl-wrap .player-videotype-list')?.children;
-    if (!videoTypeList) return;
-    // 解除扫码解锁清晰度限制
-    for (const ul of videoTypeList) {
-      /* global $ */
-      $(ul).data('data').status = 0; // 直接使用huya.com引入的jQuery
-    }
-    // 切换最高画质
-    if (swt.autoHighestImage.isOn() && videoTypeList[0].className !== 'on') {
-      videoTypeList[0].click();
-    }
-    clearInterval(interval);
-  }, 1000);
+  });
+  observer.observe(liveRoom, { childList: true, subtree: true });
+  setTimeout(() => observer.disconnect(), 1000 * 10);
 }
 
 /**

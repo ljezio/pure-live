@@ -19,24 +19,23 @@ export function avoidSmallWindow() {
  */
 export function autoHighestImage() {
   if (!swt.autoHighestImage.isOn()) return;
-  let times = 0;
-  const interval = setInterval(() => {
-    if (times++ >= 10) {
-      // 小主播没有画质切换功能
-      clearInterval(interval);
-      return;
-    }
-    const highestImageButton = document.querySelector(
-      '#js-player-controlbar [class^="tipItem-"]:nth-child(2) li:first-child',
-    );
-    if (!highestImageButton) return;
-    setTimeout(() => {
-      if (!highestImageButton.className.startsWith('selected-')) {
-        highestImageButton.click();
+  const controlBar = document.querySelector('#js-player-controlbar');
+  if (!controlBar) return;
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== Node.ELEMENT_NODE || !node.className?.startsWith('ControlBar-')) continue;
+        observer.disconnect();
+        setTimeout(() => {
+          const highestImageButton = node.querySelector('[class^="tipItem-"]:nth-child(2) li:first-child');
+          if (highestImageButton?.className?.startsWith('selected-')) return;
+          highestImageButton?.click();
+        }, 1000 * 5);
       }
-    }, 3000);
-    clearInterval(interval);
-  }, 1000);
+    }
+  });
+  observer.observe(controlBar, { childList: true, subtree: true });
+  setTimeout(() => observer.disconnect(), 1000 * 20);
 }
 
 /**
