@@ -27,10 +27,10 @@ export function redirectRealLive() {
 export function autoHighestImage() {
   if (!autoHighestImageSwitch.isOn()) return;
   setTimeout(() => {
-    const element = document.querySelector('#web-player-controller-wrap-el');
-    if (!element) return;
+    const controller = document.querySelector('#web-player-controller-wrap-el');
+    if (!controller) return;
     // 先尝试获取切换画质按钮，如果有则直接触发mouseenter事件，没有则通过MutationObserver监听按钮出现后触发mouseenter事件
-    element.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
+    controller.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
     const observer = new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
@@ -47,7 +47,7 @@ export function autoHighestImage() {
         }
       }
     });
-    observer.observe(element, {childList: true, subtree: true});
+    observer.observe(controller, { childList: true, subtree: true });
   }, 1000);
 }
 
