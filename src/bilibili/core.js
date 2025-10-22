@@ -24,7 +24,7 @@ export function redirectRealLive() {
 /**
  * 自动切换最高画质
  */
-export async function autoHighestImage() {
+export function autoHighestImage() {
   if (!swt.autoHighestImage.isOn()) return;
   const player = document.querySelector('#live-player');
   if (!player) return;
@@ -50,8 +50,7 @@ export async function autoHighestImage() {
   observer.observe(player, { childList: true, subtree: true });
   // 先尝试获取切换画质按钮，如果有则直接触发mouseenter事件，没有则通过MutationObserver监听按钮出现后触发mouseenter事件
   player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
-  await sleep(20);
-  observer.disconnect();
+  sleep(20).then(() => observer.disconnect());
 }
 
 /**

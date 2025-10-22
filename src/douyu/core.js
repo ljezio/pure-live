@@ -17,7 +17,7 @@ export function avoidSmallWindow() {
 /**
  * 自动切换最高画质
  */
-export async function autoHighestImage() {
+export function autoHighestImage() {
   if (!swt.autoHighestImage.isOn()) return;
   const controlBar = document.querySelector('#js-player-controlbar');
   if (!controlBar) return;
@@ -34,8 +34,7 @@ export async function autoHighestImage() {
     }
   });
   observer.observe(controlBar, { childList: true, subtree: true });
-  await sleep(20);
-  observer.disconnect();
+  sleep(20).then(() => observer.disconnect());
 }
 
 /**

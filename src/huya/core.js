@@ -5,7 +5,7 @@ import { sleep, swt } from '../common/utils';
  */
 export function skipAd() {
   // 自动关闭前贴片广告
-  const observe = new MutationObserver((mutations) => {
+  const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node.className !== 'pre-ab-new-wrap') continue;
@@ -13,8 +13,8 @@ export function skipAd() {
       }
     }
   });
-  observe.observe(document.querySelector('#videoContainer'), { childList: true });
-  setTimeout(() => observe.disconnect(), 1000 * 10);
+  observer.observe(document.querySelector('#videoContainer'), { childList: true });
+  sleep(10).then(() => observer.disconnect());
   // 自动关闭中贴片广告
   new MutationObserver((mutations) => {
     for (const mutation of mutations) {
@@ -30,7 +30,7 @@ export function skipAd() {
 /**
  * 解锁扫码限制并切换最高画质
  */
-export async function unlockAndSwitchHighestImage() {
+export function unlockAndSwitchHighestImage() {
   const liveRoom = document.querySelector('#liveRoomObj');
   if (!liveRoom) return;
   const observer = new MutationObserver(async (mutations) => {
@@ -43,8 +43,9 @@ export async function unlockAndSwitchHighestImage() {
         if (!videoTypeList) return;
         // 解除扫码解锁清晰度限制
         for (const ul of videoTypeList) {
+          // 直接使用huya.com引入的jQuery
           /* global $ */
-          $(ul).data('data').status = 0; // 直接使用huya.com引入的jQuery
+          $(ul).data('data').status = 0;
         }
         // 切换最高画质
         if (swt.autoHighestImage.isOn() && videoTypeList[0].className !== 'on') {
@@ -54,8 +55,7 @@ export async function unlockAndSwitchHighestImage() {
     }
   });
   observer.observe(liveRoom, { childList: true, subtree: true });
-  await sleep(10);
-  observer.disconnect();
+  sleep(10).then(() => observer.disconnect());
 }
 
 /**

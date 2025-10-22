@@ -1,6 +1,6 @@
 # 纯净直播（pure live）
 
-[![github](https://img.shields.io/badge/GitHub-pure_live-blue)](https://github.com/ljezio/pure-live)
+[![github](https://img.shields.io/badge/GitHub-pure_live-blue.svg)](https://github.com/ljezio/pure-live)
 
 🤩移除一切花里胡哨的东西，只保留直播和弹幕
 
