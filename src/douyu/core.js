@@ -1,4 +1,4 @@
-import { autoHighestImageSwitch } from '../common/utils';
+import { swt } from '../common/utils';
 
 /**
  * 避免小窗口化
@@ -18,7 +18,7 @@ export function avoidSmallWindow() {
  * 自动切换最高画质
  */
 export function autoHighestImage() {
-  if (!autoHighestImageSwitch.isOn()) return;
+  if (!swt.autoHighestImage.isOn()) return;
   let times = 0;
   const interval = setInterval(() => {
     if (times++ >= 10) {

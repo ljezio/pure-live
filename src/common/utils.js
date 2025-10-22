@@ -1,29 +1,40 @@
-class SwitchFunction {
-  #key;
-  constructor(key) {
-    this.#key = key;
-  }
-  isOn() {
-    return GM_getValue(this.#key, true);
-  }
-  switch() {
-    if (this.isOn()) {
-      GM_setValue(this.#key, false);
-    } else {
-      GM_setValue(this.#key, true);
+import { KEYS } from './constants';
+
+/**
+ * 统一封装本地存储实现
+ */
+export const storage = {
+  set: (key, value) => GM_setValue(key, value),
+  get: (key, defaultValue) => GM_getValue(key, defaultValue),
+};
+
+/**
+ * 开关
+ */
+export const swt = (() => {
+  class SwitchFunction {
+    #key;
+    constructor(key) {
+      this.#key = key;
+    }
+    isOn() {
+      return storage.get(this.#key, true);
+    }
+    switch() {
+      if (this.isOn()) {
+        storage.set(this.#key, false);
+      } else {
+        storage.set(this.#key, true);
+      }
     }
   }
-}
-
-/**
- * 是否启用脚本
- */
-export const scriptSwitch = new SwitchFunction('pure_live_switch_script');
-
-/**
- * 是否自动切换最高画质
- */
-export const autoHighestImageSwitch = new SwitchFunction('pure_live_auto_highest');
+  return {
+    // 是否启用脚本
+    script: new SwitchFunction(KEYS.SWITCH_SCRIPT),
+    // 是否自动切换最高画质
+    autoHighestImage: new SwitchFunction(KEYS.AUTO_HIGHEST_IMAGE),
+  };
+})();
 
 /**
  * 节流

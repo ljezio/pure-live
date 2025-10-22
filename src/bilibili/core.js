@@ -1,4 +1,4 @@
-import { autoHighestImageSwitch } from '../common/utils';
+import { swt } from '../common/utils';
 
 /**
  * 跳转实际直播页
@@ -25,7 +25,7 @@ export function redirectRealLive() {
  * 自动切换最高画质
  */
 export function autoHighestImage() {
-  if (!autoHighestImageSwitch.isOn()) return;
+  if (!swt.autoHighestImage.isOn()) return;
   setTimeout(() => {
     const controller = document.querySelector('#web-player-controller-wrap-el');
     if (!controller) return;

@@ -11,9 +11,9 @@
 
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, reactive, ref, useTemplateRef } from 'vue';
-import { throttle } from './utils';
+import { KEYS } from './constants';
+import { storage, throttle } from './utils';
 
-const axisStorageKey = 'pure_live_draggable_axis';
 const draggableE = useTemplateRef('draggableRef');
 const isDragging = ref(false);
 const axis = reactive({ x: 0, y: 0, mouseX: 0, mouseY: 0 });
@@ -35,7 +35,7 @@ function onDrag(event) {
 function stopDrag() {
   isDragging.value = false;
   // 保存组件坐标
-  GM_setValue(axisStorageKey, { oldX: axis.x, oldY: axis.y, oldWidth: innerWidth, oldHeight: innerHeight });
+  storage.set(KEYS.DRAGGABLE_AXIS, { oldX: axis.x, oldY: axis.y, oldWidth: innerWidth, oldHeight: innerHeight });
 }
 
 const beforeWidth = ref(innerWidth);
@@ -69,7 +69,7 @@ function setNewAxis(newX, newY) {
 
 onBeforeMount(() => {
   // 恢复组件坐标
-  const oldAxis = GM_getValue(axisStorageKey);
+  const oldAxis = storage.get(KEYS.DRAGGABLE_AXIS);
   if (!oldAxis) return;
   axis.x = (oldAxis.oldX / oldAxis.oldWidth) * innerWidth;
   axis.y = (oldAxis.oldY / oldAxis.oldHeight) * innerHeight;

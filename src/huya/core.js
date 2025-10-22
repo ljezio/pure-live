@@ -1,4 +1,4 @@
-import { autoHighestImageSwitch } from '../common/utils';
+import { swt } from '../common/utils';
 
 /**
  * 自动跳过贴片广告
@@ -45,7 +45,7 @@ export function unlockAndSwitchHighestImage() {
       $(ul).data('data').status = 0; // 直接使用huya.com引入的jQuery
     }
     // 切换最高画质
-    if (autoHighestImageSwitch.isOn() && videoTypeList[0].className !== 'on') {
+    if (swt.autoHighestImage.isOn() && videoTypeList[0].className !== 'on') {
       videoTypeList[0].click();
     }
     clearInterval(interval);
