@@ -1,4 +1,4 @@
-# 纯净直播（pure-live）
+# 纯净直播（pure live）
 
 [![github](https://img.shields.io/badge/GitHub-pure_live-blue)](https://github.com/ljezio/pure-live)
 
