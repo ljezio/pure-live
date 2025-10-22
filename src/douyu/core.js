@@ -1,4 +1,4 @@
-import { swt } from '../common/utils';
+import { sleep, swt } from '../common/utils';
 
 /**
  * 避免小窗口化
@@ -17,25 +17,25 @@ export function avoidSmallWindow() {
 /**
  * 自动切换最高画质
  */
-export function autoHighestImage() {
+export async function autoHighestImage() {
   if (!swt.autoHighestImage.isOn()) return;
   const controlBar = document.querySelector('#js-player-controlbar');
   if (!controlBar) return;
-  const observer = new MutationObserver((mutations) => {
+  const observer = new MutationObserver(async (mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== Node.ELEMENT_NODE || !node.className?.startsWith('ControlBar-')) continue;
         observer.disconnect();
-        setTimeout(() => {
-          const highestImageButton = node.querySelector('[class^="tipItem-"]:nth-child(2) li:first-child');
-          if (highestImageButton?.className?.startsWith('selected-')) return;
-          highestImageButton?.click();
-        }, 1000 * 5);
+        await sleep(5);
+        const highestImageButton = node.querySelector('[class^="tipItem-"]:nth-child(2) li:first-child');
+        if (highestImageButton?.className?.startsWith('selected-')) return;
+        highestImageButton?.click();
       }
     }
   });
   observer.observe(controlBar, { childList: true, subtree: true });
-  setTimeout(() => observer.disconnect(), 1000 * 20);
+  await sleep(20);
+  observer.disconnect();
 }
 
 /**

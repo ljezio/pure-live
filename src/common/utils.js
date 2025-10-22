@@ -49,3 +49,10 @@ export function throttle(fn, delay = 100) {
     }
   };
 }
+
+/**
+ * 等待n秒
+ */
+export function sleep(seconds) {
+  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+}
