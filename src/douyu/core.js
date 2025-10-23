@@ -26,7 +26,7 @@ export function autoHighestImage() {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== Node.ELEMENT_NODE || !node.className?.startsWith('ControlBar-')) continue;
         observer.disconnect();
-        node.querySelector('[class^="tipItem-"]:nth-child(2) li:first-child')?.click()
+        node.querySelector('[class^="tipItem-"]:nth-child(2) li:first-child')?.click();
         return;
       }
     }
