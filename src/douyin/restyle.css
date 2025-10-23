@@ -1,0 +1,27 @@
+/* 隐藏无用元素 */
+#douyin-navigation,
+#douyin-header,
+#RightBackgroundLayout,
+#BottomLayout,
+#HeaderLayout,
+#GiftEffectLayout,
+#GiftTrayLayout,
+#EcmoCardLayout,
+#ShortTouchLayout,
+#room_info_bar > :last-child,
+.ShortTouchBigCard,
+.douyin-player-controls-inner + div {
+  display: none !important;
+}
+
+/* 播放器占满网页 */
+#LeftBackgroundLayout,
+#ContainerBackgroundLayout {
+  margin: 0 !important;
+  height: 100vh !important;
+  width: 100vw !important;
+}
+
+.__livingPlayer__ {
+  padding: 0 !important;
+}

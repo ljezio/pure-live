@@ -51,8 +51,9 @@ export function throttle(fn, delay = 100) {
 }
 
 /**
- * 等待n秒
+ * 等待n秒，并增加[0, 500]之间的随机毫秒数
  */
 export function sleep(seconds) {
-  return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+  const random = Math.floor(Math.random() * 500);
+  return new Promise((resolve) => setTimeout(resolve, seconds * 1000 + random));
 }

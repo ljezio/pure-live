@@ -2,21 +2,19 @@
 
 [![github](https://img.shields.io/badge/GitHub-pure_live-blue.svg)](https://github.com/ljezio/pure-live)
 
-🤩移除一切花里胡哨的东西，只保留直播和弹幕
+**🤩移除一切花里胡哨的东西，只保留直播和弹幕**
 
-## 🦈斗鱼（douyu）
-
-- 一键关闭脚本
+- 自动网页全屏，双击全屏
 - 自动切换最高画质
-
-## 🐯虎牙（huya）
-
 - 一键关闭脚本
-- 自动切换最高画质
+
+### 🦈斗鱼（douyu）
+
+### 🐯虎牙（huya）
+
 - 自动关闭直播间贴片广告
 - 去除扫码解锁清晰度限制
 
-## 📺B站直播（bilibili）
+### 📺B站直播（bilibili）
 
-- 一键关闭脚本
-- 自动切换最高画质
+### 🎶抖音直播（douyin）

@@ -28,7 +28,9 @@ export function autoHighestImage() {
   if (!swt.autoHighestImage.isOn()) return;
   const player = document.querySelector('#live-player');
   if (!player) return;
-  const observer = new MutationObserver(async (mutations) => {
+  // 模拟鼠标滑动，触发弹出控制栏
+  player.dispatchEvent(new MouseEvent('mousemove'));
+  const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node.localName !== 'div') continue;
@@ -39,10 +41,13 @@ export function autoHighestImage() {
           node.previousElementSibling?.className?.startsWith('line-wrap')
         ) {
           observer.disconnect();
-          await sleep(0.5);
-          node.click();
-          await sleep(0.5);
-          player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseleave'));
+          // 暂停1秒模拟手动点击
+          sleep(1).then(async () => {
+            node.click();
+            await sleep(1);
+            player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseleave'));
+          });
+          return;
         }
       }
     }
@@ -50,7 +55,7 @@ export function autoHighestImage() {
   observer.observe(player, { childList: true, subtree: true });
   // 先尝试获取切换画质按钮，如果有则直接触发mouseenter事件，没有则通过MutationObserver监听按钮出现后触发mouseenter事件
   player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
-  sleep(20).then(() => observer.disconnect());
+  sleep(10).then(() => observer.disconnect());
 }
 
 /**

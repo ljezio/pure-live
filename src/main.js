@@ -1,4 +1,5 @@
 import pureBilibili from './bilibili';
+import pureDouyin from './douyin';
 import pureDouyu from './douyu';
 import pureHuya from './huya';
 
@@ -11,5 +12,7 @@ import pureHuya from './huya';
     pureHuya();
   } else if (url.startsWith(`${protocol}//live.bilibili.com/`)) {
     pureBilibili();
+  } else if (url.startsWith(`${protocol}//live.douyin.com/`)) {
+    pureDouyin();
   }
 })();

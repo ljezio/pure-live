@@ -33,24 +33,27 @@ export function skipAd() {
 export function unlockAndSwitchHighestImage() {
   const liveRoom = document.querySelector('#liveRoomObj');
   if (!liveRoom) return;
-  const observer = new MutationObserver(async (mutations) => {
+  const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== Node.ELEMENT_NODE || node.id !== 'player-ctrl-wrap') continue;
         observer.disconnect();
-        await sleep(3);
-        const videoTypeList = node.querySelector('.player-videotype-list')?.children;
-        if (!videoTypeList) return;
-        // 解除扫码解锁清晰度限制
-        for (const ul of videoTypeList) {
-          // 直接使用huya.com引入的jQuery
-          /* global $ */
-          $(ul).data('data').status = 0;
-        }
-        // 切换最高画质
-        if (swt.autoHighestImage.isOn() && videoTypeList[0].className !== 'on') {
-          videoTypeList[0].click();
-        }
+        // 暂停3秒等待子元素创建
+        sleep(3).then(() => {
+          const videoTypeList = node.querySelector('.player-videotype-list')?.children;
+          if (!videoTypeList) return;
+          // 解除扫码解锁清晰度限制
+          for (const ul of videoTypeList) {
+            // 直接使用huya.com引入的jQuery
+            /* global $ */
+            $(ul).data('data').status = 0;
+          }
+          // 切换最高画质
+          if (swt.autoHighestImage.isOn()) {
+            videoTypeList[0].click();
+          }
+        });
+        return;
       }
     }
   });
