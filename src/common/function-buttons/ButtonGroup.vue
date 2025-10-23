@@ -23,7 +23,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { swt } from './utils';
+import { swt } from '../utils';
 
 const ON_COLOR = '#2C9EFF';
 const OFF_COLOR = '#D94A3C';

@@ -11,8 +11,8 @@
 
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, reactive, ref, useTemplateRef } from 'vue';
-import { KEYS } from './constants';
-import { storage, throttle } from './utils';
+import { KEYS } from '../constants';
+import { storage, throttle } from '../utils';
 
 const draggableE = useTemplateRef('draggableRef');
 const isDragging = ref(false);

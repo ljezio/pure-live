@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import Container from './Container.vue';
+import Container from './function-buttons/Container.vue';
 
 export function mountVue() {
   createApp(Container).mount(
