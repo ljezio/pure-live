@@ -1,6 +1,6 @@
 {
   "name": "pure-live",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "pure live",
   "main": "src/main.js",
   "private": true,
@@ -11,7 +11,7 @@
     "format": "biome check --write"
   },
   "author": "ljezio",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "repository": {
     "type": "git",
     "url": "https://github.com/ljezio/pure-live.git"
