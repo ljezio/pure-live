@@ -24,7 +24,8 @@
 #GiftTrayLayout,
 #EcmoCardLayout,
 #ShortTouchLayout,
-#room_info_bar > :last-child,
+#LikeLayout,
+#room_info_bar,
 .ShortTouchBigCard,
 .douyin-player-controls-inner + div {
   display: none !important;
