@@ -41,19 +41,20 @@
 
 <script setup>
 import { ref } from 'vue';
-import { swt } from '../utils';
+import { swt } from '@/common/utils';
 
 const ON_COLOR = '#2C9EFF';
 const OFF_COLOR = '#D94A3C';
 
 const scriptSwitchOn = ref(swt.script.isOn());
-const autoHighestImageSwitchOn = ref(swt.autoHighestImage.isOn());
 
 function switchScript() {
   scriptSwitchOn.value = !scriptSwitchOn.value;
   swt.script.switch();
   location.reload();
 }
+
+const autoHighestImageSwitchOn = ref(swt.autoHighestImage.isOn());
 
 function switchAutoHighestImage() {
   autoHighestImageSwitchOn.value = !autoHighestImageSwitchOn.value;

@@ -14,7 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { createApp } from 'vue';
-import Container from './function-buttons/Container.vue';
+import Container from '@/components/Container.vue';
 
 export function mountVue() {
   createApp(Container).mount(

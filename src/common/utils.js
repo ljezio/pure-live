@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { KEYS } from './constants';
+import { KEYS } from '@/common/constants';
 
 /**
  * 统一封装本地存储实现

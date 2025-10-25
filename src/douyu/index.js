@@ -13,8 +13,8 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { mountVue } from '../common';
-import { swt } from '../common/utils';
+import { swt } from '@/common/utils';
+import { mountVue } from '@/components';
 import { autoHighestImage, avoidSmallWindow, dbClick } from './core';
 
 export default function pureDouyu() {

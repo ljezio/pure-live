@@ -23,10 +23,15 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
-import ButtonGroup from './ButtonGroup.vue';
-import Draggable from './Draggable.vue';
+import ButtonGroup from '@/components/function-buttons/ButtonGroup.vue';
+import Draggable from '@/components/function-buttons/Draggable.vue';
 
 const isShow = ref(true);
+
+// 全屏不显示功能按钮
+function handleShowButtonGroup() {
+  isShow.value = !document.fullscreenElement;
+}
 
 onMounted(() => {
   document.addEventListener('fullscreenchange', handleShowButtonGroup);
@@ -35,11 +40,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('fullscreenchange', handleShowButtonGroup);
 });
-
-// 全屏不显示
-function handleShowButtonGroup() {
-  isShow.value = !document.fullscreenElement;
-}
 </script>
 
 <style scoped>

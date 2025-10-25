@@ -26,8 +26,8 @@
 
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, reactive, ref, useTemplateRef } from 'vue';
-import { KEYS } from '../constants';
-import { storage, throttle } from '../utils';
+import { KEYS } from '@/common/constants';
+import { storage, throttle } from '@/common/utils';
 
 const draggableE = useTemplateRef('draggableRef');
 const isDragging = ref(false);
@@ -53,13 +53,12 @@ function stopDrag() {
   storage.set(KEYS.DRAGGABLE_AXIS, { oldX: axis.x, oldY: axis.y, oldWidth: innerWidth, oldHeight: innerHeight });
 }
 
-const beforeWidth = ref(innerWidth);
-const beforeHeight = ref(innerHeight);
+const beforeSize = reactive({ width: innerWidth, height: innerHeight });
 
 const resize = throttle(() => {
-  setNewAxis((axis.x / beforeWidth.value) * innerWidth, (axis.y / beforeHeight.value) * innerHeight);
-  beforeWidth.value = innerWidth;
-  beforeHeight.value = innerHeight;
+  setNewAxis((axis.x / beforeSize.width) * innerWidth, (axis.y / beforeSize.height) * innerHeight);
+  beforeSize.width = innerWidth;
+  beforeSize.height = innerHeight;
 }, 100);
 
 /**
