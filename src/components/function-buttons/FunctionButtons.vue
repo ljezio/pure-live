@@ -14,7 +14,7 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <template>
-  <div v-show="isShow">
+  <div class="wrap" v-show="isShow">
     <draggable>
       <button-group/>
     </draggable>
@@ -43,4 +43,8 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.wrap {
+  position: relative;
+  z-index: 99999;
+}
 </style>

@@ -52,3 +52,8 @@ export function dbClick() {
     }
   };
 }
+
+/**
+ * 获取发送弹幕方法
+ */
+export function getSendBulletChatFn() {}

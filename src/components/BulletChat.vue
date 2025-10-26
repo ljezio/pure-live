@@ -19,7 +19,7 @@
       class="input"
       type="text"
       placeholder="请输入弹幕~"
-      maxlength="70"
+      :maxlength="inputMaxlength"
       autocomplete="off"
       ref="bulletInput"
       v-model="bulletChat"
@@ -31,7 +31,10 @@
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 
-const emits = defineEmits(['sendBulletChat']);
+const { inputMaxlength = 30, sendBulletChatFn = () => {} } = defineProps({
+  inputMaxlength: Number,
+  sendBulletChatFn: Function,
+});
 
 const isShow = ref(false);
 const bulletInputEl = useTemplateRef('bulletInput');
@@ -42,7 +45,7 @@ function send() {
     bulletInputEl.value.focus();
   }
   if (!bulletChat.value) return;
-  emits('sendBulletChat', bulletChat.value);
+  sendBulletChatFn(bulletChat.value);
   bulletChat.value = '';
   isShow.value = false;
 }
@@ -77,7 +80,7 @@ onUnmounted(() => {
   align-items: center;
   width: 650px;
   height: 40px;
-  position: absolute;
+  position: fixed;
   left: calc(50vw - 325px);
   bottom: 20vh;
   border-radius: 10px;
@@ -101,6 +104,11 @@ onUnmounted(() => {
   background: none;
 }
 
+.input:focus {
+   opacity: 1;
+   outline: none;
+ }
+
 .button {
   flex-shrink: 0;
   padding: 0 13px;
@@ -108,6 +116,7 @@ onUnmounted(() => {
   line-height: 40px;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+  border: none;
   text-align: center;
   background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
   color: #fff;
@@ -116,7 +125,7 @@ onUnmounted(() => {
   opacity: 0.5;
 }
 
-.input:focus, .wrap:focus-within .button {
+.wrap:focus-within .button {
   opacity: 1;
 }
 </style>

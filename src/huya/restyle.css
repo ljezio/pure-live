@@ -28,6 +28,7 @@
 #gift-show-btn,
 #J_roomGgTop,
 #player-login-guide-tip,
+#player-full-input,
 .mod-sidebar,
 .match-top,
 .match-nav,
@@ -72,11 +73,6 @@
 
 #videoContainer {
   height: calc(100vh + 60px) !important;
-}
-
-/* 网页全屏显示弹幕输入框 */
-#player-full-input {
-  display: flex !important;
 }
 
 /* 扫码解锁清晰度添加中划线 */

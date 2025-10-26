@@ -25,3 +25,13 @@ export const KEYS = Object.freeze({
   // 可拖动组件初始坐标
   DRAGGABLE_AXIS: 'draggable_axis',
 });
+
+/**
+ * 各平台弹幕最大长度
+ */
+export const INPUT_MAX = Object.freeze({
+  DOUYU: 70,
+  HUYA: 30,
+  BILIBILI: 40,
+  DOUYIN: 50,
+});

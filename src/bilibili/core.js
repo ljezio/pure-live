@@ -86,3 +86,21 @@ export function dbClick() {
     }
   };
 }
+
+/**
+ * 获取发送弹幕方法
+ */
+export function getSendBulletChatFn() {
+  let txt, button;
+  return (bulletChat) => {
+    if (!txt || !button) {
+      const box = document.querySelector('#control-panel-ctnr-box');
+      txt = box?.querySelector('.chat-input');
+      button = box?.querySelector('.bl-button');
+    }
+    if (!txt || !button) return;
+    txt.value = bulletChat;
+    txt.dispatchEvent(new InputEvent('input'));
+    button.click();
+  };
+}

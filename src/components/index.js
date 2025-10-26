@@ -14,14 +14,20 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { createApp } from 'vue';
-import Container from '@/components/Container.vue';
+import BulletChat from '@/components/BulletChat.vue';
+import FunctionButtons from '@/components/function-buttons/FunctionButtons.vue';
 
-function createMountPoint() {
+function buildMountedPoint(element) {
   const div = document.createElement('div');
-  document.body.append(div);
+  element.append(div);
   return div;
 }
 
-export default function mountVue(useBulletChat = false, sendBulletChatFn) {
-  createApp(Container, { useBulletChat, sendBulletChatFn }).mount(createMountPoint());
+export function mountFunctionButtons() {
+  createApp(FunctionButtons).mount(buildMountedPoint(document.body));
+}
+
+export function mountBulletChat(topLayerEl, inputMaxlength, sendBulletChatFn) {
+  // 为了在全屏下显示，必须挂载在top-layer元素下
+  createApp(BulletChat, { inputMaxlength, sendBulletChatFn }).mount(buildMountedPoint(topLayerEl));
 }
