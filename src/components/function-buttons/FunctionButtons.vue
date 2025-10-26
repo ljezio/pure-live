@@ -14,25 +14,33 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <template>
-  <div class="container">
-    <function-buttons/>
-    <div v-if="swt.script.isOn()">
-      <bullet-chat v-if="useBulletChat" @sendBulletChat="sendBulletChatFn"/>
-    </div>
+  <div v-show="isShow">
+    <draggable>
+      <button-group/>
+    </draggable>
   </div>
 </template>
 
 <script setup>
-import { swt } from '@/common/utils';
-import BulletChat from '@/components/BulletChat.vue';
-import FunctionButtons from '@/components/function-buttons/FunctionButtons.vue';
+import { onMounted, onUnmounted, ref } from 'vue';
+import ButtonGroup from '@/components/function-buttons/ButtonGroup.vue';
+import Draggable from '@/components/function-buttons/Draggable.vue';
 
-const { useBulletChat = false, sendBulletChatFn } = defineProps({ useBulletChat: Boolean, sendBulletChatFn: Function });
+const isShow = ref(true);
+
+// 全屏不显示功能按钮
+function handleShowButtonGroup() {
+  isShow.value = !document.fullscreenElement;
+}
+
+onMounted(() => {
+  document.addEventListener('fullscreenchange', handleShowButtonGroup);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('fullscreenchange', handleShowButtonGroup);
+});
 </script>
 
 <style scoped>
-.container {
-  position: fixed;
-  z-index: 99999;
-}
 </style>

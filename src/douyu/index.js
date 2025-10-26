@@ -14,13 +14,13 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { swt } from '@/common/utils';
-import { mountVue } from '@/components';
-import { autoHighestImage, avoidSmallWindow, dbClick } from './core';
+import mountVue from '@/components';
+import { autoHighestImage, avoidSmallWindow, dbClick, getSendBulletChatFn } from './core';
 
 export default function pureDouyu() {
   // 非直播页面不执行脚本
   if (!document.querySelector('#js-player-main')) return;
-  mountVue();
+  mountVue(true, getSendBulletChatFn());
   if (swt.script.isOn()) {
     import('./restyle.css');
     avoidSmallWindow();

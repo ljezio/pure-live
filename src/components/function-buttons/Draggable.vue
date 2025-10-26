@@ -104,7 +104,6 @@ onUnmounted(() => {
 
 <style scoped>
 .draggable {
-  z-index: 99999;
   position: fixed;
   cursor: move;
   padding: 8px;

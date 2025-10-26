@@ -16,12 +16,12 @@
 import { createApp } from 'vue';
 import Container from '@/components/Container.vue';
 
-export function mountVue() {
-  createApp(Container).mount(
-    (() => {
-      const div = document.createElement('div');
-      document.body.append(div);
-      return div;
-    })(),
-  );
+function createMountPoint() {
+  const div = document.createElement('div');
+  document.body.append(div);
+  return div;
+}
+
+export default function mountVue(useBulletChat = false, sendBulletChatFn) {
+  createApp(Container, { useBulletChat, sendBulletChatFn }).mount(createMountPoint());
 }

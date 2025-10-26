@@ -38,7 +38,9 @@ aside,
 [class^="sidebar__"],
 [class^="title__"],
 [class^="interactive__"],
-[class^="toggle__"] {
+[class^="toggle__"],
+[class^="quickChatBarView-"],
+[class^="fullScreenSendor-"] {
   display: none !important;
 }
 
@@ -67,11 +69,6 @@ aside,
 
 [class^="stream__"] {
   height: 100vh !important;
-}
-
-/* 网页全屏显示弹幕输入框 */
-[class^="fullScreenSendor-"] {
-  display: flex !important;
 }
 
 /* 隐藏滚动条 */

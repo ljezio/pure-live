@@ -14,7 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { swt } from '@/common/utils';
-import { mountVue } from '@/components';
+import mountVue from '@/components';
 import { dbClick, skipAd, unlockAndSwitchHighestImage } from './core';
 
 export default function pureHuya() {

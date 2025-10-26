@@ -14,7 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { swt } from '@/common/utils';
-import { mountVue } from '@/components';
+import mountVue from '@/components';
 import { autoHighestImage, dbClick, redirectRealLive } from './core';
 
 export default function pureBilibili() {

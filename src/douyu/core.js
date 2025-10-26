@@ -68,3 +68,20 @@ export function dbClick() {
     }
   };
 }
+
+/**
+ * 获取发送弹幕方法
+ */
+export function getSendBulletChatFn() {
+  let txt, button;
+  return (bulletChat) => {
+    if (!txt || !button) {
+      const aside = document.querySelector('#js-player-asideMain');
+      txt = aside?.querySelector('.ChatSend-txt');
+      button = aside?.querySelector('.ChatSend-button');
+    }
+    if (!txt || !button) return;
+    txt.innerHTML = bulletChat;
+    button.click();
+  };
+}
