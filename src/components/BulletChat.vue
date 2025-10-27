@@ -23,6 +23,8 @@
       autocomplete="off"
       ref="bulletInput"
       v-model="bulletChat"
+      @compositionstart="composing = true"
+      @compositionend="composing = false"
     >
     <button class="button" @click="send">发送（Enter）</button>
   </div>
@@ -39,6 +41,7 @@ const { inputMaxlength = 30, sendBulletChatFn = () => {} } = defineProps({
 const isShow = ref(false);
 const bulletInputEl = useTemplateRef('bulletInput');
 const bulletChat = ref('');
+const composing = ref(false); // 是否中文输入法输入中
 
 function send() {
   if (document.activeElement !== bulletInputEl.value) {
@@ -57,6 +60,8 @@ function handleEnter(event) {
     nextTick(() => bulletInputEl.value.focus());
     return;
   }
+  // 中文输入法还没选择候选词的时候，输入框获取的字符串（bulletChat.value）为空
+  if (composing.value) return;
   if (isShow.value === true && !bulletChat.value) {
     isShow.value = false;
     return;
