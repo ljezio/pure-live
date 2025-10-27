@@ -40,20 +40,35 @@ export function autoHighestImage() {
  * 双击全屏
  */
 export function dbClick() {
-  const keyboardEvent = new KeyboardEvent('keydown', {
-    code: 'KeyH',
-  });
   document.body.ondblclick = (event) => {
     event.stopPropagation();
     if (!document.fullscreenElement) {
-      document.dispatchEvent(keyboardEvent);
+      document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyH' }));
     } else {
-      document.exitFullscreen().then();
+      document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyY', bubbles: true }));
     }
   };
 }
 
 /**
- * 获取发送弹幕方法
+ * 按Enter弹出弹幕侧边栏
  */
-export function getSendBulletChatFn() {}
+export function toggleRightLayout() {
+  let right, txt;
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.code !== 'Enter') return;
+    if (!right) {
+      right = document.querySelector('#RightBackgroundLayout');
+    }
+    if (!txt) {
+      txt = right.querySelector('.zone-container');
+    }
+    if (!right || !txt) return;
+    if (right.style.display !== 'block') {
+      right.style.setProperty('display', 'block', 'important');
+    } else {
+      if (document.activeElement === txt) return;
+      right.style.setProperty('display', 'none', 'important');
+    }
+  });
+}

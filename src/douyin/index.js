@@ -13,10 +13,9 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
-import { mountBulletChat, mountFunctionButtons } from '@/components';
-import { autoHighestImage, dbClick, getSendBulletChatFn } from '@/douyin/core';
+import { mountFunctionButtons } from '@/components';
+import { autoHighestImage, dbClick, toggleRightLayout } from '@/douyin/core';
 
 export default function pureDouyin() {
   // 非直播页面不执行脚本
@@ -26,6 +25,6 @@ export default function pureDouyin() {
     import('./restyle.css');
     autoHighestImage();
     dbClick();
-    mountBulletChat(document.body, INPUT_MAX.DOUYIN, getSendBulletChatFn());
+    toggleRightLayout();
   }
 }

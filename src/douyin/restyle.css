@@ -27,7 +27,8 @@
 #LikeLayout,
 #room_info_bar,
 .ShortTouchBigCard,
-.douyin-player-controls-inner + div {
+.douyin-player-controls-inner + div,
+.chatroom_close {
   display: none !important;
 }
 
