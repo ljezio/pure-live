@@ -66,7 +66,6 @@ onUnmounted(() => {
     <div class="wrap" v-show="isShow">
       <input
         class="input"
-        type="text"
         placeholder="请输入弹幕~"
         :maxlength="inputMaxlength"
         autocomplete="off"
@@ -75,7 +74,7 @@ onUnmounted(() => {
         @compositionstart="composing = true"
         @compositionend="composing = false"
       >
-      <button class="button" @click="send">发送（Enter）</button>
+      <button class="button" @click="send">发送 (Enter)</button>
     </div>
   </Teleport>
 </template>
@@ -117,22 +116,49 @@ onUnmounted(() => {
  }
 
 .button {
+  position: relative;
   flex-shrink: 0;
   padding: 0 13px;
-  height: 40px;
-  line-height: 40px;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  margin: 4px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 8px;
   border: none;
   text-align: center;
-  background: linear-gradient(135deg, #06d6a0 0%, #118ab2 100%);
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  background-size: 500%;
   color: #fff;
   font-weight: 500;
   cursor: pointer;
   opacity: 0.5;
 }
 
-.wrap:focus-within .button {
+.button::before {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  background-size: 500%;
+  filter: blur(20px);
+  opacity: 0;
+}
+
+.wrap:focus-within .button, .wrap:focus-within .button::before {
+  animation: flow 10s linear infinite;
   opacity: 1;
+}
+
+@keyframes flow {
+  from {
+    background-position: 0;
+  }
+  to {
+    background-position: 500%;
+  }
 }
 </style>

@@ -14,6 +14,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { KEYS } from '@/common/constants';
+import { GM_getValue, GM_setValue } from '$';
 
 /**
  * 统一封装本地存储实现
