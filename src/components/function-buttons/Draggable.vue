@@ -13,17 +13,6 @@
   - You should have received a copy of the GNU General Public License along with this program.
   - If not, see <https://www.gnu.org/licenses/>.
   -->
-<template>
-  <div
-    ref="draggableRef"
-    class="draggable"
-    :style="{ left: axis.x + 'px', top: axis.y + 'px' }"
-    @mousedown="startDrag"
-  >
-    <slot/>
-  </div>
-</template>
-
 <script setup>
 import { onBeforeMount, onMounted, onUnmounted, reactive, ref, useTemplateRef } from 'vue';
 import { KEYS } from '@/common/constants';
@@ -101,6 +90,17 @@ onUnmounted(() => {
   window.removeEventListener('resize', resize);
 });
 </script>
+
+<template>
+  <div
+    ref="draggableRef"
+    class="draggable"
+    :style="{ left: axis.x + 'px', top: axis.y + 'px' }"
+    @mousedown="startDrag"
+  >
+    <slot/>
+  </div>
+</template>
 
 <style scoped>
 .draggable {

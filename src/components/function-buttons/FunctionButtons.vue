@@ -13,14 +13,6 @@
   - You should have received a copy of the GNU General Public License along with this program.
   - If not, see <https://www.gnu.org/licenses/>.
   -->
-<template>
-  <div class="wrap" v-show="isShow">
-    <draggable>
-      <button-group/>
-    </draggable>
-  </div>
-</template>
-
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
 import ButtonGroup from '@/components/function-buttons/ButtonGroup.vue';
@@ -41,6 +33,14 @@ onUnmounted(() => {
   document.removeEventListener('fullscreenchange', handleShowButtonGroup);
 });
 </script>
+
+<template>
+  <div class="wrap" v-show="isShow">
+    <draggable>
+      <button-group/>
+    </draggable>
+  </div>
+</template>
 
 <style scoped>
 .wrap {

@@ -13,23 +13,6 @@
   - You should have received a copy of the GNU General Public License along with this program.
   - If not, see <https://www.gnu.org/licenses/>.
   -->
-<template>
-  <div class="wrap" v-show="isShow">
-    <input
-      class="input"
-      type="text"
-      placeholder="请输入弹幕~"
-      :maxlength="inputMaxlength"
-      autocomplete="off"
-      ref="bulletInput"
-      v-model="bulletChat"
-      @compositionstart="composing = true"
-      @compositionend="composing = false"
-    >
-    <button class="button" @click="send">发送（Enter）</button>
-  </div>
-</template>
-
 <script setup>
 import { nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 
@@ -77,6 +60,25 @@ onUnmounted(() => {
   document.removeEventListener('keydown', handleEnter);
 });
 </script>
+
+<template>
+  <Transition enter-active-class="zoom-in" leave-active-class="zoom-out">
+    <div class="wrap" v-show="isShow">
+      <input
+        class="input"
+        type="text"
+        placeholder="请输入弹幕~"
+        :maxlength="inputMaxlength"
+        autocomplete="off"
+        ref="bulletInput"
+        v-model="bulletChat"
+        @compositionstart="composing = true"
+        @compositionend="composing = false"
+      >
+      <button class="button" @click="send">发送（Enter）</button>
+    </div>
+  </Transition>
+</template>
 
 <style scoped>
 .wrap {
@@ -132,5 +134,46 @@ onUnmounted(() => {
 
 .wrap:focus-within .button {
   opacity: 1;
+}
+
+.zoom-in {
+  animation-name: zoomInDown;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+.zoom-out {
+  animation-name: zoomOutDown;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  transform-origin: center bottom;
+}
+
+@keyframes zoomInDown {
+  from {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, -3000px, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, 60px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
+}
+
+@keyframes zoomOutDown {
+  40% {
+    opacity: 1;
+    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 2000px, 0);
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+  }
 }
 </style>
