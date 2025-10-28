@@ -18,12 +18,12 @@ import { onBeforeMount, onMounted, onUnmounted, reactive, ref, useTemplateRef } 
 import { KEYS } from '@/common/constants';
 import { storage, throttle } from '@/common/utils';
 
-const draggableE = useTemplateRef('draggableRef');
+const draggableEl = useTemplateRef('draggableRef');
 const isDragging = ref(false);
 const axis = reactive({ x: 0, y: 0, mouseX: 0, mouseY: 0 });
 
 function startDrag(event) {
-  if (event.target !== draggableE.value) return;
+  if (event.target !== draggableEl.value) return;
   axis.mouseX = event.clientX;
   axis.mouseY = event.clientY;
   isDragging.value = true;
@@ -56,15 +56,15 @@ const resize = throttle(() => {
 function setNewAxis(newX, newY) {
   if (newX < 0) {
     axis.x = 0;
-  } else if (newX > document.documentElement.clientWidth - draggableE.value.offsetWidth) {
-    axis.x = document.documentElement.clientWidth - draggableE.value.offsetWidth;
+  } else if (newX > document.documentElement.clientWidth - draggableEl.value.offsetWidth) {
+    axis.x = document.documentElement.clientWidth - draggableEl.value.offsetWidth;
   } else {
     axis.x = newX;
   }
   if (newY < 0) {
     axis.y = 0;
-  } else if (newY > document.documentElement.clientHeight - draggableE.value.offsetHeight) {
-    axis.y = document.documentElement.clientHeight - draggableE.value.offsetHeight;
+  } else if (newY > document.documentElement.clientHeight - draggableEl.value.offsetHeight) {
+    axis.y = document.documentElement.clientHeight - draggableEl.value.offsetHeight;
   } else {
     axis.y = newY;
   }

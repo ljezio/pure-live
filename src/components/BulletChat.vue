@@ -20,15 +20,14 @@ const topLayerEl = inject('topLayerEl');
 const inputMaxlength = inject('inputMaxlength', 30);
 const sendBulletChatFn = inject('sendBulletChatFn', () => {});
 
-const bulletInputEl = useTemplateRef('bulletInput');
-
+const inputEl = useTemplateRef('inputRef');
 const isShow = ref(false);
 const bulletChat = ref('');
 const composing = ref(false); // 是否中文输入法输入中
 
 function send() {
-  if (document.activeElement !== bulletInputEl.value) {
-    bulletInputEl.value.focus();
+  if (document.activeElement !== inputEl.value) {
+    inputEl.value.focus();
   }
   if (!bulletChat.value) return;
   sendBulletChatFn(bulletChat.value);
@@ -40,7 +39,7 @@ function handleEnter(event) {
   if (event.key !== 'Enter' && event.code !== 'Enter') return;
   if (isShow.value === false) {
     isShow.value = true;
-    nextTick(() => bulletInputEl.value.focus());
+    nextTick(() => inputEl.value.focus());
     return;
   }
   // 中文输入法还没选择候选词的时候，输入框获取的字符串（bulletChat.value）为空
@@ -69,7 +68,7 @@ onUnmounted(() => {
         placeholder="请输入弹幕~"
         :maxlength="inputMaxlength"
         autocomplete="off"
-        ref="bulletInput"
+        ref="inputRef"
         v-model="bulletChat"
         @compositionstart="composing = true"
         @compositionend="composing = false"
