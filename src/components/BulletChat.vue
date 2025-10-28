@@ -14,15 +14,15 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <script setup>
-import { nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
+import { inject, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
 
-const { inputMaxlength = 30, sendBulletChatFn = () => {} } = defineProps({
-  inputMaxlength: Number,
-  sendBulletChatFn: Function,
-});
+const topLayerEl = inject('topLayerEl');
+const inputMaxlength = inject('inputMaxlength', 30);
+const sendBulletChatFn = inject('sendBulletChatFn', () => {});
+
+const bulletInputEl = useTemplateRef('bulletInput');
 
 const isShow = ref(false);
-const bulletInputEl = useTemplateRef('bulletInput');
 const bulletChat = ref('');
 const composing = ref(false); // 是否中文输入法输入中
 
@@ -62,7 +62,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <Transition enter-active-class="zoom-in" leave-active-class="zoom-out">
+  <Teleport v-if="topLayerEl" :to="topLayerEl">
     <div class="wrap" v-show="isShow">
       <input
         class="input"
@@ -77,7 +77,7 @@ onUnmounted(() => {
       >
       <button class="button" @click="send">发送（Enter）</button>
     </div>
-  </Transition>
+  </Teleport>
 </template>
 
 <style scoped>
@@ -134,46 +134,5 @@ onUnmounted(() => {
 
 .wrap:focus-within .button {
   opacity: 1;
-}
-
-.zoom-in {
-  animation-name: zoomInDown;
-  animation-duration: 0.5s;
-  animation-fill-mode: both;
-}
-
-.zoom-out {
-  animation-name: zoomOutDown;
-  animation-duration: 0.5s;
-  animation-fill-mode: both;
-  transform-origin: center bottom;
-}
-
-@keyframes zoomInDown {
-  from {
-    opacity: 0;
-    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, -3000px, 0);
-    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  }
-
-  60% {
-    opacity: 1;
-    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, 60px, 0);
-    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-  }
-}
-
-@keyframes zoomOutDown {
-  40% {
-    opacity: 1;
-    transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
-    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  }
-
-  to {
-    opacity: 0;
-    transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 2000px, 0);
-    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
-  }
 }
 </style>

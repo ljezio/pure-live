@@ -14,13 +14,13 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { swt } from '@/common/utils';
-import { mountFunctionButtons } from '@/components';
+import mountVue from '@/components';
 import { autoHighestImage, dbClick, toggleRightLayout } from '@/douyin/core';
 
 export default function pureDouyin() {
   // 非直播页面不执行脚本
   if (!document.querySelector('#PlayerLayout')) return;
-  mountFunctionButtons();
+  mountVue();
   if (swt.script.isOn()) {
     import('./restyle.css');
     autoHighestImage();

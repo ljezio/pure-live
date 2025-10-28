@@ -15,18 +15,17 @@
  */
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
-import { mountBulletChat, mountFunctionButtons } from '@/components';
+import mountVue from '@/components';
 import { autoHighestImage, avoidSmallWindow, dbClick, getSendBulletChatFn } from '@/douyu/core';
 
 export default function pureDouyu() {
   // 非直播页面不执行脚本
   if (!document.querySelector('#js-player-main')) return;
-  mountFunctionButtons();
+  mountVue(document.body, INPUT_MAX.DOUYU, getSendBulletChatFn());
   if (swt.script.isOn()) {
     import('./restyle.css');
     avoidSmallWindow();
     autoHighestImage();
     dbClick();
-    mountBulletChat(document.body, INPUT_MAX.DOUYU, getSendBulletChatFn());
   }
 }

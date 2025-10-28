@@ -35,7 +35,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="wrap" v-show="isShow">
+  <div v-show="isShow">
     <draggable>
       <button-group/>
     </draggable>
@@ -43,8 +43,4 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.wrap {
-  position: relative;
-  z-index: 99999;
-}
 </style>

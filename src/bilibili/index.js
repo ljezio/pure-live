@@ -15,19 +15,18 @@
  */
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
-import { mountBulletChat, mountFunctionButtons } from '@/components';
+import mountVue from '@/components';
 import { autoHighestImage, dbClick, getSendBulletChatFn, redirectRealLive } from './core';
 
 export default function pureBilibili() {
   // 非直播页面不执行脚本
   const video = document.querySelector('#live-player');
   if (!video && !document.querySelector('#app .rendererRoot')) return;
-  mountFunctionButtons();
+  mountVue(video, INPUT_MAX.BILIBILI, getSendBulletChatFn());
   if (swt.script.isOn()) {
     redirectRealLive();
     import('./restyle.css');
     autoHighestImage();
     dbClick();
-    mountBulletChat(video, INPUT_MAX.BILIBILI, getSendBulletChatFn());
   }
 }
