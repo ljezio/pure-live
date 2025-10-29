@@ -51,24 +51,19 @@ export function dbClick() {
 }
 
 /**
- * 按Enter弹出弹幕侧边栏
+ * 获取发送弹幕方法
  */
-export function toggleRightLayout() {
-  let right, txt;
-  document.addEventListener('keydown', (event) => {
-    if (event.key !== 'Enter' && event.code !== 'Enter') return;
-    if (!right) {
-      right = document.querySelector('#RightBackgroundLayout');
+export function getSendBulletChatFn() {
+  let input, btn;
+  return (bulletChat) => {
+    if (!input || !btn) {
+      const chat = document.querySelector('#chatInput');
+      input = chat.querySelector('.zone-container');
+      btn = chat.querySelector('.webcast-chatroom___send-btn');
+      if (!input || !btn) return;
     }
-    if (!txt) {
-      txt = right.querySelector('.zone-container');
-    }
-    if (!right || !txt) return;
-    if (right.style.display !== 'block') {
-      right.style.setProperty('display', 'block', 'important');
-    } else {
-      if (document.activeElement === txt) return;
-      right.style.setProperty('display', 'none', 'important');
-    }
-  });
+    input.children[0].innerHTML = `<span data-string="true" data-leaf="true">${bulletChat}</span><span data-string="true" data-enter="true" data-leaf="true">​</span>`;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    btn.dispatchEvent(new Event('click', { bubbles: true }));
+  };
 }

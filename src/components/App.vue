@@ -10,20 +10,9 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <script setup>
-import { provide } from 'vue';
 import { swt } from '@/common/utils';
 import BulletChat from '@/components/BulletChat.vue';
 import FunctionButtons from '@/components/function-buttons/FunctionButtons.vue';
-
-const { topLayerEl, inputMaxlength, sendBulletChatFn } = defineProps({
-  topLayerEl: HTMLElement,
-  inputMaxlength: Number,
-  sendBulletChatFn: Function,
-});
-
-provide('topLayerEl', topLayerEl);
-provide('inputMaxlength', inputMaxlength);
-provide('sendBulletChatFn', sendBulletChatFn);
 </script>
 
 <template>

@@ -97,8 +97,8 @@ export function getSendBulletChatFn() {
       const box = document.querySelector('#control-panel-ctnr-box');
       txt = box?.querySelector('.chat-input');
       button = box?.querySelector('.bl-button');
+      if (!txt || !button) return;
     }
-    if (!txt || !button) return;
     txt.value = bulletChat;
     txt.dispatchEvent(new InputEvent('input'));
     button.click();

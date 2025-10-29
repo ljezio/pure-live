@@ -79,8 +79,8 @@ export function getSendBulletChatFn() {
       const aside = document.querySelector('#js-player-asideMain');
       txt = aside?.querySelector('.ChatSend-txt');
       button = aside?.querySelector('.ChatSend-button');
+      if (!txt || !button) return;
     }
-    if (!txt || !button) return;
     txt.innerHTML = bulletChat;
     button.click();
   };

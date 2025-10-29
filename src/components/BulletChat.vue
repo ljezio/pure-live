@@ -15,10 +15,11 @@
   -->
 <script setup>
 import { inject, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
+import { INJECTION_KEY } from '@/common/constants';
 
-const topLayerEl = inject('topLayerEl');
-const inputMaxlength = inject('inputMaxlength', 30);
-const sendBulletChatFn = inject('sendBulletChatFn', () => {});
+const topLayerEl = inject(INJECTION_KEY.TOP_LAYER_EL);
+const inputMaxlength = inject(INJECTION_KEY.INPUT_MAX_LENGTH, 30);
+const sendBulletChatFn = inject(INJECTION_KEY.SEND_BULLET_CHAT_FN, () => {});
 
 const inputEl = useTemplateRef('inputRef');
 const isShow = ref(false);

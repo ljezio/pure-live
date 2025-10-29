@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { KEYS } from '@/common/constants';
+import { STORAGE_KEY } from '@/common/constants';
 import { GM_getValue, GM_setValue } from '$';
 
 /**
@@ -46,9 +46,9 @@ export const swt = (() => {
   }
   return {
     // 是否启用脚本
-    script: new SwitchFunction(KEYS.SWITCH_SCRIPT),
+    script: new SwitchFunction(STORAGE_KEY.SWITCH_SCRIPT),
     // 是否自动切换最高画质
-    autoHighestImage: new SwitchFunction(KEYS.AUTO_HIGHEST_IMAGE),
+    autoHighestImage: new SwitchFunction(STORAGE_KEY.AUTO_HIGHEST_IMAGE),
   };
 })();
 

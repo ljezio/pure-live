@@ -14,10 +14,15 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { createApp } from 'vue';
+import { INJECTION_KEY } from '@/common/constants';
 import App from '@/components/App.vue';
 
 export default function mountVue(topLayerEl, inputMaxlength, sendBulletChatFn) {
-  createApp(App, { topLayerEl, inputMaxlength, sendBulletChatFn }).mount(
+  const app = createApp(App);
+  app.provide(INJECTION_KEY.TOP_LAYER_EL, topLayerEl);
+  app.provide(INJECTION_KEY.INPUT_MAX_LENGTH, inputMaxlength);
+  app.provide(INJECTION_KEY.SEND_BULLET_CHAT_FN, sendBulletChatFn);
+  app.mount(
     (() => {
       const div = document.createElement('div');
       document.body.append(div);

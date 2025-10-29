@@ -99,8 +99,8 @@ export function getSendBulletChatFn() {
     if (!txt || !button) {
       txt = document.querySelector('#player-full-input-txt');
       button = document.querySelector('#player-full-input-btn');
+      if (!txt || !button) return;
     }
-    if (!txt || !button) return;
     txt.value = bulletChat;
     button.click();
   };
