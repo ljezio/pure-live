@@ -16,7 +16,7 @@
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
 import mountVue from '@/components';
-import { autoHighestImage, avoidSmallWindow, dbClick, getSendBulletChatFn } from '@/douyu/core';
+import { autoHighestImage, avoidSmallWindow, dbClick, getSendBulletChatFn } from '@/site/douyu/core';
 
 export default function pureDouyu() {
   // 非直播页面不执行脚本

@@ -16,7 +16,7 @@
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
 import mountVue from '@/components';
-import { dbClick, getSendBulletChatFn, skipAd, unlockAndSwitchHighestImage } from '@/huya/core';
+import { dbClick, getSendBulletChatFn, skipAd, unlockAndSwitchHighestImage } from '@/site/huya/core';
 
 export default function pureHuya() {
   // 非直播页面不执行脚本

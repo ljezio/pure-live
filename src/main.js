@@ -13,10 +13,10 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import pureBilibili from './bilibili';
-import pureDouyin from './douyin';
-import pureDouyu from './douyu';
-import pureHuya from './huya';
+import pureBilibili from '@/site/bilibili';
+import pureDouyin from '@/site/douyin';
+import pureDouyu from '@/site/douyu';
+import pureHuya from '@/site/huya';
 
 const platformMap = new Map([
   ['www.douyu.com', pureDouyu],
