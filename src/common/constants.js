@@ -20,6 +20,8 @@
 export const STORAGE_KEY = Object.freeze({
   // 是否启用脚本开关
   SWITCH_SCRIPT: 'switch_script',
+  // 是否显示弹幕侧边栏
+  SHOW_SIDEBAR: 'show_sidebar',
   // 是否自动切换最高画质开关
   AUTO_HIGHEST_IMAGE: 'auto_highest_image',
   // 可拖动组件初始坐标
@@ -30,8 +32,13 @@ export const STORAGE_KEY = Object.freeze({
  * 依赖注入key
  */
 export const INJECTION_KEY = Object.freeze({
+  // 切换弹幕侧边栏回调方法
+  TOGGLE_SIDEBAR_FN: 'toggleSidebarFn',
+  // 弹幕输入框挂载的topLayer元素
   TOP_LAYER_EL: 'topLayerEl',
+  // 弹幕输入框可输入弹幕最大长度
   INPUT_MAX_LENGTH: 'inputMaxlength',
+  // 发送弹幕回调方法
   SEND_BULLET_CHAT_FN: 'sendBulletChatFn',
 });
 

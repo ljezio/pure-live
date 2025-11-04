@@ -87,8 +87,9 @@ onUnmounted(() => {
   width: 650px;
   height: 40px;
   position: fixed;
-  left: calc(50vw - 325px);
+  left: 50vw;
   bottom: 20vh;
+  translate: -50%;
   border-radius: 10px;
   background: hsla(0, 0%, 100%, 80%);
   box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.25098);

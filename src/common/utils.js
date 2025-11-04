@@ -47,6 +47,8 @@ export const swt = (() => {
   return {
     // 是否启用脚本
     script: new SwitchFunction(STORAGE_KEY.SWITCH_SCRIPT),
+    // 是否显示弹幕侧边栏
+    showSidebar: new SwitchFunction(STORAGE_KEY.SHOW_SIDEBAR),
     // 是否自动切换最高画质
     autoHighestImage: new SwitchFunction(STORAGE_KEY.AUTO_HIGHEST_IMAGE),
   };
