@@ -19,7 +19,7 @@ import { sleep, swt } from '@/common/utils';
  * 自动切换最高画质
  */
 export function autoHighestImage() {
-  if (!swt.autoHighestImage.isOn()) return;
+  if (swt.autoHighestImage.isOff()) return;
   const control = document.querySelector('.douyin-player-controls-right');
   if (!control) return;
   const observer = new MutationObserver(async (mutations) => {
@@ -39,9 +39,8 @@ export function autoHighestImage() {
 /**
  * 双击全屏
  */
-export function dbClick() {
-  document.body.ondblclick = (event) => {
-    event.stopPropagation();
+export function dbClick(element) {
+  element.ondblclick = () => {
     if (!document.fullscreenElement) {
       document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyH' }));
     } else {
@@ -51,9 +50,9 @@ export function dbClick() {
 }
 
 /**
- * 获取发送弹幕方法
+ * 发送弹幕方法
  */
-export function getSendBulletChatFn() {
+export const sendBulletChatFn = (() => {
   let input, btn;
   return (bulletChat) => {
     if (!input || !btn) {
@@ -66,4 +65,4 @@ export function getSendBulletChatFn() {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     btn.dispatchEvent(new Event('click', { bubbles: true }));
   };
-}
+})();

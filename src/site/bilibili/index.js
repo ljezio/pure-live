@@ -16,17 +16,17 @@
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
 import mountVue from '@/components';
-import { autoHighestImage, dbClick, getSendBulletChatFn, redirectRealLive } from './core';
+import { autoHighestImage, dbClick, redirectRealLive, sendBulletChatFn } from './core';
 
 export default function pureBilibili() {
   // 非直播页面不执行脚本
   const video = document.querySelector('#live-player');
   if (!video && !document.querySelector('#app .rendererRoot')) return;
-  mountVue(video, INPUT_MAX.BILIBILI, getSendBulletChatFn());
+  mountVue(video, INPUT_MAX.BILIBILI, sendBulletChatFn);
   if (swt.script.isOn()) {
     redirectRealLive();
     import('./restyle.css');
     autoHighestImage();
-    dbClick();
+    dbClick(video);
   }
 }

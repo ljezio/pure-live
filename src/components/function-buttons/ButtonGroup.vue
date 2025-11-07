@@ -21,7 +21,6 @@ const ON_COLOR = '#2C9EFF';
 const OFF_COLOR = '#D94A3C';
 
 const scriptSwitchOn = ref(swt.script.isOn());
-
 function switchScript() {
   scriptSwitchOn.value = !scriptSwitchOn.value;
   swt.script.switch();
@@ -29,7 +28,6 @@ function switchScript() {
 }
 
 const autoHighestImageSwitchOn = ref(swt.autoHighestImage.isOn());
-
 function switchAutoHighestImage() {
   autoHighestImageSwitchOn.value = !autoHighestImageSwitchOn.value;
   swt.autoHighestImage.switch();

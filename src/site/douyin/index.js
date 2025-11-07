@@ -16,15 +16,16 @@
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
 import mountVue from '@/components';
-import { autoHighestImage, dbClick, getSendBulletChatFn } from '@/site/douyin/core';
+import { autoHighestImage, dbClick, sendBulletChatFn } from '@/site/douyin/core';
 
 export default function pureDouyin() {
   // 非直播页面不执行脚本
-  if (!document.querySelector('#PlayerLayout')) return;
-  mountVue(document.body, INPUT_MAX.DOUYIN, getSendBulletChatFn());
+  const player = document.querySelector('#PlayerLayout');
+  if (!player) return;
+  mountVue(document.body, INPUT_MAX.DOUYIN, sendBulletChatFn);
   if (swt.script.isOn()) {
     import('./restyle.css');
     autoHighestImage();
-    dbClick();
+    dbClick(player);
   }
 }

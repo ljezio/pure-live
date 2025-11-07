@@ -79,9 +79,8 @@ export function unlockAndSwitchHighestImage() {
 /**
  * 双击全屏
  */
-export function dbClick() {
-  document.body.ondblclick = (event) => {
-    event.stopPropagation();
+export function dbClick(element) {
+  element.ondblclick = () => {
     if (!document.fullscreenElement) {
       document.querySelector('#player-fullscreen-btn')?.click();
     } else {
@@ -91,9 +90,9 @@ export function dbClick() {
 }
 
 /**
- * 获取发送弹幕方法
+ * 发送弹幕方法
  */
-export function getSendBulletChatFn() {
+export const sendBulletChatFn = (() => {
   let txt, button;
   return (bulletChat) => {
     if (!txt || !button) {
@@ -104,4 +103,4 @@ export function getSendBulletChatFn() {
     txt.value = bulletChat;
     button.click();
   };
-}
+})();

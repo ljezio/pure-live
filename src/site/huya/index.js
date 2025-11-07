@@ -16,17 +16,17 @@
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
 import mountVue from '@/components';
-import { dbClick, getSendBulletChatFn, skipAd, unlockAndSwitchHighestImage } from '@/site/huya/core';
+import { dbClick, sendBulletChatFn, skipAd, unlockAndSwitchHighestImage } from '@/site/huya/core';
 
 export default function pureHuya() {
   // 非直播页面不执行脚本
   const video = document.querySelector('#videoContainer');
   if (!video) return;
-  mountVue(video, INPUT_MAX.HUYA, getSendBulletChatFn());
+  mountVue(video, INPUT_MAX.HUYA, sendBulletChatFn);
   if (swt.script.isOn()) {
     import('./restyle.css');
     skipAd();
     unlockAndSwitchHighestImage();
-    dbClick();
+    dbClick(video);
   }
 }

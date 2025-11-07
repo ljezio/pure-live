@@ -33,7 +33,7 @@ export function avoidSmallWindow() {
  * 自动切换最高画质
  */
 export function autoHighestImage() {
-  if (!swt.autoHighestImage.isOn()) return;
+  if (swt.autoHighestImage.isOff()) return;
   const controlBar = document.querySelector('#js-player-controlbar');
   if (!controlBar) return;
   const observer = new MutationObserver((mutations) => {
@@ -53,16 +53,14 @@ export function autoHighestImage() {
 /**
  * 双击全屏
  */
-export function dbClick() {
-  const playerMain = document.querySelector('#js-player-main');
+export function dbClick(element) {
   const keyboardEvent = new KeyboardEvent('keydown', {
     code: 'KeyH',
     bubbles: true,
   });
-  document.body.ondblclick = (event) => {
-    event.stopPropagation();
+  element.ondblclick = () => {
     if (!document.fullscreenElement) {
-      playerMain?.dispatchEvent(keyboardEvent);
+      document.body.dispatchEvent(keyboardEvent);
     } else {
       document.exitFullscreen().then();
     }
@@ -70,9 +68,9 @@ export function dbClick() {
 }
 
 /**
- * 获取发送弹幕方法
+ * 发送弹幕方法
  */
-export function getSendBulletChatFn() {
+export const sendBulletChatFn = (() => {
   let txt, button;
   return (bulletChat) => {
     if (!txt || !button) {
@@ -84,4 +82,4 @@ export function getSendBulletChatFn() {
     txt.innerHTML = bulletChat;
     button.click();
   };
-}
+})();

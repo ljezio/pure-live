@@ -36,6 +36,9 @@ export const swt = (() => {
     isOn() {
       return storage.get(this.#key, true);
     }
+    isOff() {
+      return !this.isOn();
+    }
     switch() {
       if (this.isOn()) {
         storage.set(this.#key, false);

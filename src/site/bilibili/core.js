@@ -40,7 +40,7 @@ export function redirectRealLive() {
  * 自动切换最高画质
  */
 export function autoHighestImage() {
-  if (!swt.autoHighestImage.isOn()) return;
+  if (swt.autoHighestImage.isOff()) return;
   const player = document.querySelector('#live-player');
   if (!player) return;
   // 模拟鼠标滑动，触发弹出控制栏
@@ -76,9 +76,8 @@ export function autoHighestImage() {
 /**
  * 双击全屏
  */
-export function dbClick() {
-  document.body.ondblclick = (event) => {
-    event.stopPropagation();
+export function dbClick(element) {
+  element.ondblclick = () => {
     if (!document.fullscreenElement) {
       document.querySelector('#web-player-controller-wrap-el .right-area :first-child span')?.click();
     } else {
@@ -88,9 +87,9 @@ export function dbClick() {
 }
 
 /**
- * 获取发送弹幕方法
+ * 发送弹幕方法
  */
-export function getSendBulletChatFn() {
+export const sendBulletChatFn = (() => {
   let txt, button;
   return (bulletChat) => {
     if (!txt || !button) {
@@ -103,4 +102,4 @@ export function getSendBulletChatFn() {
     txt.dispatchEvent(new InputEvent('input'));
     button.click();
   };
-}
+})();
