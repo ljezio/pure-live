@@ -32,8 +32,6 @@ export const STORAGE_KEY = Object.freeze({
  * 依赖注入key
  */
 export const INJECTION_KEY = Object.freeze({
-  // 切换弹幕侧边栏回调方法
-  TOGGLE_SIDEBAR_FN: 'toggleSidebarFn',
   // 弹幕输入框挂载的topLayer元素
   TOP_LAYER_EL: 'topLayerEl',
   // 弹幕输入框可输入弹幕最大长度
