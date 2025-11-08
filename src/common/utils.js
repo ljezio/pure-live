@@ -19,10 +19,29 @@ import { GM_getValue, GM_setValue } from '$';
 /**
  * 统一封装本地存储实现
  */
-export const storage = {
-  set: (key, value) => GM_setValue(key, value),
-  get: (key, defaultValue) => GM_getValue(key, defaultValue),
-};
+export const storage = (() => {
+  const cache = new Map();
+  return {
+    set: (key, value) => {
+      cache.set(key, value);
+      GM_setValue(key, value);
+    },
+    get: (key, defaultValue) => {
+      const cacheVal = cache.get(key);
+      if (cacheVal !== undefined && cacheVal !== null) {
+        return cacheVal;
+      }
+      const storageValue = GM_getValue(key);
+      if (storageValue !== undefined && storageValue !== null) {
+        cache.set(key, storageValue);
+        return storageValue;
+      } else {
+        cache.set(key, defaultValue);
+        return defaultValue;
+      }
+    },
+  };
+})();
 
 /**
  * 开关
