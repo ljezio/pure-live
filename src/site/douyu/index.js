@@ -24,6 +24,11 @@ export default function pureDouyu() {
   if (!player) return;
   mountVue(document.body, INPUT_MAX.DOUYU, sendBulletChatFn);
   if (swt.script.isOn()) {
+    // 跳转beta页面（2025-11-20 00:00:00之前）
+    const href = new URL(window.location.href);
+    if (!href.pathname.startsWith('/beta/') && Date.now() <= 1763568000000) {
+      window.location.replace(`${href.origin}/beta${href.pathname}${href.search}`);
+    }
     import('./restyle.css');
     avoidSmallWindow();
     autoHighestImage();
