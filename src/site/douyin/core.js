@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { sleep, swt } from '@/common/utils';
+import { delayJitter, swt } from '@/common/utils';
 
 /**
  * 自动切换最高画质
@@ -33,7 +33,7 @@ export function autoHighestImage() {
     }
   });
   observer.observe(control, { childList: true, subtree: true });
-  sleep(10).then(() => observer.disconnect());
+  delayJitter(10).then(() => observer.disconnect());
 }
 
 /**

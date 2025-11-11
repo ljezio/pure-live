@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { sleep, swt } from '@/common/utils';
+import { delayJitter, swt } from '@/common/utils';
 
 /**
  * 自动跳过贴片广告
@@ -29,7 +29,7 @@ export function skipAd() {
     }
   });
   observer.observe(document.querySelector('#videoContainer'), { childList: true });
-  sleep(10).then(() => observer.disconnect());
+  delayJitter(10).then(() => observer.disconnect());
   // 自动关闭中贴片广告
   new MutationObserver((mutations) => {
     for (const mutation of mutations) {
@@ -54,7 +54,7 @@ export function unlockAndSwitchHighestImage() {
         if (node.nodeType !== Node.ELEMENT_NODE || node.id !== 'player-ctrl-wrap') continue;
         observer.disconnect();
         // 暂停3秒等待子元素创建
-        sleep(3).then(() => {
+        delayJitter(3).then(() => {
           const videoTypeList = node.querySelector('.player-videotype-list')?.children;
           if (!videoTypeList) return;
           // 解除扫码解锁清晰度限制
@@ -73,7 +73,7 @@ export function unlockAndSwitchHighestImage() {
     }
   });
   observer.observe(liveRoom, { childList: true, subtree: true });
-  sleep(10).then(() => observer.disconnect());
+  delayJitter(10).then(() => observer.disconnect());
 }
 
 /**

@@ -36,7 +36,6 @@ export const storage = (() => {
         cache.set(key, storageValue);
         return storageValue;
       } else {
-        cache.set(key, defaultValue);
         return defaultValue;
       }
     },
@@ -91,9 +90,9 @@ export function throttle(fn, delay = 100) {
 }
 
 /**
- * 等待n秒，并增加[0, 500]之间的随机毫秒数
+ * 延迟（n秒 + [0, jitter]毫秒）执行
  */
-export function sleep(seconds) {
-  const random = Math.floor(Math.random() * 500);
+export function delayJitter(seconds, jitter = 500 * seconds) {
+  const random = Math.floor(Math.random() * jitter);
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000 + random));
 }

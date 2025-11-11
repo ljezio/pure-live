@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { sleep, swt } from '@/common/utils';
+import { delayJitter, swt } from '@/common/utils';
 
 /**
  * 跳转实际直播页
@@ -57,9 +57,9 @@ export function autoHighestImage() {
         ) {
           observer.disconnect();
           // 暂停1秒模拟手动点击
-          sleep(1).then(async () => {
+          delayJitter(1).then(async () => {
             node.click();
-            await sleep(1);
+            await delayJitter(1);
             player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseleave'));
           });
           return;
@@ -70,7 +70,7 @@ export function autoHighestImage() {
   observer.observe(player, { childList: true, subtree: true });
   // 先尝试获取切换画质按钮，如果有则直接触发mouseenter事件，没有则通过MutationObserver监听按钮出现后触发mouseenter事件
   player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
-  sleep(10).then(() => observer.disconnect());
+  delayJitter(10).then(() => observer.disconnect());
 }
 
 /**
