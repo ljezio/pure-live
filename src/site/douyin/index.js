@@ -24,7 +24,7 @@ export default function pureDouyin() {
   if (!player) return;
   mountVue(document.body, INPUT_MAX.DOUYIN, sendBulletChatFn);
   if (swt.script.isOn()) {
-    import('./restyle.css');
+    import('@/site/douyin/restyle.css');
     autoHighestImage();
     dbClick(player);
   }

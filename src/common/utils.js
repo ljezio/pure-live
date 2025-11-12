@@ -58,18 +58,12 @@ export const swt = (() => {
       return !this.isOn();
     }
     switch() {
-      if (this.isOn()) {
-        storage.set(this.#key, false);
-      } else {
-        storage.set(this.#key, true);
-      }
+      storage.set(this.#key, !this.isOn());
     }
   }
   return {
     // 是否启用脚本
     script: new SwitchFunction(STORAGE_KEY.SWITCH_SCRIPT),
-    // 是否显示弹幕侧边栏
-    showSidebar: new SwitchFunction(STORAGE_KEY.SHOW_SIDEBAR),
     // 是否自动切换最高画质
     autoHighestImage: new SwitchFunction(STORAGE_KEY.AUTO_HIGHEST_IMAGE),
   };
@@ -92,7 +86,7 @@ export function throttle(fn, delay = 100) {
 /**
  * 延迟（n秒 + [0, jitter]毫秒）执行
  */
-export function delayJitter(seconds, jitter = 500 * seconds) {
+export function delayJitter(seconds, jitter = 500) {
   const random = Math.floor(Math.random() * jitter);
   return new Promise((resolve) => setTimeout(resolve, seconds * 1000 + random));
 }

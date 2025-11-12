@@ -24,7 +24,7 @@ export default function pureHuya() {
   if (!video) return;
   mountVue(video, INPUT_MAX.HUYA, sendBulletChatFn);
   if (swt.script.isOn()) {
-    import('./restyle.css');
+    import('@/site/huya/restyle.css');
     skipAd();
     unlockAndSwitchHighestImage();
     dbClick(video);

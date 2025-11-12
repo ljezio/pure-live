@@ -29,7 +29,7 @@ export default function pureDouyu() {
     if (!location.pathname.startsWith('/beta/') && Date.now() <= 1763568000000) {
       window.location.replace(`${location.origin}/beta${location.pathname}${location.search}`);
     }
-    import('./restyle.css');
+    import('@/site/douyu/restyle.css');
     avoidSmallWindow();
     autoHighestImage();
     dbClick(player);

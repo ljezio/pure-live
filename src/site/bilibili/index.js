@@ -16,7 +16,7 @@
 import { INPUT_MAX } from '@/common/constants';
 import { swt } from '@/common/utils';
 import mountVue from '@/components';
-import { autoHighestImage, dbClick, redirectRealLive, sendBulletChatFn } from './core';
+import { autoHighestImage, dbClick, redirectRealLive, sendBulletChatFn } from '@/site/bilibili/core';
 
 export default function pureBilibili() {
   // 非直播页面不执行脚本
@@ -25,7 +25,7 @@ export default function pureBilibili() {
   mountVue(video, INPUT_MAX.BILIBILI, sendBulletChatFn);
   if (swt.script.isOn()) {
     redirectRealLive();
-    import('./restyle.css');
+    import('@/site/bilibili/restyle.css');
     autoHighestImage();
     dbClick(video);
   }
