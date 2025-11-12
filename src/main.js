@@ -26,6 +26,5 @@ const platformMap = new Map([
 ]);
 
 (() => {
-  const hostname = new URL(window.location.href).hostname;
-  platformMap.get(hostname)?.();
+  platformMap.get(window.location.hostname)?.();
 })();
