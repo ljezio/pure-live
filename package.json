@@ -1,6 +1,6 @@
 {
   "name": "pure-live",
-  "version": "5.2.8",
+  "version": "5.2.9",
   "description": "pure live",
   "main": "src/main.js",
   "private": true,
