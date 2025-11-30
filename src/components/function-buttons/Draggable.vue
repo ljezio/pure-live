@@ -14,32 +14,32 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <script setup>
-import { onBeforeMount, onMounted, onUnmounted, reactive, ref, useTemplateRef } from 'vue';
+import { onBeforeMount, onMounted, reactive, useTemplateRef } from 'vue';
 import { STORAGE_KEY } from '@/common/constants';
 import { storage, throttle } from '@/common/utils';
 
 const draggableEl = useTemplateRef('draggableRef');
-const isDragging = ref(false);
 const axis = reactive({ x: 0, y: 0, mouseX: 0, mouseY: 0 });
 
 function startDrag(event) {
   if (event.target !== draggableEl.value) return;
   axis.mouseX = event.clientX;
   axis.mouseY = event.clientY;
-  isDragging.value = true;
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', stopDrag);
 }
 
 function onDrag(event) {
-  if (!isDragging.value) return;
   setNewAxis(event.clientX - axis.mouseX + axis.x, event.clientY - axis.mouseY + axis.y);
   axis.mouseX = event.clientX;
   axis.mouseY = event.clientY;
 }
 
 function stopDrag() {
-  isDragging.value = false;
   // 保存组件坐标
   storage.set(STORAGE_KEY.DRAGGABLE_AXIS, { oldX: axis.x, oldY: axis.y, oldWidth: innerWidth, oldHeight: innerHeight });
+  document.removeEventListener('mousemove', onDrag);
+  document.removeEventListener('mouseup', stopDrag);
 }
 
 const beforeSize = reactive({ width: innerWidth, height: innerHeight });
@@ -79,15 +79,7 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  document.addEventListener('mousemove', onDrag);
-  document.addEventListener('mouseup', stopDrag);
   window.addEventListener('resize', resize);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('mousemove', onDrag);
-  document.removeEventListener('mouseup', stopDrag);
-  window.removeEventListener('resize', resize);
 });
 </script>
 
