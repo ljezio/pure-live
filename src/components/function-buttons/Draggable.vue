@@ -42,14 +42,6 @@ function stopDrag() {
   document.removeEventListener('mouseup', stopDrag);
 }
 
-const beforeSize = reactive({ width: innerWidth, height: innerHeight });
-
-const resize = throttle(() => {
-  setNewAxis((axis.x / beforeSize.width) * innerWidth, (axis.y / beforeSize.height) * innerHeight);
-  beforeSize.width = innerWidth;
-  beforeSize.height = innerHeight;
-}, 100);
-
 /**
  * 设置新的坐标，不超过浏览器边界
  */
@@ -79,7 +71,15 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  window.addEventListener('resize', resize);
+  let beforeSize = { width: innerWidth, height: innerHeight };
+  window.addEventListener(
+    'resize',
+    throttle(() => {
+      setNewAxis((axis.x / beforeSize.width) * innerWidth, (axis.y / beforeSize.height) * innerHeight);
+      beforeSize.width = innerWidth;
+      beforeSize.height = innerHeight;
+    }, 100),
+  );
 });
 </script>
 
