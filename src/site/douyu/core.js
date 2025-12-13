@@ -19,11 +19,13 @@ import { delayJitter, swt } from '@/common/utils';
  * 避免小窗口化
  */
 export function avoidSmallWindow() {
+  const element = document.querySelector('#js-player-video-case');
   const observer = new MutationObserver(() => {
-    document.querySelector('#js-player-video-widgets .roomSmallPlayerFloatLayout-closeBtn')?.click();
     observer.disconnect();
+    element.style.left = 0;
+    element.className = '';
   });
-  observer.observe(document.querySelector('#js-player-video-case'), {
+  observer.observe(element, {
     attributes: true,
     attributeFilter: ['class', 'style'],
   });
