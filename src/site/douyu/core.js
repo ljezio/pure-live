@@ -22,11 +22,12 @@ export function avoidSmallWindow() {
   const element = document.querySelector('#js-player-video-case');
   const observer = new MutationObserver(() => {
     observer.disconnect();
+    setTimeout(() => element.querySelector('.roomSmallPlayerFloatLayout-closeBtn')?.click(), 3000);
     element.style.left = 0;
-    element.className = '';
+    element.className = element.className.replace('is-smallDangling', '');
     const subEl = element.querySelector('.room-Player-Box');
     if (subEl) {
-      subEl.className = 'room-Player-Box';
+      subEl.className = subEl.className.replace('is-smallDangling', '');
     }
   });
   observer.observe(element, {
