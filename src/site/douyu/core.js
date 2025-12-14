@@ -24,6 +24,10 @@ export function avoidSmallWindow() {
     observer.disconnect();
     element.style.left = 0;
     element.className = '';
+    const subEl = element.querySelector('.room-Player-Box');
+    if (subEl) {
+      subEl.className = 'room-Player-Box';
+    }
   });
   observer.observe(element, {
     attributes: true,
