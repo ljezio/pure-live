@@ -20,6 +20,7 @@ import { delayJitter, swt } from '@/common/utils';
  */
 export function avoidSmallWindow() {
   const element = document.querySelector('#js-player-video-case');
+  if (!element) return;
   const observer = new MutationObserver(() => {
     observer.disconnect();
     setTimeout(() => element.querySelector('.roomSmallPlayerFloatLayout-closeBtn')?.click(), 3000);

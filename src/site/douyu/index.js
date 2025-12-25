@@ -24,11 +24,6 @@ export default function pureDouyu() {
   if (!player) return;
   mountVue(document.body, INPUT_MAX.DOUYU, sendBulletChatFn);
   if (swt.script.isOn()) {
-    // 跳转beta页面（2025-12-31 00:00:00之前）
-    const location = window.location;
-    if (!location.pathname.startsWith('/beta/') && Date.now() <= 1767110400000) {
-      window.location.replace(`${location.origin}/beta${location.pathname}${location.search}`);
-    }
     import('@/site/douyu/restyle.css');
     avoidSmallWindow();
     autoHighestImage();
