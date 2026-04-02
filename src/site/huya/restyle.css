@@ -30,6 +30,7 @@
 #player-login-guide-tip,
 #player-full-input,
 #huya-ab,
+#HUYA-UDBSdkLgn,
 .mod-sidebar,
 .match-top,
 .match-nav,
@@ -63,10 +64,7 @@
   width: 100vw !important;
 }
 
-#root {
-  height: auto !important;
-}
-
+#root,
 #player-wrap,
 #player-video {
   height: 100vh !important;
@@ -74,6 +72,11 @@
 
 #videoContainer {
   height: calc(100vh + 60px) !important;
+}
+
+/* 禁止滚动 */
+#main_col {
+  overflow: hidden;
 }
 
 /* 扫码解锁清晰度添加中划线 */

@@ -42,7 +42,7 @@ export function autoHighestImage() {
 export function dbClick(element) {
   element.ondblclick = () => {
     if (!document.fullscreenElement) {
-      document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyH' }));
+      document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyH', bubbles: true }));
     } else {
       document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyY', bubbles: true }));
     }

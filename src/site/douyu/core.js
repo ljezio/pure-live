@@ -62,15 +62,11 @@ export function autoHighestImage() {
  * 双击全屏
  */
 export function dbClick(element) {
-  const keyboardEvent = new KeyboardEvent('keydown', {
-    code: 'KeyH',
-    bubbles: true,
-  });
   element.ondblclick = () => {
     if (!document.fullscreenElement) {
-      document.body.dispatchEvent(keyboardEvent);
+      document.body.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyH', bubbles: true }));
     } else {
-      document.exitFullscreen().then();
+      document.body.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyY', bubbles: true }));
     }
   };
 }

@@ -77,9 +77,15 @@ export function autoHighestImage() {
  * 双击全屏
  */
 export function dbClick(element) {
+  let sideOpenFlag = true;
   element.ondblclick = () => {
     if (!document.fullscreenElement) {
       document.querySelector('#web-player-controller-wrap-el .right-area :first-child span')?.click();
+      // 关闭侧边栏
+      if (sideOpenFlag) {
+        document.querySelector('#aside-area-toggle-btn')?.click();
+        sideOpenFlag = false;
+      }
     } else {
       document.exitFullscreen().then();
     }

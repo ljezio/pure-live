@@ -28,7 +28,8 @@
 .link-navbar-ctnr,
 .link-footer,
 .link-footer-ctnr,
-.ext-nodes {
+.ext-nodes,
+.aside-area-toggle-btn {
   display: none !important;
 }
 
@@ -39,6 +40,8 @@
 .player-ctnr,
 .player-section,
 .live-player-ctnr,
+.fullscreen-container-paddingbox,
+#fullscreen-container,
 #live-player {
   margin: 0 !important;
   padding: 0 !important;

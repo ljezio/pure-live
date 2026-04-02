@@ -20,7 +20,7 @@ import { autoHighestImage, dbClick, sendBulletChatFn } from '@/site/douyin/core'
 
 export default function pureDouyin() {
   // 非直播页面不执行脚本
-  const player = document.querySelector('#PlayerLayout');
+  const player = document.querySelector('#_douyin_live_scroll_container_');
   if (!player) return;
   mountVue(document.body, INPUT_MAX.DOUYIN, sendBulletChatFn);
   if (swt.script.isOn()) {
