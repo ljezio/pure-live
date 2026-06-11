@@ -1,28 +1,29 @@
 {
   "name": "pure-live",
   "version": "5.2.14",
-  "description": "pure live",
-  "main": "src/main.js",
   "private": true,
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "format": "biome check --write"
-  },
-  "author": "ljezio",
+  "description": "pure live",
   "license": "GPL-3.0-or-later",
+  "author": "ljezio",
   "repository": {
     "type": "git",
     "url": "https://github.com/ljezio/pure-live.git"
   },
+  "main": "src/main.js",
+  "scripts": {
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
+    "prepare": "vp config"
+  },
   "dependencies": {
-    "vue": "^3.5.31"
+    "vue": "^3.5.35"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.10",
-    "@vitejs/plugin-vue": "^6.0.5",
-    "vite": "^8.0.3",
-    "vite-plugin-monkey": "^7.1.9"
-  }
+    "@vitejs/plugin-vue": "^6.0.7",
+    "vite": "catalog:",
+    "vite-plugin-monkey": "^8.0.6",
+    "vite-plus": "catalog:"
+  },
+  "packageManager": "pnpm@11.5.3"
 }

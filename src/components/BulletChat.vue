@@ -14,16 +14,16 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <script setup>
-import { inject, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from 'vue';
-import { INJECTION_KEY } from '@/common/constants';
+import { inject, nextTick, onMounted, onUnmounted, ref, useTemplateRef } from "vue";
+import { INJECTION_KEY } from "@/common/constants";
 
 const topLayerEl = inject(INJECTION_KEY.TOP_LAYER_EL);
 const inputMaxlength = inject(INJECTION_KEY.INPUT_MAX_LENGTH, 30);
 const sendBulletChatFn = inject(INJECTION_KEY.SEND_BULLET_CHAT_FN, () => {});
 
-const inputEl = useTemplateRef('inputRef');
+const inputEl = useTemplateRef("inputRef");
 const isShow = ref(false);
-const bulletChat = ref('');
+const bulletChat = ref("");
 const composing = ref(false); // 是否中文输入法输入中
 
 function send() {
@@ -32,12 +32,12 @@ function send() {
   }
   if (!bulletChat.value) return;
   sendBulletChatFn(bulletChat.value);
-  bulletChat.value = '';
+  bulletChat.value = "";
   isShow.value = false;
 }
 
 function handleEnter(event) {
-  if (event.key !== 'Enter' && event.code !== 'Enter') return;
+  if (event.key !== "Enter" && event.code !== "Enter") return;
   if (isShow.value === false) {
     isShow.value = true;
     nextTick(() => inputEl.value.focus());
@@ -53,11 +53,11 @@ function handleEnter(event) {
 }
 
 onMounted(() => {
-  document.addEventListener('keydown', handleEnter);
+  document.addEventListener("keydown", handleEnter);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('keydown', handleEnter);
+  document.removeEventListener("keydown", handleEnter);
 });
 </script>
 
@@ -73,7 +73,7 @@ onUnmounted(() => {
         v-model="bulletChat"
         @compositionstart="composing = true"
         @compositionend="composing = false"
-      >
+      />
       <button class="button" @click="send">发送 (Enter)</button>
     </div>
   </Teleport>
@@ -112,9 +112,9 @@ onUnmounted(() => {
 }
 
 .input:focus {
-   opacity: 1;
-   outline: none;
- }
+  opacity: 1;
+  outline: none;
+}
 
 .button {
   position: relative;
@@ -149,7 +149,8 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-.wrap:focus-within .button, .wrap:focus-within .button::before {
+.wrap:focus-within .button,
+.wrap:focus-within .button::before {
   animation: flow 10s linear infinite;
   opacity: 1;
 }

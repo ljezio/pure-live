@@ -13,18 +13,18 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { INPUT_MAX } from '@/common/constants';
-import { swt } from '@/common/utils';
-import mountVue from '@/components';
-import { autoHighestImage, dbClick, sendBulletChatFn } from '@/site/douyin/core';
+import { INPUT_MAX } from "@/common/constants";
+import { swt } from "@/common/utils";
+import mountVue from "@/components";
+import { autoHighestImage, dbClick, sendBulletChatFn } from "@/site/douyin/core";
 
 export default function pureDouyin() {
   // 非直播页面不执行脚本
-  const player = document.querySelector('#_douyin_live_scroll_container_');
+  const player = document.querySelector("#_douyin_live_scroll_container_");
   if (!player) return;
   mountVue(document.body, INPUT_MAX.DOUYIN, sendBulletChatFn);
   if (swt.script.isOn()) {
-    import('@/site/douyin/restyle.css');
+    import("@/site/douyin/restyle.css").catch((e) => console.error(e));
     autoHighestImage();
     dbClick(player);
   }

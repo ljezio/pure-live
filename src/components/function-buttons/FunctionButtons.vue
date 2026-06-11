@@ -14,9 +14,9 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
-import ButtonGroup from '@/components/function-buttons/ButtonGroup.vue';
-import Draggable from '@/components/function-buttons/Draggable.vue';
+import { onMounted, onUnmounted, ref } from "vue";
+import ButtonGroup from "@/components/function-buttons/ButtonGroup.vue";
+import Draggable from "@/components/function-buttons/Draggable.vue";
 
 const isShow = ref(true);
 
@@ -26,21 +26,20 @@ function handleShowButtonGroup() {
 }
 
 onMounted(() => {
-  document.addEventListener('fullscreenchange', handleShowButtonGroup);
+  document.addEventListener("fullscreenchange", handleShowButtonGroup);
 });
 
 onUnmounted(() => {
-  document.removeEventListener('fullscreenchange', handleShowButtonGroup);
+  document.removeEventListener("fullscreenchange", handleShowButtonGroup);
 });
 </script>
 
 <template>
   <div v-show="isShow">
     <draggable>
-      <button-group/>
+      <button-group />
     </draggable>
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

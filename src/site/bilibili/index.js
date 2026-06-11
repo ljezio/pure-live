@@ -13,19 +13,24 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { INPUT_MAX } from '@/common/constants';
-import { swt } from '@/common/utils';
-import mountVue from '@/components';
-import { autoHighestImage, dbClick, redirectRealLive, sendBulletChatFn } from '@/site/bilibili/core';
+import { INPUT_MAX } from "@/common/constants";
+import { swt } from "@/common/utils";
+import mountVue from "@/components";
+import {
+  autoHighestImage,
+  dbClick,
+  redirectRealLive,
+  sendBulletChatFn,
+} from "@/site/bilibili/core";
 
 export default function pureBilibili() {
   // 非直播页面不执行脚本
-  const video = document.querySelector('#live-player');
-  if (!video && !document.querySelector('#app .rendererRoot')) return;
+  const video = document.querySelector("#live-player");
+  if (!video && !document.querySelector("#app .rendererRoot")) return;
   mountVue(video, INPUT_MAX.BILIBILI, sendBulletChatFn);
   if (swt.script.isOn()) {
     redirectRealLive();
-    import('@/site/bilibili/restyle.css');
+    import("@/site/bilibili/restyle.css").catch((e) => console.error(e));
     autoHighestImage();
     dbClick(video);
   }

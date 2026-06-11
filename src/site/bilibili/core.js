@@ -13,20 +13,20 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { delayJitter, swt } from '@/common/utils';
+import { delayJitter, swt } from "@/common/utils";
 
 /**
  * 跳转实际直播页
  */
 export function redirectRealLive() {
-  const root = document.querySelector('.rendererRoot');
+  const root = document.querySelector(".rendererRoot");
   if (!root) return;
-  const urlPrefix = `${window.location.href.split('//')[0]}//live.bilibili.com`;
+  const urlPrefix = `${window.location.href.split("//")[0]}//live.bilibili.com`;
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
         if (node.nodeType !== Node.ELEMENT_NODE) continue;
-        const iframe = node.querySelector('iframe');
+        const iframe = node.querySelector("iframe");
         if (!iframe?.src?.startsWith(urlPrefix)) continue;
         window.location.replace(iframe.src);
       }
@@ -41,26 +41,26 @@ export function redirectRealLive() {
  */
 export function autoHighestImage() {
   if (swt.autoHighestImage.isOff()) return;
-  const player = document.querySelector('#live-player');
+  const player = document.querySelector("#live-player");
   if (!player) return;
   // 模拟鼠标滑动，触发弹出控制栏
-  player.dispatchEvent(new MouseEvent('mousemove'));
+  player.dispatchEvent(new MouseEvent("mousemove"));
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
-        if (node.localName !== 'div') continue;
-        if (node.className?.startsWith('quality-wrap')) {
-          node.dispatchEvent(new MouseEvent('mouseenter'));
+        if (node.localName !== "div") continue;
+        if (node.className?.startsWith("quality-wrap")) {
+          node.dispatchEvent(new MouseEvent("mouseenter"));
         } else if (
-          node.className?.startsWith('list-it') &&
-          node.previousElementSibling?.className?.startsWith('line-wrap')
+          node.className?.startsWith("list-it") &&
+          node.previousElementSibling?.className?.startsWith("line-wrap")
         ) {
           observer.disconnect();
           // 暂停1秒模拟手动点击
           delayJitter(1).then(async () => {
             node.click();
             await delayJitter(1);
-            player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseleave'));
+            player.querySelector(".quality-wrap")?.dispatchEvent(new MouseEvent("mouseleave"));
           });
           return;
         }
@@ -69,7 +69,7 @@ export function autoHighestImage() {
   });
   observer.observe(player, { childList: true, subtree: true });
   // 先尝试获取切换画质按钮，如果有则直接触发mouseenter事件，没有则通过MutationObserver监听按钮出现后触发mouseenter事件
-  player.querySelector('.quality-wrap')?.dispatchEvent(new MouseEvent('mouseenter'));
+  player.querySelector(".quality-wrap")?.dispatchEvent(new MouseEvent("mouseenter"));
   delayJitter(10).then(() => observer.disconnect());
 }
 
@@ -80,14 +80,16 @@ export function dbClick(element) {
   let sideOpenFlag = true;
   element.ondblclick = () => {
     if (!document.fullscreenElement) {
-      document.querySelector('#web-player-controller-wrap-el .right-area :first-child span')?.click();
+      document
+        .querySelector("#web-player-controller-wrap-el .right-area :first-child span")
+        ?.click();
       // 关闭侧边栏
       if (sideOpenFlag) {
-        document.querySelector('#aside-area-toggle-btn')?.click();
+        document.querySelector("#aside-area-toggle-btn")?.click();
         sideOpenFlag = false;
       }
     } else {
-      document.exitFullscreen().then();
+      document.exitFullscreen().catch((e) => console.error(e));
     }
   };
 }
@@ -99,13 +101,13 @@ export const sendBulletChatFn = (() => {
   let txt, button;
   return (bulletChat) => {
     if (!txt || !button) {
-      const box = document.querySelector('#control-panel-ctnr-box');
-      txt = box?.querySelector('.chat-input');
-      button = box?.querySelector('.bl-button');
+      const box = document.querySelector("#control-panel-ctnr-box");
+      txt = box?.querySelector(".chat-input");
+      button = box?.querySelector(".bl-button");
       if (!txt || !button) return;
     }
     txt.value = bulletChat;
-    txt.dispatchEvent(new InputEvent('input'));
+    txt.dispatchEvent(new InputEvent("input"));
     button.click();
   };
 })();

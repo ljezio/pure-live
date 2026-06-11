@@ -13,27 +13,27 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { delayJitter, swt } from '@/common/utils';
+import { delayJitter, swt } from "@/common/utils";
 
 /**
  * 避免小窗口化
  */
 export function avoidSmallWindow() {
-  const element = document.querySelector('#js-player-video-case');
+  const element = document.querySelector("#js-player-video-case");
   if (!element) return;
   const observer = new MutationObserver(() => {
     observer.disconnect();
-    setTimeout(() => element.querySelector('.roomSmallPlayerFloatLayout-closeBtn')?.click(), 3000);
+    setTimeout(() => element.querySelector(".roomSmallPlayerFloatLayout-closeBtn")?.click(), 3000);
     element.style.left = 0;
-    element.className = element.className.replace('is-smallDangling', '');
-    const subEl = element.querySelector('.room-Player-Box');
+    element.className = element.className.replace("is-smallDangling", "");
+    const subEl = element.querySelector(".room-Player-Box");
     if (subEl) {
-      subEl.className = subEl.className.replace('is-smallDangling', '');
+      subEl.className = subEl.className.replace("is-smallDangling", "");
     }
   });
   observer.observe(element, {
     attributes: true,
-    attributeFilter: ['class', 'style'],
+    attributeFilter: ["class", "style"],
   });
 }
 
@@ -42,12 +42,13 @@ export function avoidSmallWindow() {
  */
 export function autoHighestImage() {
   if (swt.autoHighestImage.isOff()) return;
-  const controlBar = document.querySelector('#js-player-controlbar');
+  const controlBar = document.querySelector("#js-player-controlbar");
   if (!controlBar) return;
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
-        if (node.nodeType !== Node.ELEMENT_NODE || !node.className?.startsWith('ControlBar-')) continue;
+        if (node.nodeType !== Node.ELEMENT_NODE || !node.className?.startsWith("ControlBar-"))
+          continue;
         observer.disconnect();
         node.querySelector('[class^="tipItem-"]:nth-child(2) li:first-child')?.click();
         return;
@@ -64,9 +65,9 @@ export function autoHighestImage() {
 export function dbClick(element) {
   element.ondblclick = () => {
     if (!document.fullscreenElement) {
-      document.body.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyH', bubbles: true }));
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyH", bubbles: true }));
     } else {
-      document.body.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyY', bubbles: true }));
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyY", bubbles: true }));
     }
   };
 }
@@ -78,9 +79,9 @@ export const sendBulletChatFn = (() => {
   let txt, button;
   return (bulletChat) => {
     if (!txt || !button) {
-      const aside = document.querySelector('#js-player-asideMain');
-      txt = aside?.querySelector('.ChatSend-txt');
-      button = aside?.querySelector('.ChatSend-button');
+      const aside = document.querySelector("#js-player-asideMain");
+      txt = aside?.querySelector(".ChatSend-txt");
+      button = aside?.querySelector(".ChatSend-button");
       if (!txt || !button) return;
     }
     txt.innerHTML = bulletChat;

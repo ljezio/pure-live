@@ -13,9 +13,9 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { createApp } from 'vue';
-import { INJECTION_KEY } from '@/common/constants';
-import App from '@/components/App.vue';
+import { createApp } from "vue";
+import { INJECTION_KEY } from "@/common/constants";
+import App from "@/components/App.vue";
 
 export default function mountVue(topLayerEl, inputMaxlength, sendBulletChatFn) {
   const app = createApp(App);
@@ -24,7 +24,7 @@ export default function mountVue(topLayerEl, inputMaxlength, sendBulletChatFn) {
   app.provide(INJECTION_KEY.SEND_BULLET_CHAT_FN, sendBulletChatFn);
   app.mount(
     (() => {
-      const div = document.createElement('div');
+      const div = document.createElement("div");
       document.body.append(div);
       return div;
     })(),

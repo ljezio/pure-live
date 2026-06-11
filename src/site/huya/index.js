@@ -13,18 +13,18 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { INPUT_MAX } from '@/common/constants';
-import { swt } from '@/common/utils';
-import mountVue from '@/components';
-import { dbClick, sendBulletChatFn, skipAd, unlockAndSwitchHighestImage } from '@/site/huya/core';
+import { INPUT_MAX } from "@/common/constants";
+import { swt } from "@/common/utils";
+import mountVue from "@/components";
+import { dbClick, sendBulletChatFn, skipAd, unlockAndSwitchHighestImage } from "@/site/huya/core";
 
 export default function pureHuya() {
   // 非直播页面不执行脚本
-  const video = document.querySelector('#videoContainer');
+  const video = document.querySelector("#videoContainer");
   if (!video) return;
   mountVue(video, INPUT_MAX.HUYA, sendBulletChatFn);
   if (swt.script.isOn()) {
-    import('@/site/huya/restyle.css');
+    import("@/site/huya/restyle.css").catch((e) => console.error(e));
     skipAd();
     unlockAndSwitchHighestImage();
     dbClick(video);

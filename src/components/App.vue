@@ -10,16 +10,16 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <script setup>
-import { swt } from '@/common/utils';
-import BulletChat from '@/components/BulletChat.vue';
-import FunctionButtons from '@/components/function-buttons/FunctionButtons.vue';
+import { swt } from "@/common/utils";
+import BulletChat from "@/components/BulletChat.vue";
+import FunctionButtons from "@/components/function-buttons/FunctionButtons.vue";
 </script>
 
 <template>
   <div class="app">
-    <function-buttons/>
+    <function-buttons />
     <div v-if="swt.script.isOn()">
-      <bullet-chat/>
+      <bullet-chat />
     </div>
   </div>
 </template>

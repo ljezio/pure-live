@@ -13,8 +13,8 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { STORAGE_KEY } from '@/common/constants';
-import { GM_getValue, GM_setValue } from '$';
+import { STORAGE_KEY } from "@/common/constants";
+import { GM_getValue, GM_setValue } from "$";
 
 /**
  * 统一封装本地存储实现

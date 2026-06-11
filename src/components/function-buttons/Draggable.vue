@@ -14,19 +14,19 @@
   - If not, see <https://www.gnu.org/licenses/>.
   -->
 <script setup>
-import { onBeforeMount, onMounted, reactive, useTemplateRef } from 'vue';
-import { STORAGE_KEY } from '@/common/constants';
-import { storage, throttle } from '@/common/utils';
+import { onBeforeMount, onMounted, reactive, useTemplateRef } from "vue";
+import { STORAGE_KEY } from "@/common/constants";
+import { storage, throttle } from "@/common/utils";
 
-const draggableEl = useTemplateRef('draggableRef');
+const draggableEl = useTemplateRef("draggableRef");
 const axis = reactive({ x: 0, y: 0, mouseX: 0, mouseY: 0 });
 
 function startDrag(event) {
   if (event.target !== draggableEl.value) return;
   axis.mouseX = event.clientX;
   axis.mouseY = event.clientY;
-  document.addEventListener('mousemove', onDrag);
-  document.addEventListener('mouseup', stopDrag);
+  document.addEventListener("mousemove", onDrag);
+  document.addEventListener("mouseup", stopDrag);
 }
 
 function onDrag(event) {
@@ -37,9 +37,14 @@ function onDrag(event) {
 
 function stopDrag() {
   // 保存组件坐标
-  storage.set(STORAGE_KEY.DRAGGABLE_AXIS, { oldX: axis.x, oldY: axis.y, oldWidth: innerWidth, oldHeight: innerHeight });
-  document.removeEventListener('mousemove', onDrag);
-  document.removeEventListener('mouseup', stopDrag);
+  storage.set(STORAGE_KEY.DRAGGABLE_AXIS, {
+    oldX: axis.x,
+    oldY: axis.y,
+    oldWidth: innerWidth,
+    oldHeight: innerHeight,
+  });
+  document.removeEventListener("mousemove", onDrag);
+  document.removeEventListener("mouseup", stopDrag);
 }
 
 /**
@@ -73,9 +78,12 @@ onBeforeMount(() => {
 onMounted(() => {
   let beforeSize = { width: innerWidth, height: innerHeight };
   window.addEventListener(
-    'resize',
+    "resize",
     throttle(() => {
-      setNewAxis((axis.x / beforeSize.width) * innerWidth, (axis.y / beforeSize.height) * innerHeight);
+      setNewAxis(
+        (axis.x / beforeSize.width) * innerWidth,
+        (axis.y / beforeSize.height) * innerHeight,
+      );
       beforeSize.width = innerWidth;
       beforeSize.height = innerHeight;
     }, 100),
@@ -90,7 +98,7 @@ onMounted(() => {
     :style="{ left: axis.x + 'px', top: axis.y + 'px' }"
     @mousedown="startDrag"
   >
-    <slot/>
+    <slot />
   </div>
 </template>
 

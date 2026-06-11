@@ -19,11 +19,11 @@
  */
 export const STORAGE_KEY = Object.freeze({
   // 是否启用脚本开关
-  SWITCH_SCRIPT: 'switch_script',
+  SWITCH_SCRIPT: "switch_script",
   // 是否自动切换最高画质开关
-  AUTO_HIGHEST_IMAGE: 'auto_highest_image',
+  AUTO_HIGHEST_IMAGE: "auto_highest_image",
   // 可拖动组件初始坐标
-  DRAGGABLE_AXIS: 'draggable_axis',
+  DRAGGABLE_AXIS: "draggable_axis",
 });
 
 /**
@@ -31,11 +31,11 @@ export const STORAGE_KEY = Object.freeze({
  */
 export const INJECTION_KEY = Object.freeze({
   // 弹幕输入框挂载的topLayer元素
-  TOP_LAYER_EL: 'topLayerEl',
+  TOP_LAYER_EL: "topLayerEl",
   // 弹幕输入框可输入弹幕最大长度
-  INPUT_MAX_LENGTH: 'inputMaxlength',
+  INPUT_MAX_LENGTH: "inputMaxlength",
   // 发送弹幕回调方法
-  SEND_BULLET_CHAT_FN: 'sendBulletChatFn',
+  SEND_BULLET_CHAT_FN: "sendBulletChatFn",
 });
 
 /**

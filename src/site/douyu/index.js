@@ -13,18 +13,18 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { INPUT_MAX } from '@/common/constants';
-import { swt } from '@/common/utils';
-import mountVue from '@/components';
-import { autoHighestImage, avoidSmallWindow, dbClick, sendBulletChatFn } from '@/site/douyu/core';
+import { INPUT_MAX } from "@/common/constants";
+import { swt } from "@/common/utils";
+import mountVue from "@/components";
+import { autoHighestImage, avoidSmallWindow, dbClick, sendBulletChatFn } from "@/site/douyu/core";
 
 export default function pureDouyu() {
   // 非直播页面不执行脚本
-  const player = document.querySelector('#js-player-main');
+  const player = document.querySelector("#js-player-main");
   if (!player) return;
   mountVue(document.body, INPUT_MAX.DOUYU, sendBulletChatFn);
   if (swt.script.isOn()) {
-    import('@/site/douyu/restyle.css');
+    import("@/site/douyu/restyle.css").catch((e) => console.error(e));
     avoidSmallWindow();
     autoHighestImage();
     dbClick(player);

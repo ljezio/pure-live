@@ -13,19 +13,20 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { delayJitter, swt } from '@/common/utils';
+import { delayJitter, swt } from "@/common/utils";
 
 /**
  * 自动切换最高画质
  */
 export function autoHighestImage() {
   if (swt.autoHighestImage.isOff()) return;
-  const control = document.querySelector('.douyin-player-controls-right');
+  const control = document.querySelector(".douyin-player-controls-right");
   if (!control) return;
   const observer = new MutationObserver(async (mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
-        if (node.localName !== 'div' || !node.className.includes('QualitySwitchNewPlugin')) continue;
+        if (node.localName !== "div" || !node.className.includes("QualitySwitchNewPlugin"))
+          continue;
         observer.disconnect();
         node.querySelector('[data-e2e="quality-selector"] > :nth-child(2)')?.click();
         return;
@@ -42,9 +43,9 @@ export function autoHighestImage() {
 export function dbClick(element) {
   element.ondblclick = () => {
     if (!document.fullscreenElement) {
-      document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyH', bubbles: true }));
+      document.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyH", bubbles: true }));
     } else {
-      document.dispatchEvent(new KeyboardEvent('keydown', { code: 'KeyY', bubbles: true }));
+      document.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyY", bubbles: true }));
     }
   };
 }
@@ -56,13 +57,13 @@ export const sendBulletChatFn = (() => {
   let input, btn;
   return (bulletChat) => {
     if (!input || !btn) {
-      const chat = document.querySelector('#chatInput');
-      input = chat.querySelector('.zone-container');
-      btn = chat.querySelector('.webcast-chatroom___send-btn');
+      const chat = document.querySelector("#chatInput");
+      input = chat.querySelector(".zone-container");
+      btn = chat.querySelector(".webcast-chatroom___send-btn");
       if (!input || !btn) return;
     }
     input.children[0].innerHTML = `<span data-string="true" data-leaf="true">${bulletChat}</span><span data-string="true" data-enter="true" data-leaf="true">​</span>`;
-    input.dispatchEvent(new Event('input', { bubbles: true }));
-    btn.dispatchEvent(new Event('click', { bubbles: true }));
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    btn.dispatchEvent(new Event("click", { bubbles: true }));
   };
 })();

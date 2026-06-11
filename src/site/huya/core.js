@@ -13,7 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { delayJitter, swt } from '@/common/utils';
+import { delayJitter, swt } from "@/common/utils";
 
 /**
  * 自动跳过贴片广告
@@ -23,45 +23,45 @@ export function skipAd() {
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
-        if (node.className !== 'pre-ab-new-wrap') continue;
-        node.querySelector('.ab-skip')?.click();
+        if (node.className !== "pre-ab-new-wrap") continue;
+        node.querySelector(".ab-skip")?.click();
       }
     }
   });
-  observer.observe(document.querySelector('#videoContainer'), { childList: true });
+  observer.observe(document.querySelector("#videoContainer"), { childList: true });
   delayJitter(10).then(() => observer.disconnect());
   // 自动关闭中贴片广告
   new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
-        if (node.className !== 'new-reward-ab-container') continue;
-        node.querySelector('.ab-close')?.click();
-        node.querySelector('.ab-close-2')?.click();
+        if (node.className !== "new-reward-ab-container") continue;
+        node.querySelector(".ab-close")?.click();
+        node.querySelector(".ab-close-2")?.click();
       }
     }
-  }).observe(document.querySelector('#player-wrap'), { childList: true });
+  }).observe(document.querySelector("#player-wrap"), { childList: true });
 }
 
 /**
  * 解锁扫码限制并切换最高画质
  */
 export function unlockAndSwitchHighestImage() {
-  const liveRoom = document.querySelector('#liveRoomObj');
+  const liveRoom = document.querySelector("#liveRoomObj");
   if (!liveRoom) return;
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
-        if (node.nodeType !== Node.ELEMENT_NODE || node.id !== 'player-ctrl-wrap') continue;
+        if (node.nodeType !== Node.ELEMENT_NODE || node.id !== "player-ctrl-wrap") continue;
         observer.disconnect();
         // 暂停3秒等待子元素创建
         delayJitter(3).then(() => {
-          const videoTypeList = node.querySelector('.player-videotype-list')?.children;
+          const videoTypeList = node.querySelector(".player-videotype-list")?.children;
           if (!videoTypeList) return;
           // 解除扫码解锁清晰度限制
           for (const ul of videoTypeList) {
             // 直接使用huya.com引入的jQuery
             /* global $ */
-            $(ul).data('data').status = 0;
+            $(ul).data("data").status = 0;
           }
           // 切换最高画质
           if (swt.autoHighestImage.isOn()) {
@@ -82,9 +82,9 @@ export function unlockAndSwitchHighestImage() {
 export function dbClick(element) {
   element.ondblclick = () => {
     if (!document.fullscreenElement) {
-      document.querySelector('#player-fullscreen-btn')?.click();
+      document.querySelector("#player-fullscreen-btn")?.click();
     } else {
-      document.exitFullscreen().then();
+      document.exitFullscreen().catch((e) => console.error(e));
     }
   };
 }
@@ -96,8 +96,8 @@ export const sendBulletChatFn = (() => {
   let txt, button;
   return (bulletChat) => {
     if (!txt || !button) {
-      txt = document.querySelector('#player-full-input-txt');
-      button = document.querySelector('#player-full-input-btn');
+      txt = document.querySelector("#player-full-input-txt");
+      button = document.querySelector("#player-full-input-btn");
       if (!txt || !button) return;
     }
     txt.value = bulletChat;
