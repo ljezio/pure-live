@@ -11,6 +11,7 @@
   },
   "main": "src/main.js",
   "scripts": {
+    "test:huya": "node --test tests/huya-quality.test.mjs",
     "dev": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
@@ -21,6 +22,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
+    "jquery": "4.0.0",
+    "jsdom": "30.1.3",
     "vite": "catalog:",
     "vite-plugin-monkey": "^8.0.6",
     "vite-plus": "catalog:"

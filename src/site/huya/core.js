@@ -14,6 +14,8 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import { delayJitter, swt } from "@/common/utils";
+import { unsafeWindow } from "vite-plugin-monkey/dist/client";
+import { watchHuyaQuality } from "@/site/huya/quality";
 
 /**
  * 自动跳过贴片广告
@@ -46,34 +48,11 @@ export function skipAd() {
  * 解锁扫码限制并切换最高画质
  */
 export function unlockAndSwitchHighestImage() {
-  const liveRoom = document.querySelector("#liveRoomObj");
-  if (!liveRoom) return;
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      for (const node of mutation.addedNodes) {
-        if (node.nodeType !== Node.ELEMENT_NODE || node.id !== "player-ctrl-wrap") continue;
-        observer.disconnect();
-        // 暂停3秒等待子元素创建
-        delayJitter(3).then(() => {
-          const videoTypeList = node.querySelector(".player-videotype-list")?.children;
-          if (!videoTypeList) return;
-          // 解除扫码解锁清晰度限制
-          for (const ul of videoTypeList) {
-            // 直接使用huya.com引入的jQuery
-            /* global $ */
-            $(ul).data("data").status = 0;
-          }
-          // 切换最高画质
-          if (swt.autoHighestImage.isOn()) {
-            videoTypeList[0].click();
-          }
-        });
-        return;
-      }
-    }
+  return watchHuyaQuality({
+    document,
+    pageWindow: unsafeWindow,
+    shouldSwitch: () => swt.autoHighestImage.isOn(),
   });
-  observer.observe(liveRoom, { childList: true, subtree: true });
-  delayJitter(10).then(() => observer.disconnect());
 }
 
 /**
