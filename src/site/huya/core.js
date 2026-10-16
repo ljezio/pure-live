@@ -21,6 +21,8 @@ import { watchHuyaQuality } from "@/site/huya/quality";
  * 自动跳过贴片广告
  */
 export function skipAd() {
+  const video = document.querySelector("#videoContainer");
+  if (!video) return;
   // 自动关闭前贴片广告
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
@@ -30,7 +32,7 @@ export function skipAd() {
       }
     }
   });
-  observer.observe(document.querySelector("#videoContainer"), { childList: true });
+  observer.observe(video, { childList: true, subtree: true });
   delayJitter(10).then(() => observer.disconnect());
   // 自动关闭中贴片广告
   new MutationObserver((mutations) => {
@@ -41,7 +43,7 @@ export function skipAd() {
         node.querySelector(".ab-close-2")?.click();
       }
     }
-  }).observe(document.querySelector("#player-wrap"), { childList: true });
+  }).observe(video, { childList: true, subtree: true });
 }
 
 /**

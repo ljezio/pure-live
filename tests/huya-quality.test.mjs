@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { setTimeout as wait } from "node:timers/promises";
+import { runInNewContext } from "node:vm";
 import { JSDOM, VirtualConsole } from "jsdom";
 import { jQueryFactory } from "jquery/factory";
 
@@ -9,6 +10,24 @@ const source = readFileSync(new URL("../src/site/huya/quality.js", import.meta.u
 const { watchHuyaQuality } = await import(
   "data:text/javascript;base64," + Buffer.from(source).toString("base64")
 );
+
+const coreSource = readFileSync(new URL("../src/site/huya/core.js", import.meta.url), "utf8");
+const entrySource = readFileSync(new URL("../src/site/huya/index.js", import.meta.url), "utf8");
+
+function loadCore(document, window) {
+  return runInNewContext(
+    coreSource.replace(/^import .+;\r?\n/gm, "").replace(/^export /gm, "") +
+      "\n({ skipAd, unlockAndSwitchHighestImage, dbClick, sendBulletChatFn });",
+    {
+      document,
+      MutationObserver: window.MutationObserver,
+      delayJitter: () => new Promise(() => {}),
+      swt: { autoHighestImage: { isOn: () => true } },
+      unsafeWindow: window,
+      watchHuyaQuality,
+    },
+  );
+}
 
 function fixture(t, { accelerated = false } = {}) {
   const errors = [];
@@ -246,5 +265,68 @@ test("jQuery can appear after the watcher and cleanup cancels further work", asy
   const next = f.menu();
   await wait(40);
   assert.equal(next.highData.status, 4);
+  assert.deepEqual(f.requests, [0]);
+});
+
+test("ad watching is safe when the player container is absent", (t) => {
+  const f = fixture(t);
+  f.document.querySelector("#videoContainer").remove();
+  assert.doesNotThrow(() => loadCore(f.document, f.window).skipAd());
+});
+
+test("ad watching survives a player wrapper created after script startup", async (t) => {
+  const f = fixture(t);
+  const core = loadCore(f.document, f.window);
+  assert.equal(f.document.querySelector("#player-wrap"), null);
+  assert.doesNotThrow(() => core.skipAd());
+  const wrap = f.document.createElement("div");
+  wrap.id = "player-wrap";
+  f.document.querySelector("#videoContainer").append(wrap);
+  const ad = f.document.createElement("div");
+  ad.className = "new-reward-ab-container";
+  ad.innerHTML = '<button class="ab-close"></button>';
+  let closed = 0;
+  ad.querySelector("button").addEventListener("click", () => closed++);
+  wrap.append(ad);
+  await wait(35);
+  assert.equal(closed, 1);
+});
+
+test("full Huya entry starts quality handling before ads when the wrapper is delayed", async (t) => {
+  const f = fixture(t);
+  const core = loadCore(f.document, f.window);
+  const calls = [];
+  let stop;
+  t.after(() => stop?.());
+  const cssImport = 'import("@/site/huya/restyle.css")';
+  assert.ok(entrySource.includes(cssImport));
+  const entry = runInNewContext(
+    entrySource
+      .replace(/^import .+;\r?\n/gm, "")
+      .replace("export default function", "function")
+      .replace(cssImport, "Promise.resolve()") + "\npureHuya;",
+    {
+      document: f.document,
+      INPUT_MAX: { HUYA: 30 },
+      swt: { script: { isOn: () => true } },
+      console,
+      mountVue: () => calls.push("mount"),
+      sendBulletChatFn: core.sendBulletChatFn,
+      dbClick: core.dbClick,
+      unlockAndSwitchHighestImage: () => {
+        calls.push("quality");
+        stop = core.unlockAndSwitchHighestImage();
+      },
+      skipAd: () => {
+        calls.push("ads");
+        core.skipAd();
+      },
+    },
+  );
+  assert.doesNotThrow(() => entry());
+  assert.deepEqual(calls, ["mount", "quality", "ads"]);
+  const m = f.menu();
+  await wait(35);
+  assert.equal(m.highData.status, 0);
   assert.deepEqual(f.requests, [0]);
 });
