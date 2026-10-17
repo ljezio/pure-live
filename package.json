@@ -1,6 +1,6 @@
 {
   "name": "pure-live",
-  "version": "5.2.14",
+  "version": "5.2.16",
   "private": true,
   "description": "pure live",
   "license": "GPL-3.0-or-later",
@@ -11,6 +11,9 @@
   },
   "main": "src/main.js",
   "scripts": {
+    "test:quality": "node --test tests/default-quality.test.mjs",
+    "test:huya": "node --test tests/huya-quality.test.mjs",
+    "test:bundle": "node --test tests/huya-bundle.test.mjs",
     "dev": "vp dev",
     "build": "vp build",
     "preview": "vp preview",
@@ -21,6 +24,8 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.7",
+    "jquery": "4.0.0",
+    "jsdom": "30.1.3",
     "vite": "catalog:",
     "vite-plugin-monkey": "^8.0.6",
     "vite-plus": "catalog:"

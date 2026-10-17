@@ -13,7 +13,8 @@
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { delayJitter, swt } from "@/common/utils";
+import { swt } from "@/common/utils";
+import { watchDouyuQuality } from "@/site/douyu/quality";
 
 /**
  * 避免小窗口化
@@ -41,22 +42,10 @@ export function avoidSmallWindow() {
  * 自动切换最高画质
  */
 export function autoHighestImage() {
-  if (swt.autoHighestImage.isOff()) return;
-  const controlBar = document.querySelector("#js-player-controlbar");
-  if (!controlBar) return;
-  const observer = new MutationObserver((mutations) => {
-    for (const mutation of mutations) {
-      for (const node of mutation.addedNodes) {
-        if (node.nodeType !== Node.ELEMENT_NODE || !node.className?.startsWith("ControlBar-"))
-          continue;
-        observer.disconnect();
-        node.querySelector('[class^="tipItem-"]:nth-child(2) li:first-child')?.click();
-        return;
-      }
-    }
+  return watchDouyuQuality({
+    document,
+    shouldSwitch: () => swt.autoHighestImage.isOn(),
   });
-  observer.observe(controlBar, { childList: true, subtree: true });
-  delayJitter(10).then(() => observer.disconnect());
 }
 
 /**
