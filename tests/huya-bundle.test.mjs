@@ -30,6 +30,79 @@ test("release userscript has matching metadata, all four platforms and valid syn
   assert.deepEqual(values("license"), ["GPL-3.0-or-later"]);
 });
 
+for (const platform of ["douyu", "bilibili"]) {
+  for (const automatic of [undefined, false]) {
+    test(`built userscript: ${platform} defaults to highest quality and honours opt-out=${automatic === false}`, async (t) => {
+      const errors = [];
+      const virtualConsole = new VirtualConsole();
+      virtualConsole.on("jsdomError", (error) => errors.push(error.message));
+      const isDouyu = platform === "douyu";
+      const id = isDouyu ? "js-player-main" : "live-player";
+      const dom = new JSDOM(`<div id="${id}"></div>`, {
+        url: isDouyu ? "https://www.douyu.com/213116" : "https://live.bilibili.com/544618",
+        runScripts: "outside-only",
+        pretendToBeVisual: true,
+        virtualConsole,
+      });
+      t.after(() => dom.window.close());
+      const { window } = dom;
+      const { document } = window;
+      const player = document.getElementById(id);
+      window.eval(vue);
+      window.GM_getValue = (key) => (key === "auto_highest_image" ? automatic : undefined);
+      window.GM_setValue = () => {};
+      window.GM_addStyle = () => {};
+      const interval = window.setInterval.bind(window);
+      window.setInterval = (fn) => interval(fn, 20);
+      const requests = [];
+      let list;
+      const createMenu = () => {
+        if (list) return;
+        const controls = document.createElement("div");
+        controls.innerHTML = isDouyu
+          ? '<div id="js-player-controlbar"><div class="rate-ec9440"><div class="tipItem-e17801"><input value="画质 "><ul></ul></div></div></div>'
+          : '<div class="quality-wrap svelte-770q4t"><div class="panel"><div class="line-wrap">主线</div></div></div>';
+        list = controls.querySelector(isDouyu ? "ul" : ".panel");
+        const menu = controls.querySelector(isDouyu ? '[class^="rate-"]' : ".quality-wrap");
+        menu.addEventListener("mouseenter", () => {
+          if (list.querySelector("[data-quality]")) return;
+          for (const [i, label] of ["原画1080P60", "720P 超清"].entries()) {
+            const item = document.createElement(isDouyu ? "li" : "div");
+            item.dataset.quality = label;
+            item.textContent = label;
+            if (!isDouyu) item.classList.add("list-it");
+            item.classList.toggle("selected", i === 1);
+            item.addEventListener("click", () => {
+              requests.push(label);
+              for (const other of list.querySelectorAll("[data-quality]")) {
+                other.classList.toggle("selected", other === item);
+              }
+            });
+            list.append(item);
+          }
+        });
+        player.append(controls);
+      };
+      assert.doesNotThrow(() => window.eval(bundle));
+      // Controls and their native event handlers finish loading after the userscript.
+      player.addEventListener("mousemove", createMenu);
+      if (automatic === false) {
+        createMenu();
+        player
+          .querySelector(isDouyu ? '[class^="rate-"]' : ".quality-wrap")
+          .dispatchEvent(new window.MouseEvent("mouseenter"));
+      }
+      await wait(180);
+      assert.equal(
+        list.querySelector(".selected").textContent,
+        automatic === false ? "720P 超清" : "原画1080P60",
+      );
+      assert.deepEqual(requests, automatic === false ? [] : ["原画1080P60"]);
+      assert.deepEqual(errors, []);
+    });
+  }
+}
+
 test("built userscript starts before the player wrapper and keeps manual quality selections", async (t) => {
   const errors = [];
   const virtualConsole = new VirtualConsole();
